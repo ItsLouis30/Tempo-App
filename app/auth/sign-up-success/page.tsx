@@ -1,3 +1,4 @@
+import Link from "next/link";
 import {
   Card,
   CardContent,
@@ -19,7 +20,13 @@ export default function Page() {
             </CardHeader>
             <CardContent>
               <p className="text-sm text-white opacity-80">
-                Te has registrado correctamente. Revisa tu correo y confirma tu cuenta.
+                Tu cuenta se creó correctamente. Ahora ya puedes{" "}
+                <Link
+                  href="/auth/login"
+                  className="underline hover:text-blue-400 transition-colors"
+                >
+                  iniciar sesión
+                </Link>.
               </p>
             </CardContent>
           </Card>
