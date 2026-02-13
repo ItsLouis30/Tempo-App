@@ -12,11 +12,11 @@ async function ErrorContent({
     <>
       {params?.error ? (
         <p className="text-sm text-muted-foreground">
-          Code error: {params.error}
+          Código de Error: {params.error}
         </p>
       ) : (
         <p className="text-sm text-muted-foreground">
-          An unspecified error occurred.
+          Un error no especificado ocurrió.
         </p>
       )}
     </>
@@ -29,13 +29,13 @@ export default function Page({
   searchParams: Promise<{ error: string }>;
 }) {
   return (
-    <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+    <div className="min-h-screen w-full bg-[#4D4D4D] flex min-h-svh w-full items-center justify-center p-6 md:p-10">
       <div className="w-full max-w-sm">
         <div className="flex flex-col gap-6">
-          <Card>
+          <Card className="bg-[#2B2B2B] text-white shadow-2xl">
             <CardHeader>
               <CardTitle className="text-2xl">
-                Sorry, something went wrong.
+                Lo sentimos, algo salió mal.
               </CardTitle>
             </CardHeader>
             <CardContent>

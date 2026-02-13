@@ -1,0 +1,69 @@
+.fc-event {
+  border: 1px transparent !important;
+  background-color: #fffac4;
+  color: black;
+  border-radius: 6px !important;
+  padding: 2px 4px;
+  cursor: pointer;
+  transition: transform 0.1s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.fc-event:hover {
+  transform: scale(1.02);
+  background-color: #A6A685;
+}
+
+.fc-toolbar-title {
+  font-size: 1.25rem !important;
+  font-weight: 700;
+  text-transform: capitalize;
+}
+
+.fc-day-today {
+  background-color: #8AB5B4 !important;
+}
+
+.fc-button-primary {
+  background-color: hsl(var(--primary)) !important;
+  border: none !important;
+  text-transform: capitalize !important;
+}
+
+.fc-daygrid-day-number {
+  color: hsl(var(--foreground)) !important;
+  padding: 8px;
+  font-weight: 600;
+  text-decoration: none !important;
+}
+
+.fc-col-header-cell-cushion {
+  color: black !important;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-transform: capitalize;
+  padding: 10px 0;
+  text-decoration: none !important;
+}
+
+.fc-button {
+  font-weight: 500 !important;
+  color: hsl(var(--calendarletter)) !important;
+  box-shadow: black 0px 2px 2px;
+  transition: all 0.2s ease !important;
+}
+
+.fc-button:hover {
+  background-color: #9B9E9C !important;
+  color: black !important;
+  box-shadow: black 0px 4px 6px;
+  transform: translateY(-1px);
+}
+
+.fc-daygrid-event{
+  width: 90%;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  margin-top: 2px !important;
+  margin-bottom: 2px !important;
+}
