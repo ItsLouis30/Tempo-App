@@ -20,13 +20,18 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
 
-  // Load saved credentials on mount
+  // Cargar credenciales guardadas al montar
   useEffect(() => {
     const savedEmail = localStorage.getItem("organizador_email")
     const savedPassword = localStorage.getItem("organizador_password")
+    
+    // Limpieza de seguridad: borrar contraseña si estaba guardada en versiones anteriores
+    if (savedPassword) {
+      localStorage.removeItem("organizador_password")
+    }
+
     if (savedEmail) {
       setEmail(savedEmail)
-      setPassword(savedPassword || "")
       setRememberMe(true)
     }
   }, [])
@@ -44,13 +49,11 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
       })
       if (error) throw error
 
-      // Save credentials if remember me is checked
+      // Guardar el email si 'recuérdame' está activo (el navegador maneja la contraseña)
       if (rememberMe) {
         localStorage.setItem("organizador_email", email)
-        localStorage.setItem("organizador_password", password)
       } else {
         localStorage.removeItem("organizador_email")
-        localStorage.removeItem("organizador_password")
       }
 
       router.push("/dashboard")
@@ -195,7 +198,7 @@ return (
                 id="remember"
                 checked={rememberMe}
                 onCheckedChange={(checked) =>
-                  setRememberMe(checked as boolean)
+                  setRememberMe(checked === true)
                 }
                 className="border-gray-400"
               />
