@@ -163,6 +163,6 @@ En el directorio del proyecto, puedes ejecutar:
 
 <div align="center">
 
-Desarrollado con ❤️ por **ItsLouis30**.
+Desarrollado por **ItsLouis30**.
 
 </div>
