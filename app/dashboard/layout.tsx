@@ -4,6 +4,7 @@ import { MusicProvider } from "@/components/music/music-provider"
 import { DashboardContent } from "@/components/dashboard-content"
 import { Suspense } from "react"
 import { ToastProvider } from "@/components/ui/toast-provider"
+import { AuthListener } from "@/components/auth-listener"
 
 export default function DashboardLayout({
   children,
@@ -12,6 +13,7 @@ export default function DashboardLayout({
 }) {
   return (
     <ToastProvider>
+      <AuthListener />
       <MusicProvider>
           <div className="min-h-screen bg-[#1F1F1F]">
             <Suspense fallback={<HeaderSkeleton />}>
