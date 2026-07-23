@@ -20,13 +20,7 @@ export default function Page() {
             </CardHeader>
             <CardContent>
               <p className="text-sm text-white opacity-80">
-                Tu cuenta se creó correctamente. Ahora ya puedes{" "}
-                <Link
-                  href="/auth/login"
-                  className="underline hover:text-blue-400 transition-colors"
-                >
-                  iniciar sesión
-                </Link>.
+                Te has registrado correctamente. Revisa tu correo y confirma tu cuenta.
               </p>
             </CardContent>
           </Card>
