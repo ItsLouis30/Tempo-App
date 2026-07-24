@@ -116,6 +116,13 @@ export function TaskList({ userId, greeting, firstName }: TaskListProps) {
   // New state for toolbar
   const [searchQuery, setSearchQuery] = useState("")
   const [viewMode, setViewMode] = useState<"kanban" | "list">("kanban")
+  
+  // Filter states
+  const [isFilterOpen, setIsFilterOpen] = useState(false)
+  const [filterPriority, setFilterPriority] = useState<number | null>(null)
+  const [filterDate, setFilterDate] = useState<string | null>(null)
+  const [filterTags, setFilterTags] = useState<string[]>([])
+  
   const [newTask, setNewTask] = useState({
     title: "",
     description: "",
@@ -163,6 +170,48 @@ export function TaskList({ userId, greeting, firstName }: TaskListProps) {
     `tags-${userId}`,
     () => fetchUserTags(userId)
   )
+
+  const processedTasks = tasks.filter(task => {
+    // 1. Search Query
+    if (searchQuery) {
+      const q = searchQuery.toLowerCase();
+      const matchTitle = task.title.toLowerCase().includes(q);
+      const matchDesc = task.description?.toLowerCase().includes(q) || false;
+      if (!matchTitle && !matchDesc) return false;
+    }
+    
+    // 2. Priority
+    if (filterPriority !== null && task.priority !== filterPriority) {
+      return false;
+    }
+    
+    // 3. Tags
+    if (filterTags.length > 0) {
+      if (!task.tags || task.tags.length === 0) return false;
+      const taskTagIds = task.tags.map(t => t.id);
+      const hasAllTags = filterTags.every(id => taskTagIds.includes(id));
+      if (!hasAllTags) return false;
+    }
+    
+    // 4. Date
+    if (filterDate) {
+      const now = new Date();
+      now.setHours(0,0,0,0);
+      
+      const due = task.due_date ? new Date(task.due_date) : null;
+      if (due) due.setHours(0,0,0,0);
+      
+      if (filterDate === 'overdue') {
+        if (!due || due >= now || task.status === 'done') return false;
+      } else if (filterDate === 'today') {
+        if (!due || due.getTime() !== now.getTime()) return false;
+      } else if (filterDate === 'upcoming') {
+        if (!due || due <= now) return false;
+      }
+    }
+    
+    return true;
+  });
 
   // Set default dates when opening the form (in Peru timezone)
   useEffect(() => {
@@ -532,10 +581,92 @@ export function TaskList({ userId, greeting, firstName }: TaskListProps) {
               className="w-full bg-white/[0.04] border border-white/10 rounded-full pl-10 pr-4 py-2 text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-1 focus:ring-white/30 transition-all"
             />
           </div>
-          <button className="flex items-center gap-2 px-4 py-2 bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 rounded-full text-sm text-white transition-all shadow-sm">
-            <Filter className="w-4 h-4 text-white/70" />
-            Filtrar
-          </button>
+          <div className="relative">
+            <button 
+              onClick={() => setIsFilterOpen(!isFilterOpen)}
+              className={`flex items-center gap-2 px-4 py-2 border border-white/10 rounded-full text-sm transition-all shadow-sm ${isFilterOpen || filterPriority !== null || filterDate !== null || filterTags.length > 0 ? 'bg-white text-black' : 'bg-white/[0.04] hover:bg-white/[0.08] text-white'}`}
+            >
+              <Filter className={`w-4 h-4 ${isFilterOpen || filterPriority !== null || filterDate !== null || filterTags.length > 0 ? 'text-black' : 'text-white/70'}`} />
+              Filtrar {(filterPriority !== null || filterDate !== null || filterTags.length > 0) && "•"}
+            </button>
+            
+            {isFilterOpen && (
+              <div className="absolute top-full left-0 mt-2 w-72 bg-[#1C1C1E] border border-white/10 rounded-2xl p-4 shadow-2xl z-50">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="font-semibold text-white">Filtros</h3>
+                  <button onClick={() => {
+                    setFilterPriority(null)
+                    setFilterDate(null)
+                    setFilterTags([])
+                  }} className="text-xs text-white/50 hover:text-white">
+                    Limpiar
+                  </button>
+                </div>
+                
+                {/* Priority */}
+                <div className="space-y-2 mb-4">
+                  <label className="text-xs font-medium text-white/50 uppercase tracking-wider">Prioridad</label>
+                  <div className="flex gap-2">
+                    {[
+                      { val: 1, label: 'Alta', color: 'bg-red-500/20 text-red-400 border-red-500/30' },
+                      { val: 2, label: 'Media', color: 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30' },
+                      { val: 3, label: 'Baja', color: 'bg-blue-500/20 text-blue-400 border-blue-500/30' }
+                    ].map(p => (
+                      <button
+                        key={p.val}
+                        onClick={() => setFilterPriority(filterPriority === p.val ? null : p.val)}
+                        className={`flex-1 py-1.5 text-xs rounded-full border transition-all ${filterPriority === p.val ? p.color : 'border-white/10 text-white/70 hover:bg-white/5'}`}
+                      >
+                        {p.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Dates */}
+                <div className="space-y-2 mb-4">
+                  <label className="text-xs font-medium text-white/50 uppercase tracking-wider">Fecha</label>
+                  <div className="grid grid-cols-2 gap-2">
+                    {[
+                      { val: 'overdue', label: 'Vencidas' },
+                      { val: 'today', label: 'Hoy' },
+                      { val: 'upcoming', label: 'Próximas' }
+                    ].map(d => (
+                      <button
+                        key={d.val}
+                        onClick={() => setFilterDate(filterDate === d.val ? null : d.val)}
+                        className={`py-1.5 text-xs rounded-md border transition-all ${filterDate === d.val ? 'bg-white/10 border-white/30 text-white' : 'border-white/10 text-white/70 hover:bg-white/5'}`}
+                      >
+                        {d.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Tags */}
+                {userTags.length > 0 && (
+                  <div className="space-y-2">
+                    <label className="text-xs font-medium text-white/50 uppercase tracking-wider">Etiquetas</label>
+                    <div className="flex flex-wrap gap-2 max-h-32 overflow-y-auto pr-1">
+                      {userTags.map((tag: Tag) => {
+                        const isSelected = filterTags.includes(tag.id)
+                        return (
+                          <button
+                            key={tag.id}
+                            onClick={() => setFilterTags(prev => isSelected ? prev.filter(id => id !== tag.id) : [...prev, tag.id])}
+                            className={`px-3 py-1 text-xs rounded-full border transition-all flex items-center gap-1.5 ${isSelected ? 'border-white/30 bg-white/10 text-white' : 'border-white/10 text-white/70 hover:bg-white/5'}`}
+                          >
+                            <span className="w-2 h-2 rounded-full" style={{ backgroundColor: tag.color || '#888' }} />
+                            {tag.name}
+                          </button>
+                        )
+                      })}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Right: View Selector */}
@@ -750,11 +881,72 @@ export function TaskList({ userId, greeting, firstName }: TaskListProps) {
               Aún no tienes tareas. Empieza creando la primera y da el primer paso.
             </p>
           </div>
+        ) : processedTasks.length === 0 ? (
+          <div className="glass-panel p-8 text-center">
+            <p className="text-white/70 drop-shadow-md">
+              No se encontraron tareas que coincidan con los filtros.
+            </p>
+          </div>
+        ) : viewMode === "list" ? (
+          <div className="flex flex-col gap-2 mt-6">
+            {processedTasks.map(task => (
+              <div key={task.id} className="glass-card flex items-center justify-between p-4 group shadow-sm hover:shadow-md transition-all">
+                <div className="flex items-center gap-4 flex-1">
+                  <Checkbox
+                    checked={task.status === "done"}
+                    onCheckedChange={() => handleToggleComplete(task.id, task.status)}
+                    className="h-5 w-5 rounded border-2 border-white/20 data-[state=checked]:bg-[#FCEE8E] data-[state=checked]:border-[#FCEE8E] data-[state=checked]:text-black"
+                  />
+                  <div className="flex-1 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6">
+                    <h3 className={`font-medium ${task.status === "done" ? "line-through text-white/40" : "text-white/90"}`}>
+                      {task.title}
+                    </h3>
+                    
+                    <div className="flex items-center gap-3">
+                      {task.priority && (
+                        <span className={`text-[10px] uppercase tracking-wider font-bold px-2 py-0.5 rounded border ${
+                          task.priority === 1 ? "bg-red-500/20 text-red-400 border-red-500/30" : 
+                          task.priority === 2 ? "bg-yellow-500/20 text-yellow-400 border-yellow-500/30" : 
+                          "bg-blue-500/20 text-blue-400 border-blue-500/30"
+                        }`}>
+                          {task.priority === 1 ? "Alta" : task.priority === 2 ? "Media" : "Baja"}
+                        </span>
+                      )}
+                      
+                      {task.due_date && (
+                        <span className="text-xs text-white/50 flex items-center gap-1">
+                          <Calendar className="w-3 h-3" />
+                          {new Date(task.due_date).toLocaleDateString()}
+                        </span>
+                      )}
+                      
+                      {task.tags && task.tags.length > 0 && (
+                        <div className="flex items-center gap-1">
+                          {task.tags.map(t => (
+                            <span key={t.id} className="w-2 h-2 rounded-full" style={{ backgroundColor: t.color || '#888' }} title={t.name} />
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                   <button onClick={() => setEditingTaskId(task.id)} className="p-2 text-white/50 hover:text-white hover:bg-white/10 rounded-full transition-colors">
+                     <Pencil className="w-4 h-4" />
+                   </button>
+                   <button onClick={() => handleDeleteTask(task.id)} className="p-2 text-white/50 hover:text-red-400 hover:bg-white/10 rounded-full transition-colors">
+                     <X className="w-4 h-4" />
+                   </button>
+                </div>
+              </div>
+            ))}
+          </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-start mt-6">
             {[
-              { id: "pending", title: "Pendientes", dot: "bg-blue-400", items: tasks.filter(t => t.status !== "done") },
-              { id: "done", title: "Completadas", dot: "bg-green-400", items: tasks.filter(t => t.status === "done") }
+              { id: "pending", title: "Pendientes", dot: "bg-blue-400", items: processedTasks.filter(t => t.status !== "done") },
+              { id: "done", title: "Completadas", dot: "bg-green-400", items: processedTasks.filter(t => t.status === "done") }
             ].map(col => (
               <div key={col.id} className="space-y-4">
                 <div className="flex items-center justify-between mb-4">
