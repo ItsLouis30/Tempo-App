@@ -559,7 +559,10 @@ export function TaskList({ userId, greeting, firstName }: TaskListProps) {
         {/* Add Task Button */}
         <button
           type="button"
-          onClick={() => setIsAddingTask(true)}
+          onClick={() => {
+            setEditingTaskId(null);
+            setIsAddingTask(true);
+          }}
           className="flex items-center gap-2 px-5 py-2.5 bg-white text-black rounded-full font-medium hover:bg-white/90 transition-all shadow-sm"
         >
           <Plus className="w-5 h-5" />
@@ -702,171 +705,189 @@ export function TaskList({ userId, greeting, firstName }: TaskListProps) {
           TUS TAREAS
         </h2>
 
-        {/* New Task Form */}
-        {isAddingTask && (
-          <div className="glass-panel p-5 space-y-4 shadow-xl">
-            <div className="flex items-start gap-3">
-              <div className="flex-1">
-                <div className="flex items-center gap-3 mb-4">
-                  <Checkbox
-                    className="h-5 w-5 rounded border-2 border-white/20"
-                    disabled
-                  />
-                  <Input
-                    placeholder="NUEVA TAREA"
-                    value={newTask.title}
-                    onChange={(e) => setNewTask({ ...newTask, title: e.target.value })}
-                    className="bg-transparent border-none text-xl font-bold text-white placeholder:text-white/30 focus-visible:ring-0 p-0 h-auto flex-1"
-                  />
-                </div>
+        {/* Unified Task Form (Add/Edit) */}
+        {(isAddingTask || editingTaskId !== null) && (
+          <div className="glass-panel p-5 space-y-4 shadow-xl mb-6">
+            {(() => {
+              const isEdit = editingTaskId !== null;
+              const currentTask = isEdit ? editTask : newTask;
+              const setCurrentTask = isEdit ? setEditTask : setNewTask;
+              const activeTabState = isEdit ? editActiveTab : activeTab;
+              const setActiveTabState = isEdit ? setEditActiveTab : setActiveTab;
+              const currentSelectedTags = isEdit ? editSelectedTags : selectedTags;
+              const handleRemove = isEdit ? handleRemoveEditTag : handleRemoveTag;
+              const handleSave = isEdit ? handleSaveEdit : handleSaveTask;
+              const handleCancelForm = isEdit ? handleCancelEdit : handleCancel;
+              const setShowTag = isEdit ? setShowEditTagModal : setShowTagModal;
+              const formTitle = isEdit ? "EDITAR TAREA" : "NUEVA TAREA";
 
-                {/* Tab Content */}
-                {activeTab === "descripcion" && (
-                  <div className="space-y-2">
-                    <p className="text-sm text-white/70">Descripción</p>
-                    <textarea
-                      placeholder="Escribe una descripción detallada de la tarea..."
-                      value={newTask.description}
-                      onChange={(e) => setNewTask({ ...newTask, description: e.target.value })}
-                      className="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-1 focus:ring-white/30 min-h-[100px] resize-none"
-                    />
-                  </div>
-                )}
-
-                {activeTab === "fecha" && (
-                  <div className="flex flex-wrap gap-4">
-                    <div className="space-y-2">
-                      <p className="text-sm text-white/70">Fecha de inicio:</p>
-                      <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded px-3 py-2">
-                        <input
-                          type="datetime-local"
-                          value={newTask.start_date}
-                          onChange={(e) => setNewTask({ ...newTask, start_date: e.target.value })}
-                          className="bg-transparent border-none text-sm text-white focus:outline-none [color-scheme:dark][&::-webkit-calendar-picker-indicator]:opacity-50 [&::-webkit-calendar-picker-indicator]:cursor-pointer hover:[&::-webkit-calendar-picker-indicator]:opacity-100 transition-all"
+              return (
+                <>
+                  <div className="flex items-start gap-3">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-3 mb-4">
+                        <Checkbox
+                          className="h-5 w-5 rounded border-2 border-white/20"
+                          disabled
+                        />
+                        <Input
+                          placeholder={formTitle}
+                          value={currentTask.title}
+                          onChange={(e) => setCurrentTask({ ...currentTask, title: e.target.value })}
+                          className="bg-transparent border-none text-xl font-bold text-white placeholder:text-white/30 focus-visible:ring-0 p-0 h-auto flex-1"
                         />
                       </div>
-                    </div>
-                    <div className="space-y-2">
-                      <p className="text-sm text-white/70">Fecha límite:</p>
-                      <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded px-3 py-2">
-                        <input
-                          type="datetime-local"
-                          value={newTask.due_date}
-                          onChange={(e) => setNewTask({ ...newTask, due_date: e.target.value })}
-                          className="bg-transparent border-none text-sm text-white focus:outline-none [color-scheme:dark][&::-webkit-calendar-picker-indicator]:opacity-50 [&::-webkit-calendar-picker-indicator]:cursor-pointer hover:[&::-webkit-calendar-picker-indicator]:opacity-100 transition-all"
-                        />
-                      </div>
-                    </div>
-                    <div className="space-y-2">
-                      <p className="text-sm text-white/70">Prioridad:</p>
-                      <div className="relative">
-                        <select
-                          value={newTask.priority}
-                          onChange={(e) => setNewTask({ ...newTask, priority: Number(e.target.value) })}
-                          className="appearance-none bg-white/5 border border-white/10 rounded px-3 py-2 pr-8 text-sm text-white focus:outline-none focus:ring-1 focus:ring-white/30 cursor-pointer [&>option]:bg-black [&>option]:text-white"
-                        >
-                          <option value={1}>Alta</option>
-                          <option value={2}>Media</option>
-                          <option value={3}>Baja</option>
-                        </select>
-                        <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-white/50 pointer-events-none" />
-                      </div>
-                    </div>
-                  </div>
-                )}
 
-                {activeTab === "etiquetas" && (
-                  <div className="space-y-3">
-                    <p className="text-sm text-white/70">Etiquetas</p>
-                    
-                    {/* Selected Tags Display */}
-                    {selectedTags.length > 0 && (
-                      <div className="flex flex-wrap gap-2 mb-3">
-                        {selectedTags.map((tag) => (
-                          <span
-                            key={tag.id}
-                            className="text-sm px-3 py-1 rounded-full flex items-center gap-2 text-black font-medium"
-                            style={{ backgroundColor: tag.color || "#4A4A4A" }}
+                      {/* Tab Content */}
+                      {activeTabState === "descripcion" && (
+                        <div className="space-y-2">
+                          <p className="text-sm text-white/70">Descripción</p>
+                          <textarea
+                            placeholder="Escribe una descripción detallada de la tarea..."
+                            value={currentTask.description}
+                            onChange={(e) => setCurrentTask({ ...currentTask, description: e.target.value })}
+                            className="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-sm text-white placeholder:text-white/40 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/30 min-h-[100px] resize-none"
+                          />
+                        </div>
+                      )}
+
+                      {activeTabState === "fecha" && (
+                        <div className="flex flex-wrap gap-4">
+                          <div className="space-y-2">
+                            <p className="text-sm text-white/70">Fecha de inicio:</p>
+                            <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded px-3 py-2">
+                              <input
+                                type="datetime-local"
+                                value={currentTask.start_date}
+                                onChange={(e) => setCurrentTask({ ...currentTask, start_date: e.target.value })}
+                                className="bg-transparent border-none text-sm text-white focus:outline-none [color-scheme:dark][&::-webkit-calendar-picker-indicator]:opacity-50 [&::-webkit-calendar-picker-indicator]:cursor-pointer hover:[&::-webkit-calendar-picker-indicator]:opacity-100 transition-all"
+                              />
+                            </div>
+                          </div>
+                          <div className="space-y-2">
+                            <p className="text-sm text-white/70">Fecha límite:</p>
+                            <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded px-3 py-2">
+                              <input
+                                type="datetime-local"
+                                value={currentTask.due_date}
+                                onChange={(e) => setCurrentTask({ ...currentTask, due_date: e.target.value })}
+                                className="bg-transparent border-none text-sm text-white focus:outline-none [color-scheme:dark][&::-webkit-calendar-picker-indicator]:opacity-50 [&::-webkit-calendar-picker-indicator]:cursor-pointer hover:[&::-webkit-calendar-picker-indicator]:opacity-100 transition-all"
+                              />
+                            </div>
+                          </div>
+                          <div className="space-y-2">
+                            <p className="text-sm text-white/70">Prioridad:</p>
+                            <div className="relative">
+                              <select
+                                value={currentTask.priority}
+                                onChange={(e) => setCurrentTask({ ...currentTask, priority: Number(e.target.value) })}
+                                className="appearance-none bg-white/5 border border-white/10 rounded px-3 py-2 pr-8 text-sm text-white focus:outline-none focus:ring-1 focus:ring-white/30 cursor-pointer [&>option]:bg-black [&>option]:text-white"
+                              >
+                                <option value={1}>Alta</option>
+                                <option value={2}>Media</option>
+                                <option value={3}>Baja</option>
+                              </select>
+                              <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-white/50 pointer-events-none" />
+                            </div>
+                          </div>
+                        </div>
+                      )}
+
+                      {activeTabState === "etiquetas" && (
+                        <div className="space-y-3">
+                          <p className="text-sm text-white/70">Etiquetas</p>
+                          
+                          {/* Selected Tags Display */}
+                          {currentSelectedTags.length > 0 && (
+                            <div className="flex flex-wrap gap-2 mb-3">
+                              {currentSelectedTags.map((tag) => (
+                                <span
+                                  key={tag.id}
+                                  className="text-sm px-3 py-1 rounded-full flex items-center gap-2 text-black font-medium"
+                                  style={{ backgroundColor: tag.color || "#4A4A4A" }}
+                                >
+                                  {tag.name}
+                                  <button
+                                    type="button"
+                                    onClick={() => handleRemove(tag.id)}
+                                    className="hover:opacity-70"
+                                  >
+                                    <X className="w-3 h-3" />
+                                  </button>
+                                </span>
+                              ))}
+                            </div>
+                          )}
+
+                          {/* Add Tag Button */}
+                          <button
+                            type="button"
+                            onClick={() => setShowTag(true)}
+                            className="bg-white/10 hover:bg-white/20 border border-white/10 text-sm text-white px-3 py-1.5 rounded transition-colors"
                           >
-                            {tag.name}
-                            <button
-                              type="button"
-                              onClick={() => handleRemoveTag(tag.id)}
-                              className="hover:opacity-70"
-                            >
-                              <X className="w-3 h-3" />
-                            </button>
-                          </span>
-                        ))}
-                      </div>
-                    )}
+                            + Añadir
+                          </button>
+                        </div>
+                      )}
+                    </div>
 
-                    {/* Add Tag Button */}
-                    <button
-                      type="button"
-                      onClick={() => setShowTagModal(true)}
-                      className="bg-white/10 hover:bg-white/20 border border-white/10 text-sm text-white px-3 py-1.5 rounded transition-colors"
-                    >
-                      + Añadir
-                    </button>
+                    {/* Tabs */}
+                    <div className="flex flex-col gap-1 min-w-[130px]">
+                      <button
+                        type="button"
+                        onClick={() => setActiveTabState("descripcion")}
+                        className={`text-left px-3 py-2 rounded text-sm transition-colors ${
+                          activeTabState === "descripcion"
+                            ? "bg-white/20 text-white font-medium"
+                            : "bg-transparent text-white/50 hover:bg-white/10"
+                        }`}
+                      >
+                        Descripción
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setActiveTabState("fecha")}
+                        className={`text-left px-3 py-2 rounded text-sm transition-colors ${
+                          activeTabState === "fecha"
+                            ? "bg-white/20 text-white font-medium"
+                            : "bg-transparent text-white/50 hover:bg-white/10"
+                        }`}
+                      >
+                        Fecha
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setActiveTabState("etiquetas")}
+                        className={`text-left px-3 py-2 rounded text-sm transition-colors ${
+                          activeTabState === "etiquetas"
+                            ? "bg-white/20 text-white font-medium"
+                            : "bg-transparent text-white/50 hover:bg-white/10"
+                        }`}
+                      >
+                        Etiquetas
+                      </button>
+                    </div>
                   </div>
-                )}
-              </div>
 
-              {/* Tabs */}
-              <div className="flex flex-col gap-1 min-w-[130px]">
-                <button
-                  type="button"
-                  onClick={() => setActiveTab("descripcion")}
-                  className={`text-left px-3 py-2 rounded text-sm transition-colors ${
-                    activeTab === "descripcion"
-                      ? "bg-white/20 text-white font-medium"
-                      : "bg-transparent text-white/50 hover:bg-white/10"
-                  }`}
-                >
-                  Descripción
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setActiveTab("fecha")}
-                  className={`text-left px-3 py-2 rounded text-sm transition-colors ${
-                    activeTab === "fecha"
-                      ? "bg-white/20 text-white font-medium"
-                      : "bg-transparent text-white/50 hover:bg-white/10"
-                  }`}
-                >
-                  Fecha
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setActiveTab("etiquetas")}
-                  className={`text-left px-3 py-2 rounded text-sm transition-colors ${
-                    activeTab === "etiquetas"
-                      ? "bg-white/20 text-white font-medium"
-                      : "bg-transparent text-white/50 hover:bg-white/10"
-                  }`}
-                >
-                  Etiquetas
-                </button>
-              </div>
-            </div>
-
-            <div className="flex gap-3">
-              <Button
-                variant="secondary"
-                onClick={handleCancel}
-                className="bg-white/10 hover:bg-white/20 text-white border border-white/10"
-              >
-                Cancelar
-              </Button>
-              <Button
-                onClick={handleSaveTask}
-                disabled={!newTask.title.trim() || isSaving}
-                className="bg-[#FCEE8E] hover:bg-[#FCEE8E]/90 text-black font-medium border-none"
-              >
-                {isSaving ? "Guardando..." : "Guardar"}
-              </Button>
-            </div>
+                  <div className="flex gap-3">
+                    <Button
+                      variant="secondary"
+                      onClick={handleCancelForm}
+                      className="bg-white/10 hover:bg-white/20 text-white border border-white/10"
+                    >
+                      Cancelar
+                    </Button>
+                    <Button
+                      onClick={handleSave}
+                      disabled={!currentTask.title.trim() || isSaving}
+                      className="bg-[#FCEE8E] hover:bg-[#FCEE8E]/90 text-black font-medium border-none"
+                    >
+                      {isSaving ? "Guardando..." : "Guardar"}
+                    </Button>
+                  </div>
+                </>
+              );
+            })()}
           </div>
         )}
 
@@ -932,7 +953,7 @@ export function TaskList({ userId, greeting, firstName }: TaskListProps) {
                 </div>
                 
                 <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                   <button onClick={() => setEditingTaskId(task.id)} className="p-2 text-white/50 hover:text-white hover:bg-white/10 rounded-full transition-colors">
+                   <button onClick={() => handleStartEdit(task)} className="p-2 text-white/50 hover:text-white hover:bg-white/10 rounded-full transition-colors">
                      <Pencil className="w-4 h-4" />
                    </button>
                    <button onClick={() => handleDeleteTask(task.id)} className="p-2 text-white/50 hover:text-red-400 hover:bg-white/10 rounded-full transition-colors">
@@ -1055,88 +1076,7 @@ export function TaskList({ userId, greeting, firstName }: TaskListProps) {
                         </button>
                       </div>
 
-                      {/* Inline Edit Form Overlay */}
-                      {editingTaskId === task.id && (
-                        <div className="absolute inset-0 bg-black/90 backdrop-blur-xl rounded-2xl p-5 z-10 flex flex-col overflow-y-auto custom-scrollbar">
-                           <div className="flex justify-between items-center mb-4">
-                             <h4 className="font-semibold text-white">Editar Tarea</h4>
-                             <button onClick={handleCancelEdit} className="text-white/50 hover:text-white"><X className="w-5 h-5" /></button>
-                           </div>
-                           
-                           <Input
-                             value={editTask.title}
-                             onChange={(e) => setEditTask({ ...editTask, title: e.target.value })}
-                             className="bg-white/5 border-white/10 text-white font-medium mb-3 focus-visible:ring-1 focus-visible:ring-white/30"
-                             placeholder="Título de la tarea"
-                           />
-                           
-                           <div className="space-y-4 mb-4 flex-1">
-                             <div>
-                               <p className="text-xs text-white/50 mb-1">Descripción</p>
-                               <textarea
-                                 value={editTask.description}
-                                 onChange={(e) => setEditTask({ ...editTask, description: e.target.value })}
-                                 className="w-full bg-white/5 border border-white/10 rounded-lg p-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-white/30 min-h-[80px] resize-none"
-                               />
-                             </div>
-                             
-                             <div className="grid grid-cols-2 gap-3">
-                               <div>
-                                 <p className="text-xs text-white/50 mb-1">Inicio</p>
-                                 <input
-                                   type="datetime-local"
-                                   value={editTask.start_date}
-                                   onChange={(e) => setEditTask({ ...editTask, start_date: e.target.value })}
-                                   className="w-full bg-white/5 border border-white/10 rounded p-2 text-xs text-white focus:outline-none [color-scheme:dark]"
-                                 />
-                               </div>
-                               <div>
-                                 <p className="text-xs text-white/50 mb-1">Límite</p>
-                                 <input
-                                   type="datetime-local"
-                                   value={editTask.due_date}
-                                   onChange={(e) => setEditTask({ ...editTask, due_date: e.target.value })}
-                                   className="w-full bg-white/5 border border-white/10 rounded p-2 text-xs text-white focus:outline-none [color-scheme:dark]"
-                                 />
-                               </div>
-                             </div>
 
-                             <div>
-                                <p className="text-xs text-white/50 mb-1">Prioridad</p>
-                                <select
-                                  value={editTask.priority}
-                                  onChange={(e) => setEditTask({ ...editTask, priority: Number(e.target.value) })}
-                                  className="w-full bg-white/5 border border-white/10 rounded p-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-white/30 [&>option]:bg-black"
-                                >
-                                  <option value={1}>Alta</option>
-                                  <option value={2}>Media</option>
-                                  <option value={3}>Baja</option>
-                                </select>
-                             </div>
-                             
-                             <div>
-                                <p className="text-xs text-white/50 mb-1">Etiquetas</p>
-                                <div className="flex flex-wrap gap-2 mb-2">
-                                  {editSelectedTags.map((tag) => (
-                                    <span key={tag.id} className="text-[10px] px-2 py-0.5 rounded-full flex items-center gap-1 text-black font-medium" style={{ backgroundColor: tag.color || "#FFF59D" }}>
-                                      {tag.name}
-                                      <button type="button" onClick={() => handleRemoveEditTag(tag.id)}><X className="w-3 h-3" /></button>
-                                    </span>
-                                  ))}
-                                </div>
-                                <button type="button" onClick={() => setShowEditTagModal(true)} className="bg-white/10 hover:bg-white/20 border border-white/10 text-xs text-white px-3 py-1.5 rounded transition-colors">
-                                  + Añadir etiqueta
-                                </button>
-                             </div>
-                           </div>
-
-                           <div className="mt-auto flex gap-2">
-                             <Button onClick={handleSaveEdit} disabled={!editTask.title.trim() || isSaving} className="flex-1 bg-[#FCEE8E] hover:bg-[#FCEE8E]/90 text-black font-medium">
-                               {isSaving ? "Guardando..." : "Guardar Cambios"}
-                             </Button>
-                           </div>
-                        </div>
-                      )}
 
                     </div>
                   ))}
