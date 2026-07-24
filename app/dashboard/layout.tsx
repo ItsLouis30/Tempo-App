@@ -19,7 +19,13 @@ export default function DashboardLayout({
         <MusicProvider>
           <div className="relative min-h-screen text-foreground selection:bg-white/20 isolate">
             {/* Layer 0: Background Gradient (Theme Engine) */}
-            <div className="fixed inset-0 z-[-2] bg-theme-gradient" />
+            <div 
+              className="fixed inset-0 z-[-2]"
+              style={{
+                background: "radial-gradient(circle at top center, rgba(var(--theme-bg-start), 0.8) 0%, rgba(var(--theme-bg-end), 1) 100%)",
+                backgroundColor: "rgb(var(--theme-bg-end))"
+              }}
+            />
             
             {/* Layer 1: Overlay (Theme Engine for legibility) */}
             <div 

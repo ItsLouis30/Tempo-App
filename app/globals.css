@@ -19,16 +19,12 @@
 
 :root {
   /* Default values (Midnight) to prevent flickering */
-  --theme-gradient-start: 35, 35, 38;
-  --theme-gradient-end: 12, 12, 12;
+  --theme-bg-start: 35, 35, 38;
+  --theme-bg-end: 12, 12, 12;
   --theme-glass-tint: 255, 255, 255;
   --theme-overlay-opacity: 0.2;
 }
 
-.bg-theme-gradient {
-  background: radial-gradient(circle at top left, rgba(var(--theme-gradient-start), 0.8) 0%, rgba(var(--theme-gradient-end), 1) 80%);
-  background-color: rgb(var(--theme-gradient-end));
-}
 
 .glass-panel {
   background-color: rgba(var(--theme-glass-tint), 0.03);

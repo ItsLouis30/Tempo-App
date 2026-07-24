@@ -31,8 +31,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     if (!mounted) return
     
     const root = document.documentElement
-    root.style.setProperty('--theme-gradient-start', theme.colors.gradientStart)
-    root.style.setProperty('--theme-gradient-end', theme.colors.gradientEnd)
+    root.style.setProperty('--theme-bg-start', theme.colors.gradientStart)
+    root.style.setProperty('--theme-bg-end', theme.colors.gradientEnd)
     root.style.setProperty('--theme-glass-tint', theme.colors.glassTint)
     root.style.setProperty('--theme-overlay-opacity', theme.colors.overlayOpacity)
     
