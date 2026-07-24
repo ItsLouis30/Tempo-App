@@ -28,11 +28,11 @@ export default async function CalendarioPage() {
     .not("due_date", "is", null)
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="w-full">
       <div className="max-w-[1600px] mx-auto px-4 md:px-6 space-y-6">
         <div className="pt-8 px-4">
-          <h1 className="text-3xl font-bold drop-shadow-lg">Calendario</h1>
-          <p className="text-muted-foreground drop-shadow-lg">
+          <h1 className="text-3xl font-bold drop-shadow-lg text-white">Calendario</h1>
+          <p className="text-white/70 drop-shadow-lg">
             Visualiza tus tareas según su fecha límite y añade recordatorios.
           </p>
         </div>

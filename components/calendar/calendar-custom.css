@@ -1,67 +1,109 @@
+/* General layout and borders */
+.fc-theme-standard,
+.fc-theme-standard td, 
+.fc-theme-standard th, 
+.fc-theme-standard thead,
+.fc-theme-standard .fc-scrollgrid,
+.fc-theme-standard .fc-scroller {
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* Day Headers (Lun, Mar, etc.) */
+.fc-col-header-cell {
+  background-color: transparent !important;
+}
+
+.fc-col-header-cell-cushion {
+  color: rgba(255, 255, 255, 0.7) !important;
+  font-size: 0.75rem !important; /* text-xs */
+  font-weight: 500 !important;   /* font-medium */
+  text-transform: capitalize;
+  text-decoration: none !important;
+  padding: 12px 0 !important;
+}
+
+/* Today highlight */
+.fc-day-today {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+/* Today Number pill */
+.fc-day-today .fc-daygrid-day-top {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 4px;
+}
+.fc-day-today .fc-daygrid-day-number {
+  background-color: white !important;
+  color: black !important;
+  font-weight: 700 !important;
+  border-radius: 50% !important;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 4px;
+  padding: 0 !important;
+}
+
+/* Day Numbers */
+.fc-daygrid-day-number {
+  color: rgba(255, 255, 255, 0.9) !important;
+  padding: 8px;
+  font-weight: 500;
+  text-decoration: none !important;
+}
+
+/* Top Buttons */
+.fc-button-primary {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: rgba(255, 255, 255, 0.9) !important;
+  text-transform: capitalize !important;
+  font-weight: 500 !important;
+  transition: all 0.2s ease !important;
+  box-shadow: none !important;
+}
+
+.fc-button-primary:hover:not(:disabled) {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  color: white !important;
+}
+
+.fc-button-primary:active:not(:disabled) {
+  background-color: rgba(255, 255, 255, 0.15) !important;
+}
+
+.fc-toolbar-title {
+  color: rgba(255, 255, 255, 0.9) !important;
+  font-size: 1.25rem !important;
+  font-weight: 700 !important;
+  text-transform: capitalize;
+}
+
 .fc-event {
-  border: 1px transparent !important;
-  background-color: #fffac4;
-  color: black;
+  border: 1px solid rgba(255,255,255,0.05) !important;
   border-radius: 6px !important;
-  padding: 2px 4px;
+  padding: 4px 6px;
   cursor: pointer;
-  transition: transform 0.1s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: transform 0.1s ease, filter 0.2s ease;
 }
 
 .fc-event:hover {
   transform: scale(1.02);
-  background-color: #A6A685;
+  filter: brightness(1.2);
 }
 
-.fc-toolbar-title {
-  font-size: 1.25rem !important;
-  font-weight: 700;
-  text-transform: capitalize;
-}
-
-.fc-day-today {
-  background-color: #8AB5B4 !important;
-}
-
-.fc-button-primary {
-  background-color: hsl(var(--primary)) !important;
-  border: none !important;
-  text-transform: capitalize !important;
-}
-
-.fc-daygrid-day-number {
-  color: hsl(var(--foreground)) !important;
-  padding: 8px;
-  font-weight: 600;
-  text-decoration: none !important;
-}
-
-.fc-col-header-cell-cushion {
-  color: black !important;
-  font-weight: 600;
-  font-size: 0.9rem;
-  text-transform: capitalize;
-  padding: 10px 0;
-  text-decoration: none !important;
-}
-
-.fc-button {
-  font-weight: 500 !important;
-  color: hsl(var(--calendarletter)) !important;
-  box-shadow: black 0px 2px 2px;
-  transition: all 0.2s ease !important;
-}
-
-.fc-button:hover {
-  background-color: #9B9E9C !important;
-  color: black !important;
-  box-shadow: black 0px 4px 6px;
-  transform: translateY(-1px);
-}
-
-.fc-daygrid-event{
-  width: 90%;
+.fc-daygrid-event {
+  width: 95%;
   margin-left: auto !important;
   margin-right: auto !important;
   margin-top: 2px !important;
