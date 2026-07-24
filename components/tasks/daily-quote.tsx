@@ -5,15 +5,26 @@ import { Quote } from "lucide-react"
 
 const QUOTES = [
   "La simplicidad es la máxima sofisticación.",
-  "Hazlo, y si tienes miedo, hazlo con miedo.",
   "Concéntrate en ser productivo, no en estar ocupado.",
-  "El secreto de salir adelante es empezar.",
   "Tu mente es para tener ideas, no para retenerlas.",
-  "No busques el momento perfecto, solo busca el momento y hazlo perfecto.",
-  "El éxito es la suma de pequeños esfuerzos repetidos día tras día.",
+  "El secreto de salir adelante es empezar.",
   "Lo que haces hoy puede mejorar todos tus mañanas.",
-  "Si pasas demasiado tiempo pensando en algo, nunca lo harás."
-]
+  "Una tarea a la vez.",
+  "El progreso es mejor que la perfección.",
+  "La disciplina supera a la motivación.",
+  "Haz primero lo importante.",
+  "Pequeños avances diarios crean grandes resultados.",
+  "Menos distracciones. Más enfoque.",
+  "La claridad reduce el estrés.",
+  "El tiempo es tu recurso más valioso.",
+  "Empieza antes de sentirte listo.",
+  "Lo importante rara vez es urgente.",
+  "El enfoque es decir no a cien buenas ideas.",
+  "No necesitas hacer más. Necesitas priorizar mejor.",
+  "Las grandes metas se alcanzan completando pequeñas tareas.",
+  "Cada tarea terminada es un paso hacia adelante.",
+  "Construye hábitos que trabajen por ti."
+];
 
 export function DailyQuote() {
   const [quote, setQuote] = useState("")
