@@ -315,7 +315,7 @@ export function PomodoroTimerClient({ task, userId }: PomodoroTimerClientProps) 
     <>
       <div className="w-full max-w-4xl mx-auto text-white font-sans">
         {/* Breadcrumbs */}
-        <nav className="flex items-center gap-2 mb-4 text-sm font-medium opacity-80">
+        <nav className="flex items-center gap-2 mb-8 text-sm font-medium opacity-80">
           <Link href="/dashboard" className="hover:underline">Inicio</Link>
           <span>&gt;</span>
           <span className="uppercase tracking-wider">{task.title}</span>
@@ -323,18 +323,18 @@ export function PomodoroTimerClient({ task, userId }: PomodoroTimerClientProps) 
 
         {/* Main Timer Area */}
         <div className="flex flex-col items-center mb-12">
-          <h1 className="text-2xl font-semibold mb-4 drop-shadow-lg">Pomodoro Timer</h1>
+          <h1 className="text-2xl font-semibold mb-4 drop-shadow-lg text-white">Pomodoro Timer</h1>
           
-          <div className="bg-white/10 px-4 py-1 rounded text-sm mb-2 font-medium backdrop-blur-sm border border-white/10 shadow-lg">
+          <div className="bg-white/10 px-4 py-1.5 rounded-full text-sm mb-2 font-medium backdrop-blur-sm border border-white/10 shadow-lg text-white/90">
             Ciclo #{currentCycle} / {settings.pomodoro_cycles}
           </div>
           
-          <div className="text-[10rem] md:text-[11rem] font-bold leading-none mb-6 tracking-tighter tabular-nums drop-shadow-lg">
+          <div className="text-[10rem] md:text-[11rem] font-bold leading-none mb-6 tracking-tighter tabular-nums drop-shadow-lg text-white">
             {formatTime(timeLeft)}
           </div>
 
           {/* Session Type Indicator */}
-          <div className="mb-6 text-lg font-medium text-white/80">
+          <div className="mb-6 text-lg font-medium text-white/80 uppercase tracking-wider">
             {sessionType === "pomodoro" && "Pomodoro"}
             {sessionType === "short_break" && "Descanso Corto"}
             {sessionType === "long_break" && "Descanso Largo"}
@@ -344,7 +344,7 @@ export function PomodoroTimerClient({ task, userId }: PomodoroTimerClientProps) 
           <div className="flex gap-4 flex-wrap justify-center">
             <button 
               onClick={() => setIsRunning(!isRunning)}
-              className="flex items-center gap-2 bg-[#2D2D2D] hover:bg-[#3D3D3D] px-10 py-3 rounded-md transition-all active:scale-95 shadow-xl"
+              className="flex items-center gap-2 bg-white/5 hover:bg-white/10 backdrop-blur-md border border-white/10 px-10 py-3 rounded-full transition-all active:scale-95 shadow-sm text-white"
             >
               {isRunning ? <Pause size={22} fill="currentColor" /> : <Play size={22} fill="currentColor" />}
               <span className="font-medium text-lg">{isRunning ? "Pausa" : "Iniciar"}</span>
@@ -352,7 +352,7 @@ export function PomodoroTimerClient({ task, userId }: PomodoroTimerClientProps) 
             
             <button 
               onClick={skipSession}
-              className="flex items-center gap-2 bg-[#2D2D2D] hover:bg-[#3D3D3D] px-6 py-3 rounded-md transition-all border border-white/5"
+              className="flex items-center gap-2 bg-white/5 hover:bg-white/10 backdrop-blur-md px-6 py-3 rounded-full transition-all border border-white/10 shadow-sm text-white/90"
             >
               <SkipForward size={20} />
               <span className="font-medium">Saltar</span>
@@ -360,7 +360,7 @@ export function PomodoroTimerClient({ task, userId }: PomodoroTimerClientProps) 
 
             <button 
               onClick={() => setIsSettingsOpen(true)}
-              className="flex items-center gap-2 bg-[#2D2D2D] hover:bg-[#3D3D3D] px-6 py-3 rounded-md transition-all border border-white/5"
+              className="flex items-center gap-2 bg-white/5 hover:bg-white/10 backdrop-blur-md px-6 py-3 rounded-full transition-all border border-white/10 shadow-sm text-white/90"
             >
               <SquarePen size={20} />
               <span className="font-medium">Editar</span>
@@ -368,7 +368,7 @@ export function PomodoroTimerClient({ task, userId }: PomodoroTimerClientProps) 
 
             <button 
               onClick={() => setIsMuted(!isMuted)}
-              className="flex items-center justify-center bg-[#2D2D2D] hover:bg-[#3D3D3D] w-12 rounded-md transition-all"
+              className="flex items-center justify-center bg-white/5 hover:bg-white/10 backdrop-blur-md w-12 rounded-full transition-all border border-white/10 shadow-sm text-white/90"
             >
               {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
             </button>
@@ -379,52 +379,52 @@ export function PomodoroTimerClient({ task, userId }: PomodoroTimerClientProps) 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-7">
         <button 
           onClick={() => switchSession("pomodoro")}
-          className={`flex items-center justify-between p-6 rounded-xl transition-all border-2 ${
-            sessionType === "pomodoro" ? "bg-[#2D2D2D] border-white/20 shadow-lg" : "bg-[#2D2D2D]/40 border-transparent opacity-70 hover:opacity-100"
+          className={`flex items-center justify-between p-6 rounded-xl transition-all backdrop-blur-md border ${
+            sessionType === "pomodoro" ? "bg-white/5 border-rose-500/40" : "bg-white/5 border-white/10 opacity-60 hover:opacity-100"
           }`}
         >
-          <div className="bg-[#3D3D3D] p-3 rounded-full">
+          <div className="bg-white/10 p-3 rounded-full text-white">
             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-target-icon lucide-target"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
           </div>
           <div className="text-right">
-            <p className="font-bold text-lg">Pomodoro</p>
-            <p className="opacity-70 text-sm">{settings.pomodoro_duration} min</p>
+            <p className="font-bold text-lg text-white">Pomodoro</p>
+            <p className="text-white/70 text-sm">{settings.pomodoro_duration} min</p>
           </div>
         </button>
 
         <button 
           onClick={() => switchSession("short_break")}
-          className={`flex items-center justify-between p-6 rounded-xl transition-all border-2 ${
-            sessionType === "short_break" ? "bg-[#2D2D2D] border-white/20 shadow-lg" : "bg-[#2D2D2D]/40 border-transparent opacity-70 hover:opacity-100"
+          className={`flex items-center justify-between p-6 rounded-xl transition-all backdrop-blur-md border ${
+            sessionType === "short_break" ? "bg-white/5 border-rose-500/40" : "bg-white/5 border-white/10 opacity-60 hover:opacity-100"
           }`}
         >
-          <div className="bg-[#3D3D3D] p-3 rounded-full">
+          <div className="bg-white/10 p-3 rounded-full text-white">
             <Coffee size={32} />
           </div>
           <div className="text-right">
-            <p className="font-bold text-lg">Short Break</p>
-            <p className="opacity-70 text-sm">{settings.short_break_duration} min</p>
+            <p className="font-bold text-lg text-white">Short Break</p>
+            <p className="text-white/70 text-sm">{settings.short_break_duration} min</p>
           </div>
         </button>
 
         <button 
           onClick={() => switchSession("long_break")}
-          className={`flex items-center justify-between p-6 rounded-xl transition-all border-2 ${
-            sessionType === "long_break" ? "bg-[#2D2D2D] border-white/20 shadow-lg" : "bg-[#2D2D2D]/40 border-transparent opacity-70 hover:opacity-100"
+          className={`flex items-center justify-between p-6 rounded-xl transition-all backdrop-blur-md border ${
+            sessionType === "long_break" ? "bg-white/5 border-rose-500/40" : "bg-white/5 border-white/10 opacity-60 hover:opacity-100"
           }`}
         >
-          <div className="bg-[#3D3D3D] p-3 rounded-full">
+          <div className="bg-white/10 p-3 rounded-full text-white">
             <Clock size={32} />
           </div>
           <div className="text-right">
-            <p className="font-bold text-lg">Long Break</p>
-            <p className="opacity-70 text-sm">{settings.long_break_duration} min</p>
+            <p className="font-bold text-lg text-white">Long Break</p>
+            <p className="text-white/70 text-sm">{settings.long_break_duration} min</p>
           </div>
         </button>
       </div>
 
       {/* Annotations Section */}
-      <div className="border border-white/10 rounded-xl p-6 bg-black/10 backdrop-blur-sm flex flex-col gap-4">
+      <div className="flex flex-col gap-4 p-6 bg-white/5 backdrop-blur-md border border-white/10 rounded-xl">
         
         {/* Listado de Notas*/}
         <div className="flex flex-wrap items-start gap-3">
@@ -434,19 +434,19 @@ export function PomodoroTimerClient({ task, userId }: PomodoroTimerClientProps) 
             notes.map((note) => (
               <div 
                 key={note.id} 
-                className="flex items-center gap-2 px-3 py-1.5 bg-[#D4D9A1] border border-black/5 rounded-md shadow-sm group transition-all shrink-0"
+                className="flex items-center gap-2 px-3 py-1.5 bg-white/5 border border-white/10 rounded-md shadow-sm group transition-all shrink-0 backdrop-blur-sm"
               >
                 <div className="grid grid-cols-2 gap-0.5 opacity-40">
                   {[...Array(6)].map((_, i) => (
-                    <div key={i} className="w-1 h-1 bg-black rounded-full" />
+                    <div key={i} className="w-1 h-1 bg-white rounded-full" />
                   ))}
                 </div>
                 
-                <p className="text-sm text-[#2D2D2D] font-medium">{note.content}</p>
+                <p className="text-sm text-white/90 font-medium">{note.content}</p>
                 
                 <button
                   onClick={() => handleDeleteNote(note.id)}
-                  className="opacity-0 group-hover:opacity-100 text-black/40 hover:text-red-600 transition-all text-[10px] ml-1"
+                  className="opacity-0 group-hover:opacity-100 text-white/40 hover:text-white transition-all text-[10px] ml-1"
                 >
                   ✕
                 </button>
@@ -456,20 +456,20 @@ export function PomodoroTimerClient({ task, userId }: PomodoroTimerClientProps) 
         </div>
 
         {/* Área de Input*/}
-        <div className="flex items-center gap-2 mt-2 pt-2 border-t border-white/5">
+        <div className="flex items-center gap-2 mt-2 pt-4 border-t border-white/10">
           <input
             type="text"
             value={newNoteContent}
             onChange={(e) => setNewNoteContent(e.target.value)}
             onKeyPress={(e) => e.key === "Enter" && handleAddNote()}
             placeholder="Escribe aquí..."
-            className="w-32 focus:w-48 transition-all bg-white/5 border border-white/10 rounded-md px-2 py-1.5 text-sm text-white placeholder-white/30 focus:outline-none focus:border-white/30"
+            className="w-40 focus:w-64 transition-all bg-black/20 border border-white/10 rounded-md px-3 py-2 text-sm text-white placeholder-white/40 focus:outline-none focus:border-white/30 shadow-inner"
           />
           
           <button
             onClick={handleAddNote}
             disabled={!newNoteContent.trim()}
-            className="flex items-center gap-2 bg-[#8B5E5E] hover:bg-[#7A4F4F] disabled:opacity-50 px-3 py-1.5 rounded-md text-sm text-white/90 border border-white/10 shadow-sm transition-colors"
+            className="flex items-center gap-2 bg-white/10 hover:bg-white/20 disabled:opacity-50 px-4 py-2 rounded-md text-sm text-white/90 border border-white/10 shadow-sm transition-colors"
           >
             <PlusCircle size={16} />
             <span>Añadir anotación</span>

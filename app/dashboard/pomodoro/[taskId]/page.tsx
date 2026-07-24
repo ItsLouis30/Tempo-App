@@ -44,9 +44,15 @@ async function PomodoroContent({
   }
 
   return (
-      <div className="min-h-screen bg-[#8B4444] p-8 md:p-12">
+    <>
+      {/* Fondo Pomodoro fijo para cubrir toda la pantalla, incluyendo detrás del header */}
+      <div className="fixed inset-0 z-[-1] bg-gradient-to-br from-rose-900/90 via-red-900/90 to-rose-950/90 pointer-events-none" />
+      <div className="fixed inset-0 z-[-1] top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-red-500/15 blur-[120px] rounded-full pointer-events-none" />
+      
+      <div className="p-8 md:p-12 relative w-full flex-1">
         <PomodoroTimerClient task={task} userId={user.id} />
       </div>
+    </>
   )
 }
 
