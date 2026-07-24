@@ -22,15 +22,15 @@ export default function DashboardLayout({
             <div 
               className="fixed inset-0 z-[-2]"
               style={{
-                background: "radial-gradient(ellipse at top center, rgba(var(--theme-bg-start), 0.8) 0%, rgba(var(--theme-bg-end), 1) 100%)",
+                background: "linear-gradient(135deg, rgba(var(--theme-bg-start), 0.9) 0%, rgba(var(--theme-bg-end), 1) 100%)",
                 backgroundColor: "rgb(var(--theme-bg-end))"
               }}
             />
             
             {/* Layer 1: Overlay (Theme Engine for legibility) */}
             <div 
-              className="fixed inset-0 z-[-1] bg-black transition-opacity duration-300 pointer-events-none" 
-              style={{ opacity: "var(--theme-overlay-opacity, 0.2)" }}
+              className="fixed inset-0 z-[-1] transition-colors duration-300 pointer-events-none" 
+              style={{ backgroundColor: "rgba(0, 0, 0, var(--theme-overlay-opacity, 0.08))" }}
             />
             
             {/* Layer 2: Content */}

@@ -22,7 +22,7 @@
   --theme-bg-start: 35, 35, 38;
   --theme-bg-end: 16, 16, 20;
   --theme-glass-tint: 255, 255, 255;
-  --theme-overlay-opacity: 0.2;
+  --theme-overlay-opacity: 0.08;
 }
 
 
@@ -122,6 +122,6 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-transparent text-foreground;
   }
 }
