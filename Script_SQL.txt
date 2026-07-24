@@ -1,0 +1,197 @@
+---TABLA PERFIL---
+
+create table profiles (
+  id uuid primary key references auth.users(id) on delete cascade,
+  full_name text,
+  avatar_url text,
+  theme text default 'midnight',
+  quick_notes text default '',
+  created_at timestamptz default now(),
+  onboarding_completed boolean default false
+);
+
+---TABLA TAREAS---
+
+create table tasks (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid references auth.users(id) on delete cascade,
+
+  title text not null,
+  description text,
+
+  status text default 'pending', -- pending | done
+
+  position float8 not null, -- ORDEN MANUAL
+
+  priority int default 2, -- 1 alta | 2 media | 3 baja
+
+  estimated_minutes int,
+  progress int default 0,
+
+  total_focus_time int default 0, -- acumulado (mins),
+  is_running boolean default false,
+
+  due_date timestamptz,
+  start_date timestamptz,
+
+  pomodoro_cycles int default 4,
+  pomodoro_duration int default 25,
+  short_break_duration int default 5,
+  long_break_duration int default 15,
+  completed_cycles int4 default 0,
+
+  created_at timestamptz default now(),
+  updated_at timestamptz default now()
+);
+
+---SESIONES DE POMODORO---
+
+create table pomodoro_sessions (
+  id uuid primary key default gen_random_uuid(),
+  task_id uuid references tasks(id) on delete cascade,
+  user_id uuid references auth.users(id) on delete cascade,
+
+  duration_minutes int not null,
+  started_at timestamptz,
+  completed_at timestamptz,
+
+  created_at timestamptz default now()
+);
+
+---NOTIFICACIONES---
+
+create table reminders (
+  id uuid primary key default gen_random_uuid(),
+  task_id uuid references tasks(id) on delete cascade drop not null,
+  user_id uuid references auth.users(id) on delete cascade,
+
+  remind_at timestamptz not null,
+  message text,
+  sent boolean default false,
+
+  created_at timestamptz default now()
+);
+
+---ANOTACIONES---
+create table task_notes (
+  id uuid primary key default gen_random_uuid(),
+  task_id uuid references tasks(id) on delete cascade,
+  user_id uuid references auth.users(id) on delete cascade,
+  position float8 not null,
+
+  content text not null,
+  created_at timestamptz default now()
+);
+
+---ETIQUETAS---
+create table tags (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+
+  name text not null,
+  color text,
+
+  created_at timestamptz default now(),
+
+  unique (user_id, name)
+);
+
+---ETIQUETAS TAREAS---
+create table task_tags (
+  task_id uuid not null references tasks(id) on delete cascade,
+  tag_id uuid not null references tags(id) on delete cascade,
+
+  primary key (task_id, tag_id)
+);
+
+
+---RLS:---
+
+---PERFIL---
+alter table profiles enable row level security;
+
+create policy "Users can view their profile"
+on profiles
+for select
+using (auth.uid() = id);
+
+create policy "Users can update their profile"
+on profiles
+for update
+using (auth.uid() = id)
+with check (auth.uid() = id);
+
+create policy "Users can insert their own profile"
+on public.profiles
+for insert
+with check (auth.uid() = id);
+
+
+---TAREAS---
+alter table tasks enable row level security;
+
+create policy "Users manage their own tasks"
+on tasks
+for all
+using (auth.uid() = user_id)
+with check (auth.uid() = user_id);
+
+---SESIONES DE POMODORO---
+alter table pomodoro_sessions enable row level security;
+
+create policy "Users manage their pomodoro sessions"
+on pomodoro_sessions
+for all
+using (auth.uid() = user_id)
+with check (auth.uid() = user_id);
+
+---NOTIFICACIONES---
+alter table reminders enable row level security;
+
+create policy "Users manage their reminders"
+on reminders
+for all
+using (auth.uid() = user_id)
+with check (auth.uid() = user_id);
+
+---ANOTACIONES---
+alter table task_notes enable row level security;
+
+create policy "Users manage their task notes"
+on task_notes
+for all
+using (auth.uid() = user_id)
+with check (auth.uid() = user_id);
+
+---ETIQUETAS---
+alter table tags enable row level security;
+
+create policy "Users manage their tags"
+on tags
+for all
+using (auth.uid() = user_id)
+with check (auth.uid() = user_id);
+
+---ETIQUETAS TAREAS---
+alter table task_tags enable row level security;
+
+create policy "Users manage their task tags"
+on task_tags
+for all
+using (
+  exists (
+    select 1
+    from tasks
+    where tasks.id = task_tags.task_id
+      and tasks.user_id = auth.uid()
+  )
+)
+with check (
+  exists (
+    select 1
+    from tasks
+    where tasks.id = task_tags.task_id
+      and tasks.user_id = auth.uid()
+  )
+);
+

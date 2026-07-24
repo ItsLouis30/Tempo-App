@@ -10,11 +10,13 @@ type ThemeContextType = {
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined)
 
+import { createBrowserClient } from "@supabase/ssr"
+
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setThemeState] = useState<Theme>(defaultTheme)
   const [mounted, setMounted] = useState(false)
 
-  // Cargar de local storage al montar
+  // Cargar de local storage al montar y luego sincronizar con Supabase
   useEffect(() => {
     setMounted(true)
     const savedThemeId = localStorage.getItem("tempo-theme")
@@ -24,6 +26,30 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
         setThemeState(foundTheme)
       }
     }
+
+    const syncThemeWithDB = async () => {
+      try {
+        const supabase = createBrowserClient(
+          process.env.NEXT_PUBLIC_SUPABASE_URL!,
+          process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+        )
+        const { data: { user } } = await supabase.auth.getUser()
+        if (user) {
+          const { data } = await supabase.from("profiles").select("theme").eq("id", user.id).single()
+          if (data && data.theme && data.theme !== savedThemeId) {
+            const foundTheme = themes.find(t => t.id === data.theme)
+            if (foundTheme) {
+              setThemeState(foundTheme)
+              localStorage.setItem("tempo-theme", data.theme)
+            }
+          }
+        }
+      } catch (error) {
+        console.error("Error syncing theme from DB:", error)
+      }
+    }
+    
+    syncThemeWithDB()
   }, [])
 
   // Aplicar variables CSS dinámicamente cuando el tema cambia
@@ -38,11 +64,25 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     
   }, [theme, mounted])
 
-  const setTheme = (themeId: string) => {
+  const setTheme = async (themeId: string) => {
     const foundTheme = themes.find(t => t.id === themeId)
     if (foundTheme) {
       setThemeState(foundTheme)
       localStorage.setItem("tempo-theme", themeId)
+
+      // Guardar en Supabase
+      try {
+        const supabase = createBrowserClient(
+          process.env.NEXT_PUBLIC_SUPABASE_URL!,
+          process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+        )
+        const { data: { user } } = await supabase.auth.getUser()
+        if (user) {
+          await supabase.from("profiles").update({ theme: themeId }).eq("id", user.id)
+        }
+      } catch (error) {
+        console.error("Error saving theme to DB:", error)
+      }
     }
   }
 

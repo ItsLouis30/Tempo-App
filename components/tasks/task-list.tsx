@@ -4,6 +4,8 @@ import { useRouter } from "next/navigation"
 
 import { TaskNotesModal } from "@/components/tasks/task-notes-modal"
 import { ProductivityWidget } from "@/components/tasks/productivity-widget"
+import { QuickNotesWidget } from "@/components/tasks/quick-notes-widget"
+import { DailyQuote } from "@/components/tasks/daily-quote"
 
 import { useState, useEffect } from "react"
 import { Plus, Calendar, ChevronDown, ChevronUp, X, Pencil, Pause, Timer, FileText, Clock, Search, Filter, LayoutGrid, List } from "lucide-react"
@@ -1085,9 +1087,11 @@ export function TaskList({ userId, greeting, firstName }: TaskListProps) {
               </div>
             ))}
             
-            {/* Productivity Widget as 3rd Column */}
-            <div className="hidden lg:block space-y-4 h-full">
+            {/* Productivity Widget and Extras as 3rd Column */}
+            <div className="hidden lg:flex flex-col space-y-6 h-full">
               <ProductivityWidget tasks={processedTasks} />
+              <QuickNotesWidget />
+              <DailyQuote />
             </div>
           </div>
         )}
