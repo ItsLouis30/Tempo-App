@@ -16,27 +16,7 @@ import { createBrowserClient } from "@supabase/ssr"
 import useSWR, { mutate } from "swr"
 import { useRadixToast } from "@/components/ui/toast-provider"
 
-interface Tag {
-  id: string
-  name: string
-  color: string | null
-  user_id: string
-}
-
-interface Task {
-  id: string
-  title: string
-  description: string | null
-  due_date: string | null
-  start_date: string | null
-  status: string
-  priority: number
-  position: number
-  user_id: string
-  created_at: string
-  tags?: Tag[]
-  progress?: number
-}
+import { Tag, Task } from "@/types"
 
 interface TaskListProps {
   userId: string
