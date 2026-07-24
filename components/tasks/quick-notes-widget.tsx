@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react"
 import { createBrowserClient } from "@supabase/ssr"
-import { StickyNote, Loader2, Check } from "lucide-react"
+import { Loader2, Check, FilePenLine} from "lucide-react"
 
 export function QuickNotesWidget() {
   const [notes, setNotes] = useState("")
@@ -59,8 +59,8 @@ export function QuickNotesWidget() {
     <div className="glass-card flex flex-col p-6 group shadow-lg">
       <div className="flex items-center justify-between mb-4">
         <h4 className="text-sm font-semibold text-white/90 flex items-center gap-2">
-          <StickyNote className="w-4 h-4 text-blue-400" />
-          Brain Dump
+          <FilePenLine className="w-4 h-4 text-blue-400" />
+          Bloc de Notas
         </h4>
         <div className="text-xs text-white/40 flex items-center h-4">
           {!isLoaded ? (
