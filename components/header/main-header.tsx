@@ -6,6 +6,7 @@ import { UserMenu } from "@/components/header/user-menu"
 import { MusicButton } from "@/components/music/music-button"
 import Image from "next/image" 
 import { NotificationsPanel } from "@/components/notifications/notifications-panel"
+import { TopNav } from "@/components/header/top-nav"
 
 async function getHeaderData() {
   
@@ -44,20 +45,7 @@ export async function MainHeader() {
 
         {/* Center - Navigation (Floating Pill) */}
         <div className="absolute left-1/2 -translate-x-1/2 flex items-center">
-          <nav className="flex items-center gap-1 bg-black/30 backdrop-blur-md rounded-full p-1 border border-white/10 shadow-lg">
-            <Link 
-              href="/dashboard" 
-              className="text-sm font-medium px-5 py-1.5 rounded-full bg-white text-black shadow-sm transition-all"
-            >
-              Inicio
-            </Link>
-            <Link 
-              href="/dashboard/calendario" 
-              className="text-sm font-medium px-5 py-1.5 rounded-full text-white/70 hover:text-white hover:bg-white/10 transition-all"
-            >
-              Calendario
-            </Link>
-          </nav>
+          <TopNav />
         </div>
 
         {/* Right side - Notifications, Music and User Menu */}
