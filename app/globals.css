@@ -18,21 +18,37 @@
 }
 
 :root {
-  --theme-gradient-start: 35, 35, 38; /* dark graphite */
-  --theme-gradient-end: 12, 12, 12; /* deep slate */
+  /* Default values (Midnight) to prevent flickering */
+  --theme-gradient-start: 35, 35, 38;
+  --theme-gradient-end: 12, 12, 12;
+  --theme-glass-tint: 255, 255, 255;
+  --theme-overlay-opacity: 0.2;
 }
 
-.bg-spotify-gradient {
+.bg-theme-gradient {
   background: radial-gradient(circle at top left, rgba(var(--theme-gradient-start), 0.8) 0%, rgba(var(--theme-gradient-end), 1) 80%);
   background-color: rgb(var(--theme-gradient-end));
 }
 
 .glass-panel {
-  @apply bg-white/[0.03] backdrop-blur-md border border-white/[0.06] shadow-[0_8px_32px_rgba(0,0,0,0.25)] rounded-[2rem];
+  background-color: rgba(var(--theme-glass-tint), 0.03);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(var(--theme-glass-tint), 0.06);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+  border-radius: 2rem;
 }
 
 .glass-card {
-  @apply bg-white/[0.04] hover:bg-white/[0.06] border border-white/[0.04] rounded-2xl transition-colors duration-200 shadow-sm;
+  background-color: rgba(var(--theme-glass-tint), 0.04);
+  border: 1px solid rgba(var(--theme-glass-tint), 0.04);
+  border-radius: 1rem;
+  transition: background-color 0.2s, border-color 0.2s;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.glass-card:hover {
+  background-color: rgba(var(--theme-glass-tint), 0.06);
 }
 
 @layer base {

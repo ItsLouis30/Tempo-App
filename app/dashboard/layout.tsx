@@ -5,6 +5,7 @@ import { DashboardContent } from "@/components/dashboard-content"
 import { Suspense } from "react"
 import { ToastProvider } from "@/components/ui/toast-provider"
 import { AuthListener } from "@/components/auth-listener"
+import { ThemeProvider } from "@/components/theme/theme-provider"
 
 export default function DashboardLayout({
   children,
@@ -14,14 +15,26 @@ export default function DashboardLayout({
   return (
     <ToastProvider>
       <AuthListener />
-      <MusicProvider>
-          <div className="min-h-screen bg-spotify-gradient text-foreground selection:bg-white/20">
+      <ThemeProvider>
+        <MusicProvider>
+          <div className="relative min-h-screen text-foreground selection:bg-white/20 isolate">
+            {/* Layer 0: Background Gradient (Theme Engine) */}
+            <div className="fixed inset-0 z-[-2] bg-theme-gradient" />
+            
+            {/* Layer 1: Overlay (Theme Engine for legibility) */}
+            <div 
+              className="fixed inset-0 z-[-1] bg-black transition-opacity duration-300 pointer-events-none" 
+              style={{ opacity: "var(--theme-overlay-opacity, 0.2)" }}
+            />
+            
+            {/* Layer 2: Content */}
             <Suspense fallback={<HeaderSkeleton />}>
               <MainHeader />
               <DashboardContent>{children}</DashboardContent>
             </Suspense>
           </div>
-      </MusicProvider>
+        </MusicProvider>
+      </ThemeProvider>
     </ToastProvider>
   )
 }

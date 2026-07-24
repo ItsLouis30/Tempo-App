@@ -7,6 +7,7 @@ import { MusicButton } from "@/components/music/music-button"
 import Image from "next/image" 
 import { NotificationsPanel } from "@/components/notifications/notifications-panel"
 import { TopNav } from "@/components/header/top-nav"
+import { ThemeSelector } from "@/components/theme/theme-selector"
 
 async function getHeaderData() {
   
@@ -48,8 +49,9 @@ export async function MainHeader() {
           <TopNav />
         </div>
 
-        {/* Right side - Notifications, Music and User Menu */}
+        {/* Right side - Notifications, Theme, Music and User Menu */}
         <div className="flex items-center gap-4">
+          <ThemeSelector />
           <MusicButton />
           <NotificationsPanel userId={userId} />
           <UserMenu fullName={fullName} />
