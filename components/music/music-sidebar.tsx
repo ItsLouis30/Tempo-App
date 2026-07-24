@@ -187,11 +187,32 @@ export function MusicSidebar({ isOpen, onClose }: { isOpen: boolean; onClose: ()
               href={playlistUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block text-xs text-[#1db954] hover:text-[#1ed760] transition-colors"
+              className="inline-block mt-2 text-xs text-[#1db954] hover:text-[#1ed760] transition-colors"
             >
               Abrir en Spotify →
             </a>
-          )}      
+          )}
+
+          {/* Quick Playlists */}
+          <div className="mt-8 border-t border-white/10 pt-6">
+            <h4 className="text-[10px] font-bold text-white/40 mb-3 uppercase tracking-widest">Sugerencias Rápidas</h4>
+            <div className="flex flex-wrap gap-2">
+              {[
+                { name: "Lofi Study", url: "https://open.spotify.com/playlist/6zCID88oNjNv9zx6puDHKj" },
+                { name: "Intense Study", url: "https://open.spotify.com/playlist/37i9dQZF1DX8NTLI2TtZa6" },
+                { name: "House Focus", url: "https://open.spotify.com/playlist/37i9dQZF1DX8wtrGDH81Oa" },
+                { name: "Binaural Beats", url: "https://open.spotify.com/playlist/37i9dQZF1DX7EF8wVxBVhG" },
+              ].map((p, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setPlaylistUrl(p.url)}
+                  className="px-3 py-1.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full text-[11px] text-white/70 hover:text-white transition-colors cursor-pointer"
+                >
+                  {p.name}
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
       </aside>
     </>
