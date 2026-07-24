@@ -891,8 +891,11 @@ export function TaskList({ userId, greeting, firstName }: TaskListProps) {
               No se encontraron tareas que coincidan con los filtros.
             </p>
           </div>
-        ) : viewMode === "list" ? (
-          <div className="flex flex-col gap-2 mt-6">
+        ) : (
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
+            <div className="lg:col-span-2">
+              {viewMode === "list" ? (
+                <div className="flex flex-col gap-2">
             {processedTasks.map(task => (
               <div key={task.id} className="glass-card flex items-center justify-between p-4 group shadow-sm hover:shadow-md transition-all">
                 <div className="flex items-center gap-4 flex-1">
@@ -945,9 +948,9 @@ export function TaskList({ userId, greeting, firstName }: TaskListProps) {
                 </div>
               </div>
             ))}
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-start mt-6">
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
             {[
               { id: "pending", title: "Pendientes", dot: "bg-blue-400", items: processedTasks.filter(t => t.status !== "done") },
               { id: "done", title: "Completadas", dot: "bg-green-400", items: processedTasks.filter(t => t.status === "done") }
@@ -1065,7 +1068,10 @@ export function TaskList({ userId, greeting, firstName }: TaskListProps) {
                   ))}
                 </div>
               </div>
-            ))}
+                ))}
+              </div>
+            )}
+            </div>
             
             {/* Productivity Widget and Extras as 3rd Column */}
             <div className="hidden lg:flex flex-col space-y-6 h-full">
