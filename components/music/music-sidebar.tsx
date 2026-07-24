@@ -86,62 +86,75 @@ export function MusicSidebar({ isOpen, onClose }: { isOpen: boolean; onClose: ()
     <>
       {/* Sidebar - From Right, below header */}
       <aside
-        className={`fixed right-0 top-16 h-[calc(100vh-64px)] w-[420px] bg-black/60 backdrop-blur-2xl border-l border-white/10 p-6 transform transition-all duration-300 ease-in-out z-50 overflow-y-auto ${
+        className={`fixed right-0 top-16 h-[calc(100vh-64px)] w-[420px] bg-white/5 backdrop-blur-3xl border-l border-white/10 shadow-2xl p-6 transform transition-all duration-300 ease-in-out z-50 overflow-y-auto ${
           isOpen ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0 pointer-events-none'
         }`}
       >
         {/* Header */}
-        <div className="flex items-center justify-center mb-6">
-          <h2 className="text-sm font-semibold text-white/90 tracking-wide uppercase">Música & Ambiente</h2>
+        <div className="flex items-center justify-center mb-8">
+          <h2 className="text-xs font-bold text-white/50 tracking-[0.2em] uppercase">Música & Ambiente</h2>
         </div>
 
         {/* Ambient Sounds Section - Container */}
-        <div className="mb-6 glass-card p-5 border-none bg-white/5 space-y-4">
-          <div className="flex items-center gap-2 mb-2">
-            <h3 className="text-sm font-semibold text-white/90">Sonidos de Ambiente</h3>
-            <span title="Si te gustan los sonidos, ajusta el volumen a tu preferencia. ">
+        <div className="mb-14">
+          <div className="flex items-center gap-2 mb-4 px-1">
+            <h3 className="text-sm font-semibold text-white/90">Mezclador de Ambiente</h3>
+            <span title="Ajusta el volumen para combinar sonidos y crear tu ambiente ideal.">
               <Info className="h-4 w-4 text-white/40 cursor-help" />
             </span>
           </div>
 
-          <div className="space-y-3">
-            {ambientSounds.map(sound => (
-              <div key={sound.id} className="bg-white/5 border border-white/10 rounded-lg p-3 space-y-3 shadow-sm">
-                <div className="flex items-center gap-2">
-                  <Volume2 className="h-4 w-4 text-white/70 flex-shrink-0" />
-                  <span className="text-sm text-white/90 flex-1">{sound.name}</span>
-                  <span className="text-xs text-white/50">{sound.volume}%</span>
+          <div className="flex flex-col gap-6 px-1">
+            {ambientSounds.map(sound => {
+              const isActive = sound.volume > 0;
+              return (
+                <div key={sound.id} className="space-y-3">
+                  <div className="flex items-center gap-3">
+                    <Volume2 className={`h-4 w-4 transition-colors duration-300 ${
+                      isActive ? 'text-white' : 'text-white/40'
+                    }`} />
+                    <span className={`text-sm flex-1 font-medium transition-colors duration-300 ${
+                      isActive ? 'text-white' : 'text-white/60'
+                    }`}>
+                      {sound.name}
+                    </span>
+                    <span className={`text-xs transition-colors duration-300 ${
+                      isActive ? 'text-white font-bold' : 'text-white/30'
+                    }`}>
+                      {sound.volume}%
+                    </span>
+                  </div>
+                  <div className="px-7">
+                    <Slider
+                      value={[sound.volume]}
+                      onValueChange={newVolume => handleVolumeChange(sound.id, newVolume)}
+                      max={100}
+                      step={1}
+                      className="w-full cursor-pointer"
+                    />
+                  </div>
                 </div>
-                <div className="px-1">
-                  <Slider
-                    value={[sound.volume]}
-                    onValueChange={newVolume => handleVolumeChange(sound.id, newVolume)}
-                    max={100}
-                    step={1}
-                    className="w-full"
-                  />
-                </div>
-              </div>
-            ))}
+              )
+            })}
           </div>
         </div>
 
         {/* Spotify Playlist Section - Container */}
-        <div className="glass-card p-5 border-none bg-white/5 space-y-4">
-          <div className="flex items-center gap-2 mb-2">
+        <div className="mb-6">
+          <div className="flex items-center gap-2 mb-4 px-1">
             <h3 className="text-sm font-semibold text-white/90">Playlist de Spotify</h3>
             <span title="Copia el enlace de la playlist desde Spotify">
               <Info className="h-4 w-4 text-white/40 cursor-help" />
             </span>
           </div>
 
-          <div className="flex gap-2">
+          <div className="mb-4">
             <input
               type="text"
-              placeholder="Link de playlist pública"
+              placeholder="Pega aquí el link de tu playlist pública..."
               value={playlistUrl}
               onChange={e => setPlaylistUrl(e.target.value)}
-              className="flex-1 px-3 py-2 bg-black/30 border border-white/10 shadow-inner rounded-md text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-1 focus:ring-green-500/50 transition-all"
+              className="w-full h-10 px-3 bg-white/5 border border-green/10 rounded text-sm text-white placeholder:text-white/30 focus:outline-none focus:ring-1 focus:ring-green-500/50 transition-all"
             />
           </div>
 
@@ -165,7 +178,7 @@ export function MusicSidebar({ isOpen, onClose }: { isOpen: boolean; onClose: ()
             </div>
           )}
 
-          <p className="text-[12px] text-white/50 leading-relaxed">
+          <p className="text-[12px] text-white/50 leading-relaxed mt-4">
             Para escuchar canciones completas aquí, inicia sesión en Spotify con el mismo navegador. Caso contrario solo escucharás 30 segundos de canción.
           </p>
 
