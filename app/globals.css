@@ -20,7 +20,7 @@
 :root {
   /* Default values (Midnight) to prevent flickering */
   --theme-bg-start: 35, 35, 38;
-  --theme-bg-end: 12, 12, 12;
+  --theme-bg-end: 16, 16, 20;
   --theme-glass-tint: 255, 255, 255;
   --theme-overlay-opacity: 0.2;
 }

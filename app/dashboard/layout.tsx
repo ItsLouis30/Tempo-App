@@ -22,7 +22,7 @@ export default function DashboardLayout({
             <div 
               className="fixed inset-0 z-[-2]"
               style={{
-                background: "radial-gradient(circle at top center, rgba(var(--theme-bg-start), 0.8) 0%, rgba(var(--theme-bg-end), 1) 100%)",
+                background: "radial-gradient(ellipse at top center, rgba(var(--theme-bg-start), 0.8) 0%, rgba(var(--theme-bg-end), 1) 100%)",
                 backgroundColor: "rgb(var(--theme-bg-end))"
               }}
             />

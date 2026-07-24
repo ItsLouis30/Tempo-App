@@ -15,7 +15,7 @@ export const themes: Theme[] = [
     name: "Midnight",
     colors: {
       gradientStart: "35, 35, 38",
-      gradientEnd: "12, 12, 12",
+      gradientEnd: "16, 16, 20",
       glassTint: "255, 255, 255",
       overlayOpacity: "0.2"
     }
@@ -25,7 +25,7 @@ export const themes: Theme[] = [
     name: "Forest",
     colors: {
       gradientStart: "25, 40, 30",
-      gradientEnd: "8, 15, 10",
+      gradientEnd: "10, 24, 15",
       glassTint: "167, 243, 208", // Emerald 200
       overlayOpacity: "0.3"
     }
@@ -35,7 +35,7 @@ export const themes: Theme[] = [
     name: "Ocean",
     colors: {
       gradientStart: "20, 30, 45",
-      gradientEnd: "5, 10, 20",
+      gradientEnd: "8, 16, 30",
       glassTint: "186, 230, 253", // Sky 200
       overlayOpacity: "0.25"
     }
@@ -45,7 +45,7 @@ export const themes: Theme[] = [
     name: "Aurora",
     colors: {
       gradientStart: "40, 25, 45",
-      gradientEnd: "12, 8, 15",
+      gradientEnd: "20, 10, 25",
       glassTint: "233, 213, 255", // Purple 200
       overlayOpacity: "0.3"
     }
@@ -55,7 +55,7 @@ export const themes: Theme[] = [
     name: "Sunset",
     colors: {
       gradientStart: "45, 30, 25",
-      gradientEnd: "15, 8, 5",
+      gradientEnd: "25, 12, 8",
       glassTint: "254, 215, 170", // Orange 200
       overlayOpacity: "0.3"
     }
@@ -65,7 +65,7 @@ export const themes: Theme[] = [
     name: "Graphite",
     colors: {
       gradientStart: "40, 40, 40",
-      gradientEnd: "10, 10, 10",
+      gradientEnd: "18, 18, 18",
       glassTint: "229, 231, 235", // Gray 200
       overlayOpacity: "0.15"
     }
