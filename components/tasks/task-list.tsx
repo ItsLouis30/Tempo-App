@@ -905,11 +905,18 @@ export function TaskList({ userId, greeting, firstName }: TaskListProps) {
                     className="h-5 w-5 rounded border-2 border-white/20 data-[state=checked]:bg-[#FCEE8E] data-[state=checked]:border-[#FCEE8E] data-[state=checked]:text-black"
                   />
                   <div className="flex-1 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6">
-                    <h3 className={`font-medium ${task.status === "done" ? "line-through text-white/40" : "text-white/90"}`}>
-                      {task.title}
-                    </h3>
+                    <div className="flex flex-col gap-0.5 flex-1">
+                      <h3 className={`font-medium ${task.status === "done" ? "line-through text-white/40" : "text-white/90"}`}>
+                        {task.title}
+                      </h3>
+                      {task.description && (
+                        <p className={`text-xs ${task.status === "done" ? "text-white/20" : "text-white/50"} line-clamp-1`}>
+                          {task.description}
+                        </p>
+                      )}
+                    </div>
                     
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-3 shrink-0">
                       {task.priority && (
                         <span className={`text-[10px] uppercase tracking-wider font-bold px-2 py-0.5 rounded border ${
                           task.priority === 1 ? "bg-red-500/20 text-red-400 border-red-500/30" : 
@@ -978,6 +985,11 @@ export function TaskList({ userId, greeting, firstName }: TaskListProps) {
                           <h3 className={`font-semibold leading-snug transition-colors ${task.status === "done" ? "line-through text-white/40" : "text-white/90"}`}>
                             {task.title}
                           </h3>
+                          {task.description && (
+                            <p className={`text-[13px] mt-1.5 ${task.status === "done" ? "text-white/30" : "text-white/60"} line-clamp-2 leading-relaxed`}>
+                              {task.description}
+                            </p>
+                          )}
                         </div>
                       </div>
 
