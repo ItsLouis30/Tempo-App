@@ -498,12 +498,12 @@ export function TaskList({ userId }: TaskListProps) {
       <button
         type="button"
         onClick={() => setIsAddingTask(true)}
-        className="group flex items-center gap-4 px-6 py-4 bg-card border-2 border-primary/50 rounded-xl transition-all duration-200 hover:border-primary hover:bg-card/80 shadow-lg"
+        className="group flex items-center gap-4 px-6 py-4 glass-card shadow-xl"
       >
-        <div className="w-12 h-12 rounded-full bg-secondary flex items-center justify-center group-hover:bg-secondary/80 transition-colors">
-          <Plus className="w-6 h-6 text-muted-foreground" />
+        <div className="w-10 h-10 rounded-full bg-[#FCEE8E] flex items-center justify-center group-hover:scale-105 transition-transform">
+          <Plus className="w-5 h-5 text-black" />
         </div>
-        <span className="text-lg text-muted-foreground group-hover:text-foreground transition-colors">
+        <span className="text-lg text-white/80 group-hover:text-white transition-colors font-medium">
           Agregar tarea
         </span>
       </button>
@@ -516,31 +516,31 @@ export function TaskList({ userId }: TaskListProps) {
 
         {/* New Task Form */}
         {isAddingTask && (
-          <div className="bg-card border border-border rounded-xl p-5 space-y-4 shadow-lg">
+          <div className="glass-panel p-5 space-y-4 shadow-xl">
             <div className="flex items-start gap-3">
               <div className="flex-1">
                 <div className="flex items-center gap-3 mb-4">
                   <Checkbox
-                    className="h-5 w-5 rounded border-2 border-input"
+                    className="h-5 w-5 rounded border-2 border-white/20"
                     disabled
                   />
                   <Input
-                    placeholder="TAREA 1"
+                    placeholder="NUEVA TAREA"
                     value={newTask.title}
                     onChange={(e) => setNewTask({ ...newTask, title: e.target.value })}
-                    className="bg-transparent border-none text-lg font-semibold text-foreground placeholder:text-muted-foreground focus-visible:ring-0 p-0 h-auto flex-1"
+                    className="bg-transparent border-none text-xl font-bold text-white placeholder:text-white/30 focus-visible:ring-0 p-0 h-auto flex-1"
                   />
                 </div>
 
                 {/* Tab Content */}
                 {activeTab === "descripcion" && (
                   <div className="space-y-2">
-                    <p className="text-sm text-muted-foreground">Descripción</p>
+                    <p className="text-sm text-white/70">Descripción</p>
                     <textarea
                       placeholder="Escribe una descripción detallada de la tarea..."
                       value={newTask.description}
                       onChange={(e) => setNewTask({ ...newTask, description: e.target.value })}
-                      className="w-full bg-secondary rounded-lg p-3 text-sm text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-1 focus:ring-primary min-h-[100px] resize-none"
+                      className="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-1 focus:ring-white/30 min-h-[100px] resize-none"
                     />
                   </div>
                 )}
@@ -548,40 +548,40 @@ export function TaskList({ userId }: TaskListProps) {
                 {activeTab === "fecha" && (
                   <div className="flex flex-wrap gap-4">
                     <div className="space-y-2">
-                      <p className="text-sm text-muted-foreground">Fecha de inicio:</p>
-                      <div className="flex items-center gap-2 bg-secondary rounded px-3 py-2">
+                      <p className="text-sm text-white/70">Fecha de inicio:</p>
+                      <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded px-3 py-2">
                         <input
                           type="datetime-local"
                           value={newTask.start_date}
                           onChange={(e) => setNewTask({ ...newTask, start_date: e.target.value })}
-                          className="bg-transparent border-none text-sm text-foreground focus:outline-none [color-scheme:dark][&::-webkit-calendar-picker-indicator]:opacity-50 [&::-webkit-calendar-picker-indicator]:cursor-pointer hover:[&::-webkit-calendar-picker-indicator]:opacity-80 transition-all"
+                          className="bg-transparent border-none text-sm text-white focus:outline-none [color-scheme:dark][&::-webkit-calendar-picker-indicator]:opacity-50 [&::-webkit-calendar-picker-indicator]:cursor-pointer hover:[&::-webkit-calendar-picker-indicator]:opacity-100 transition-all"
                         />
                       </div>
                     </div>
                     <div className="space-y-2">
-                      <p className="text-sm text-muted-foreground">Fecha límite:</p>
-                      <div className="flex items-center gap-2 bg-secondary rounded px-3 py-2">
+                      <p className="text-sm text-white/70">Fecha límite:</p>
+                      <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded px-3 py-2">
                         <input
                           type="datetime-local"
                           value={newTask.due_date}
                           onChange={(e) => setNewTask({ ...newTask, due_date: e.target.value })}
-                          className="bg-transparent border-none text-sm text-foreground focus:outline-none [color-scheme:dark][&::-webkit-calendar-picker-indicator]:opacity-50 [&::-webkit-calendar-picker-indicator]:cursor-pointer hover:[&::-webkit-calendar-picker-indicator]:opacity-80 transition-all"
+                          className="bg-transparent border-none text-sm text-white focus:outline-none [color-scheme:dark][&::-webkit-calendar-picker-indicator]:opacity-50 [&::-webkit-calendar-picker-indicator]:cursor-pointer hover:[&::-webkit-calendar-picker-indicator]:opacity-100 transition-all"
                         />
                       </div>
                     </div>
                     <div className="space-y-2">
-                      <p className="text-sm text-muted-foreground">Prioridad:</p>
+                      <p className="text-sm text-white/70">Prioridad:</p>
                       <div className="relative">
                         <select
                           value={newTask.priority}
                           onChange={(e) => setNewTask({ ...newTask, priority: Number(e.target.value) })}
-                          className="appearance-none bg-secondary rounded px-3 py-2 pr-8 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-primary cursor-pointer"
+                          className="appearance-none bg-white/5 border border-white/10 rounded px-3 py-2 pr-8 text-sm text-white focus:outline-none focus:ring-1 focus:ring-white/30 cursor-pointer [&>option]:bg-black [&>option]:text-white"
                         >
                           <option value={1}>Alta</option>
                           <option value={2}>Media</option>
                           <option value={3}>Baja</option>
                         </select>
-                        <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
+                        <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-white/50 pointer-events-none" />
                       </div>
                     </div>
                   </div>
@@ -589,7 +589,7 @@ export function TaskList({ userId }: TaskListProps) {
 
                 {activeTab === "etiquetas" && (
                   <div className="space-y-3">
-                    <p className="text-sm text-muted-foreground">Etiquetas</p>
+                    <p className="text-sm text-white/70">Etiquetas</p>
                     
                     {/* Selected Tags Display */}
                     {selectedTags.length > 0 && (
@@ -617,7 +617,7 @@ export function TaskList({ userId }: TaskListProps) {
                     <button
                       type="button"
                       onClick={() => setShowTagModal(true)}
-                      className="bg-secondary hover:bg-secondary/80 text-sm text-foreground px-3 py-1.5 rounded transition-colors"
+                      className="bg-white/10 hover:bg-white/20 border border-white/10 text-sm text-white px-3 py-1.5 rounded transition-colors"
                     >
                       + Añadir
                     </button>
@@ -632,8 +632,8 @@ export function TaskList({ userId }: TaskListProps) {
                   onClick={() => setActiveTab("descripcion")}
                   className={`text-left px-3 py-2 rounded text-sm transition-colors ${
                     activeTab === "descripcion"
-                      ? "bg-secondary text-foreground"
-                      : "bg-primary/10 text-muted-foreground hover:bg-primary/20"
+                      ? "bg-white/20 text-white font-medium"
+                      : "bg-transparent text-white/50 hover:bg-white/10"
                   }`}
                 >
                   Descripción
@@ -643,8 +643,8 @@ export function TaskList({ userId }: TaskListProps) {
                   onClick={() => setActiveTab("fecha")}
                   className={`text-left px-3 py-2 rounded text-sm transition-colors ${
                     activeTab === "fecha"
-                      ? "bg-secondary text-foreground"
-                      : "bg-primary/10 text-muted-foreground hover:bg-primary/20"
+                      ? "bg-white/20 text-white font-medium"
+                      : "bg-transparent text-white/50 hover:bg-white/10"
                   }`}
                 >
                   Fecha
@@ -654,8 +654,8 @@ export function TaskList({ userId }: TaskListProps) {
                   onClick={() => setActiveTab("etiquetas")}
                   className={`text-left px-3 py-2 rounded text-sm transition-colors ${
                     activeTab === "etiquetas"
-                      ? "bg-secondary text-foreground"
-                      : "bg-primary/10 text-muted-foreground hover:bg-primary/20"
+                      ? "bg-white/20 text-white font-medium"
+                      : "bg-transparent text-white/50 hover:bg-white/10"
                   }`}
                 >
                   Etiquetas
@@ -667,14 +667,14 @@ export function TaskList({ userId }: TaskListProps) {
               <Button
                 variant="secondary"
                 onClick={handleCancel}
-                className="bg-secondary hover:bg-secondary/80 text-foreground"
+                className="bg-white/10 hover:bg-white/20 text-white border border-white/10"
               >
                 Cancelar
               </Button>
               <Button
                 onClick={handleSaveTask}
                 disabled={!newTask.title.trim() || isSaving}
-                className="bg-primary hover:bg-primary/90 text-primary-foreground"
+                className="bg-[#FCEE8E] hover:bg-[#FCEE8E]/90 text-black font-medium border-none"
               >
                 {isSaving ? "Guardando..." : "Guardar"}
               </Button>
@@ -684,301 +684,97 @@ export function TaskList({ userId }: TaskListProps) {
 
         {/* Tasks List or Empty State */}
         {isLoading ? (
-          <div className="bg-card border border-border rounded-xl p-8 text-center">
-            <p className="text-muted-foreground">Cargando tareas...</p>
+          <div className="glass-panel p-8 text-center">
+            <p className="text-white/70">Cargando tareas...</p>
           </div>
         ) : tasks.length === 0 && !isAddingTask ? (
-          <div className="bg-card border border-border rounded-xl p-8 text-center">
-            <p className="text-muted-foreground drop-shadow-lg">
+          <div className="glass-panel p-8 text-center">
+            <p className="text-white/70 drop-shadow-md">
               Aún no tienes tareas. Empieza creando la primera y da el primer paso.
             </p>
           </div>
         ) : (
-          <div className="space-y-3">
-            {tasks.map((task) => (
-              <div key={task.id} className="bg-card border border-border rounded-xl overflow-hidden shadow-lg">
-                {/* Task Header Row */}
-                <div className="flex items-center gap-3 p-4">
-                  <Checkbox
-                    checked={task.status === "done"}
-                    onCheckedChange={() => handleToggleComplete(task.id, task.status)}
-                    className="h-6 w-6 rounded border-2 border-input data-[state=checked]:bg-primary data-[state=checked]:border-primary"
-                  />
-                  <h3 className={`font-semibold flex-1 ${task.status === "done" ? "line-through text-muted-foreground" : "text-foreground"}`}>
-                    {task.title}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-start mt-6">
+            {[
+              { id: "pending", title: "Pendientes", dot: "bg-blue-400", items: tasks.filter(t => t.status !== "done") },
+              { id: "done", title: "Completadas", dot: "bg-green-400", items: tasks.filter(t => t.status === "done") }
+            ].map(col => (
+              <div key={col.id} className="space-y-4">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-sm font-semibold text-white/90 bg-white/10 px-4 py-2 rounded-full inline-flex items-center gap-2 backdrop-blur-sm border border-white/5 shadow-sm">
+                    <span className={`w-2 h-2 rounded-full ${col.dot}`}></span>
+                    {col.title}
                   </h3>
-                  
-                  {/* Progress and Priority */}
-                  <div className="flex items-center gap-3">
-                    <div className="bg-secondary rounded px-3 py-1 text-sm text-muted-foreground">
-                      {task.progress || 0}%
-                    </div>
-                    <span className="text-sm">
-                      <span className="text-muted-foreground">Prioridad: </span>
-                      <span className={`px-2 py-0.5 rounded text-xs font-medium ${
-                        task.priority === 1
-                          ? "bg-red-500/15 text-red-500 drop-shadow-sm"
-                          : task.priority === 2
-                          ? "bg-yellow-500/15 text-yellow-500 drop-shadow-sm"
-                          : "bg-green-500/15 text-green-500 drop-shadow-sm"
-                      }`}
-                    >
-                      {getPriorityLabel(task.priority)}
-                      </span>
-                    </span>
-                  </div>
-
-                  {/* Action Icons */}
-                  <div className="flex items-center gap-2">
-                    <button
-                      type="button"
-                      onClick={() => handleStartEdit(task)}
-                      className="p-2 hover:bg-secondary rounded transition-colors"
-                      title="Editar tarea"
-                    >
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-square-pen-icon lucide-square-pen"><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"/></svg>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => handleDeleteTask(task.id)}
-                      className="p-2 hover:bg-secondary rounded transition-colors"
-                      title="Eliminar tarea"
-                    >
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-trash-icon lucide-trash"><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => toggleExpand(task.id)}
-                      className="p-2 hover:bg-secondary rounded transition-colors"
-                    >
-                      {expandedTaskId === task.id ? (
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-chevron-up-icon lucide-chevron-up"><path d="m18 15-6-6-6 6"/></svg>
-                      ) : (
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-chevron-down-icon lucide-chevron-down"><path d="m6 9 6 6 6-6"/></svg>
-                      )}
-                    </button>
-                  </div>
+                  <span className="text-xs text-white/70 bg-white/5 border border-white/10 px-2.5 py-1 rounded-full">{col.items.length}</span>
                 </div>
-
-                {/* Expanded Content */}
-                {expandedTaskId === task.id && (
-                  <div className="px-4 pb-4">
-                    {editingTaskId === task.id ? (
-                      /* Edit Mode */
-                      <div className="space-y-4">
-                        <div className="flex items-start gap-3">
-                          <div className="flex-1">
-                            <Input
-                              value={editTask.title}
-                              onChange={(e) => setEditTask({ ...editTask, title: e.target.value })}
-                              className="bg-transparent border-none text-lg font-semibold text-foreground focus-visible:ring-0 p-0 h-auto mb-4"
-                            />
-
-                            {/* Edit Tab Content */}
-                            {editActiveTab === "descripcion" && (
-                              <div className="space-y-2">
-                                <p className="text-sm text-muted-foreground">Descripción</p>
-                                <textarea
-                                  value={editTask.description}
-                                  onChange={(e) => setEditTask({ ...editTask, description: e.target.value })}
-                                  className="w-full bg-secondary rounded-lg p-3 text-sm text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-1 focus:ring-primary min-h-[100px] resize-none"
-                                />
-                              </div>
-                            )}
-
-                            {editActiveTab === "fecha" && (
-                              <div className="flex flex-wrap gap-4">
-                                <div className="space-y-2">
-                                  <p className="text-sm text-muted-foreground">Fecha de inicio:</p>
-                                  <div className="flex items-center gap-2 bg-secondary rounded px-3 py-2">
-                                    <input
-                                      type="datetime-local"
-                                      value={editTask.start_date}
-                                      onChange={(e) => setEditTask({ ...editTask, start_date: e.target.value })}
-                                      className="bg-transparent border-none text-sm text-foreground focus:outline-none [color-scheme:dark][&::-webkit-calendar-picker-indicator]:opacity-50 [&::-webkit-calendar-picker-indicator]:cursor-pointer hover:[&::-webkit-calendar-picker-indicator]:opacity-80 transition-all"
-                                    />
-                                  </div>
-                                </div>
-                                <div className="space-y-2">
-                                  <p className="text-sm text-muted-foreground">Fecha límite:</p>
-                                  <div className="flex items-center gap-2 bg-secondary rounded px-3 py-2">
-                                    <input
-                                      type="datetime-local"
-                                      value={editTask.due_date}
-                                      onChange={(e) => setEditTask({ ...editTask, due_date: e.target.value })}
-                                      className="bg-transparent border-none text-sm text-foreground focus:outline-none [color-scheme:dark][&::-webkit-calendar-picker-indicator]:opacity-50 [&::-webkit-calendar-picker-indicator]:cursor-pointer hover:[&::-webkit-calendar-picker-indicator]:opacity-80 transition-all"
-                                    />
-                                  </div>
-                                </div>
-                                <div className="space-y-2">
-                                  <p className="text-sm text-muted-foreground">Prioridad:</p>
-                                  <div className="relative">
-                                    <select
-                                      value={editTask.priority}
-                                      onChange={(e) => setEditTask({ ...editTask, priority: Number(e.target.value) })}
-                                      className="appearance-none bg-secondary rounded px-3 py-2 pr-8 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-primary cursor-pointer"
-                                    >
-                                      <option value={1}>Alta</option>
-                                      <option value={2}>Media</option>
-                                      <option value={3}>Baja</option>
-                                    </select>
-                                    <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
-                                  </div>
-                                </div>
-                              </div>
-                            )}
-
-                            {editActiveTab === "etiquetas" && (
-                              <div className="space-y-3">
-                                <p className="text-sm text-muted-foreground">Etiquetas</p>
-                                
-                                {editSelectedTags.length > 0 && (
-                                  <div className="flex flex-wrap gap-2 mb-3">
-                                    {editSelectedTags.map((tag) => (
-                                      <span
-                                        key={tag.id}
-                                        className="text-sm px-3 py-1 rounded-full flex items-center gap-2 text-black font-medium"
-                                        style={{ backgroundColor: tag.color || "#4A4A4A" }}
-                                      >
-                                        {tag.name}
-                                        <button
-                                          type="button"
-                                          onClick={() => handleRemoveEditTag(tag.id)}
-                                          className="hover:opacity-70"
-                                        >
-                                          <X className="w-3 h-3" />
-                                        </button>
-                                      </span>
-                                    ))}
-                                  </div>
-                                )}
-
-                                <button
-                                  type="button"
-                                  onClick={() => setShowEditTagModal(true)}
-                                  className="bg-secondary hover:bg-secondary/80 text-sm text-foreground px-3 py-1.5 rounded transition-colors"
-                                >
-                                  + Añadir
-                                </button>
-                              </div>
-                            )}
-                          </div>
-
-                          {/* Edit Tabs */}
-                          <div className="flex flex-col gap-1 min-w-[130px]">
-                            <button
-                              type="button"
-                              onClick={() => setEditActiveTab("descripcion")}
-                              className={`text-left px-3 py-2 rounded text-sm transition-colors ${
-                                editActiveTab === "descripcion"
-                                  ? "bg-secondary text-foreground"
-                                  : "bg-primary/10 text-muted-foreground hover:bg-primary/20"
-                              }`}
-                            >
-                              Descripción
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() => setEditActiveTab("fecha")}
-                              className={`text-left px-3 py-2 rounded text-sm transition-colors ${
-                                editActiveTab === "fecha"
-                                  ? "bg-secondary text-foreground"
-                                  : "bg-primary/10 text-muted-foreground hover:bg-primary/20"
-                              }`}
-                            >
-                              Fecha
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() => setEditActiveTab("etiquetas")}
-                              className={`text-left px-3 py-2 rounded text-sm transition-colors ${
-                                editActiveTab === "etiquetas"
-                                  ? "bg-secondary text-foreground"
-                                  : "bg-primary/10 text-muted-foreground hover:bg-primary/20"
-                              }`}
-                            >
-                              Etiquetas
-                            </button>
-                          </div>
-                        </div>
-
-                        <div className="flex gap-3">
-                          <Button
-                            variant="secondary"
-                            onClick={handleCancelEdit}
-                            className="bg-secondary hover:bg-secondary/80 text-foreground"
-                          >
-                            Cancelar
-                          </Button>
-                          <Button
-                            onClick={handleSaveEdit}
-                            disabled={!editTask.title.trim() || isSaving}
-                            className="bg-primary hover:bg-primary/90 text-primary-foreground"
-                          >
-                            {isSaving ? "Guardando..." : "Guardar"}
-                          </Button>
+                
+                <div className="space-y-4">
+                  {col.items.map((task) => (
+                    <div key={task.id} className="glass-card flex flex-col p-5 group shadow-lg">
+                      {/* Task Header */}
+                      <div className="flex items-start gap-3 mb-3">
+                        <Checkbox
+                          checked={task.status === "done"}
+                          onCheckedChange={() => handleToggleComplete(task.id, task.status)}
+                          className="h-5 w-5 rounded border-2 border-white/20 data-[state=checked]:bg-[#FCEE8E] data-[state=checked]:border-[#FCEE8E] data-[state=checked]:text-black mt-0.5"
+                        />
+                        <div className="flex-1">
+                          <h3 className={`font-semibold leading-snug transition-colors ${task.status === "done" ? "line-through text-white/40" : "text-white/90"}`}>
+                            {task.title}
+                          </h3>
                         </div>
                       </div>
-                    ) : (
-                      /* View Mode */
-                      <div className="space-y-4">
-                        {/* Task Details Row */}
-                        <div className="flex flex-wrap gap-6">
-                          <div className="flex-1 min-w-[200px]">
-                            <p className="text-sm text-muted-foreground mb-1">Descripción</p>
-                            <p className="text-foreground">{task.description || "Sin descripción"}</p>
-                          </div>
-                          <div className="space-y-2 text-right">
-                            <div>
-                              <p className="text-sm text-muted-foreground">Fecha de inicio:</p>
-                              <p className="text-foreground">{formatDate(task.start_date) || "No definida"}</p>
-                            </div>
-                            <div>
-                              <p className="text-sm text-muted-foreground">Fecha límite:</p>
-                              <p className="text-foreground">{formatDate(task.due_date) || "No definida"}</p>
-                            </div>
-                            {task.tags && task.tags.length > 0 && (
-                              <div>
-                                <p className="text-sm text-muted-foreground">Etiqueta:</p>
-                                <div className="flex flex-wrap gap-1 justify-end mt-1">
-                                  {task.tags.map((tag) => (
-                                    <span
-                                      key={tag.id}
-                                      className="text-xs px-2 py-0.5 rounded text-black font-medium"
-                                      style={{ backgroundColor: tag.color || "#FFF59D" }}
-                                    >
-                                      {tag.name}
-                                    </span>
-                                  ))}
-                                </div>
-                              </div>
-                            )}
-                          </div>
-                        </div>
 
-                        {/* Action Cards */}
-                        <div className="grid grid-cols-2 gap-3">
+                      {/* Task Meta (Date, Tags) */}
+                      <div className="pl-8 space-y-2 mb-4">
+                        {(task.due_date || task.start_date) && (
+                          <div className="flex items-center gap-2 text-xs text-white/50">
+                            <Calendar className="w-3.5 h-3.5" />
+                            {task.due_date ? formatDate(task.due_date) : formatDate(task.start_date)}
+                          </div>
+                        )}
+                        
+                        <div className="flex flex-wrap gap-2 items-center">
+                          <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${
+                            task.priority === 1
+                              ? "bg-red-500/20 text-red-300 border border-red-500/30"
+                              : task.priority === 2
+                              ? "bg-yellow-500/20 text-yellow-300 border border-yellow-500/30"
+                              : "bg-green-500/20 text-green-300 border border-green-500/30"
+                          }`}>
+                            {getPriorityLabel(task.priority)}
+                          </span>
+                          
+                          {task.tags && task.tags.map(tag => (
+                            <span
+                              key={tag.id}
+                              className="text-[10px] px-2 py-0.5 rounded-full font-medium text-black"
+                              style={{ backgroundColor: tag.color || "#FFF59D" }}
+                            >
+                              {tag.name}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Task Toolbar */}
+                      <div className="mt-auto pt-4 border-t border-white/10 flex items-center justify-between pl-8 gap-2">
+                        <div className="flex gap-2">
                           <button
                             type="button"
                             onClick={() => handleStartEdit(task)}
-                            className="bg-[hsl(var(--edittask))] hover:bg-[#93815B] rounded-lg p-4 text-left transition-colors shadow-lg"
+                            className="p-1.5 rounded-md hover:bg-white/10 text-white/50 hover:text-white transition-colors"
+                            title="Editar tarea"
                           >
-                            <div className="flex items-center gap-2 text-foreground font-medium mb-1">
-                              <Pencil className="w-4 h-4" />
-                              Editar tarea
-                            </div>
-                            <p className="text-sm text-muted-foreground drop-shadow-lg">Cambia la información acerca de la tarea</p>
+                            <Pencil className="w-4 h-4" />
                           </button>
                           <button
                             type="button"
                             onClick={() => router.push(`/dashboard/pomodoro/${task.id}`)}
-                            className="bg-[hsl(var(--pomodoro))] hover:bg-[#9A6A72] rounded-lg p-4 text-left transition-colors shadow-lg"
+                            className="p-1.5 rounded-md hover:bg-white/10 text-white/50 hover:text-white transition-colors"
+                            title="Pomodoro"
                           >
-                            <div className="flex items-center gap-2 text-foreground font-medium mb-1">
-                              <Timer className="w-4 h-4" />
-                              Método Pomodoro
-                            </div>
-                            <p className="text-sm text-muted-foreground drop-shadow-lg">25 mins + 5 descanso · Ciclos: 4</p>
+                            <Timer className="w-4 h-4" />
                           </button>
                           <button
                             type="button"
@@ -986,30 +782,116 @@ export function TaskList({ userId }: TaskListProps) {
                               setSelectedTaskIdForNotes(task.id)
                               setNotesModalOpen(true)
                             }}
-                            className="bg-[hsl(var(--notes))] hover:bg-[#7A6A53] rounded-lg p-4 text-left transition-colors shadow-lg"
+                            className="p-1.5 rounded-md hover:bg-white/10 text-white/50 hover:text-white transition-colors"
+                            title="Notas"
                           >
-                            <div className="flex items-center gap-2 text-foreground font-medium mb-1">
-                              <FileText className="w-4 h-4" />
-                              Hacer anotaciones
-                            </div>
-                            <p className="text-sm text-muted-foreground drop-shadow-lg">Notas rápidas, no pierdas tus ideas</p>
+                            <FileText className="w-4 h-4" />
                           </button>
                           <button
                             type="button"
                             onClick={() => router.push(`/dashboard/cronometro/${task.id}`)}
-                            className="bg-[hsl(var(--cronometro))] hover:bg-[#5A6578] rounded-lg p-4 text-left transition-colors shadow-lg"
+                            className="p-1.5 rounded-md hover:bg-white/10 text-white/50 hover:text-white transition-colors"
+                            title="Cronómetro"
                           >
-                            <div className="flex items-center gap-2 text-foreground font-medium mb-1">
-                              <Clock className="w-4 h-4" />
-                              Cronómetro libre
-                            </div>
-                            <p className="text-sm text-muted-foreground drop-shadow-lg">Elige tu tiempo de trabajo personalizado</p>
+                            <Clock className="w-4 h-4" />
                           </button>
                         </div>
+                        <button
+                          type="button"
+                          onClick={() => handleDeleteTask(task.id)}
+                          className="p-1.5 rounded-md hover:bg-red-500/20 text-white/50 hover:text-red-400 transition-colors"
+                          title="Eliminar tarea"
+                        >
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-trash-icon lucide-trash"><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                        </button>
                       </div>
-                    )}
-                  </div>
-                )}
+
+                      {/* Inline Edit Form Overlay */}
+                      {editingTaskId === task.id && (
+                        <div className="absolute inset-0 bg-black/90 backdrop-blur-xl rounded-2xl p-5 z-10 flex flex-col overflow-y-auto custom-scrollbar">
+                           <div className="flex justify-between items-center mb-4">
+                             <h4 className="font-semibold text-white">Editar Tarea</h4>
+                             <button onClick={handleCancelEdit} className="text-white/50 hover:text-white"><X className="w-5 h-5" /></button>
+                           </div>
+                           
+                           <Input
+                             value={editTask.title}
+                             onChange={(e) => setEditTask({ ...editTask, title: e.target.value })}
+                             className="bg-white/5 border-white/10 text-white font-medium mb-3 focus-visible:ring-1 focus-visible:ring-white/30"
+                             placeholder="Título de la tarea"
+                           />
+                           
+                           <div className="space-y-4 mb-4 flex-1">
+                             <div>
+                               <p className="text-xs text-white/50 mb-1">Descripción</p>
+                               <textarea
+                                 value={editTask.description}
+                                 onChange={(e) => setEditTask({ ...editTask, description: e.target.value })}
+                                 className="w-full bg-white/5 border border-white/10 rounded-lg p-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-white/30 min-h-[80px] resize-none"
+                               />
+                             </div>
+                             
+                             <div className="grid grid-cols-2 gap-3">
+                               <div>
+                                 <p className="text-xs text-white/50 mb-1">Inicio</p>
+                                 <input
+                                   type="datetime-local"
+                                   value={editTask.start_date}
+                                   onChange={(e) => setEditTask({ ...editTask, start_date: e.target.value })}
+                                   className="w-full bg-white/5 border border-white/10 rounded p-2 text-xs text-white focus:outline-none [color-scheme:dark]"
+                                 />
+                               </div>
+                               <div>
+                                 <p className="text-xs text-white/50 mb-1">Límite</p>
+                                 <input
+                                   type="datetime-local"
+                                   value={editTask.due_date}
+                                   onChange={(e) => setEditTask({ ...editTask, due_date: e.target.value })}
+                                   className="w-full bg-white/5 border border-white/10 rounded p-2 text-xs text-white focus:outline-none [color-scheme:dark]"
+                                 />
+                               </div>
+                             </div>
+
+                             <div>
+                                <p className="text-xs text-white/50 mb-1">Prioridad</p>
+                                <select
+                                  value={editTask.priority}
+                                  onChange={(e) => setEditTask({ ...editTask, priority: Number(e.target.value) })}
+                                  className="w-full bg-white/5 border border-white/10 rounded p-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-white/30 [&>option]:bg-black"
+                                >
+                                  <option value={1}>Alta</option>
+                                  <option value={2}>Media</option>
+                                  <option value={3}>Baja</option>
+                                </select>
+                             </div>
+                             
+                             <div>
+                                <p className="text-xs text-white/50 mb-1">Etiquetas</p>
+                                <div className="flex flex-wrap gap-2 mb-2">
+                                  {editSelectedTags.map((tag) => (
+                                    <span key={tag.id} className="text-[10px] px-2 py-0.5 rounded-full flex items-center gap-1 text-black font-medium" style={{ backgroundColor: tag.color || "#FFF59D" }}>
+                                      {tag.name}
+                                      <button type="button" onClick={() => handleRemoveEditTag(tag.id)}><X className="w-3 h-3" /></button>
+                                    </span>
+                                  ))}
+                                </div>
+                                <button type="button" onClick={() => setShowEditTagModal(true)} className="bg-white/10 hover:bg-white/20 border border-white/10 text-xs text-white px-3 py-1.5 rounded transition-colors">
+                                  + Añadir etiqueta
+                                </button>
+                             </div>
+                           </div>
+
+                           <div className="mt-auto flex gap-2">
+                             <Button onClick={handleSaveEdit} disabled={!editTask.title.trim() || isSaving} className="flex-1 bg-[#FCEE8E] hover:bg-[#FCEE8E]/90 text-black font-medium">
+                               {isSaving ? "Guardando..." : "Guardar Cambios"}
+                             </Button>
+                           </div>
+                        </div>
+                      )}
+
+                    </div>
+                  ))}
+                </div>
               </div>
             ))}
           </div>
@@ -1018,15 +900,15 @@ export function TaskList({ userId }: TaskListProps) {
 
       {/* Tag Selection Modal */}
       {(showTagModal || showEditTagModal) && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-card border border-border rounded-xl p-5 w-full max-w-md mx-4 space-y-4">
-            <h3 className="text-lg font-semibold text-foreground drop-shadow-md">Etiqueta</h3>
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">
+          <div className="glass-panel p-5 w-full max-w-md mx-4 space-y-4">
+            <h3 className="text-lg font-semibold text-white drop-shadow-md">Etiqueta</h3>
             
             <Input
               placeholder="Buscar etiqueta"
               value={tagSearchQuery}
               onChange={(e) => setTagSearchQuery(e.target.value)}
-              className="bg-secondary border-none text-foreground shadow-sm placeholder:text-muted-foreground focus-visible:ring-1 focus-visible:ring-primary"
+              className="bg-white/5 border-white/10 text-white placeholder:text-white/40 focus-visible:ring-1 focus-visible:ring-white/30"
             />
 
             {/* Tags List */}
@@ -1048,7 +930,7 @@ export function TaskList({ userId }: TaskListProps) {
             <button
               type="button"
               onClick={() => setShowNewTagModal(true)}
-              className="text-foreground hover:text-primary transition-colors text-sm font-medium"
+              className="text-white hover:text-white/80 transition-colors text-sm font-medium"
             >
               + Nueva etiqueta
             </button>
@@ -1062,7 +944,7 @@ export function TaskList({ userId }: TaskListProps) {
                   setShowEditTagModal(false)
                   setTagSearchQuery("")
                 }}
-                className="bg-secondary hover:bg-secondary/80 text-foreground"
+                className="bg-white/10 hover:bg-white/20 border border-white/10 text-white"
               >
                 Cerrar
               </Button>
@@ -1073,21 +955,21 @@ export function TaskList({ userId }: TaskListProps) {
 
       {/* New Tag Modal */}
       {showNewTagModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[60]">
-          <div className="bg-card border border-border rounded-xl p-5 w-full max-w-md mx-4 space-y-4">
-            <h3 className="text-lg font-semibold text-foreground">Nueva etiqueta</h3>
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[60]">
+          <div className="glass-panel p-5 w-full max-w-md mx-4 space-y-4">
+            <h3 className="text-lg font-semibold text-white">Nueva etiqueta</h3>
             
             <div className="space-y-2">
-              <p className="text-xs text-muted-foreground">Nombre</p>
+              <p className="text-xs text-white/60">Nombre</p>
               <Input
                 value={newTagName}
                 onChange={(e) => setNewTagName(e.target.value)}
-                className="bg-secondary border-none text-foreground focus-visible:ring-1 focus-visible:ring-primary"
+                className="bg-white/5 border-white/10 text-white focus-visible:ring-1 focus-visible:ring-white/30"
               />
             </div>
 
             <div className="space-y-2">
-              <p className="text-xs text-muted-foreground">Selecciona un color</p>
+              <p className="text-xs text-white/60">Selecciona un color</p>
               <div className="flex gap-2">
                 {TAG_COLORS.map((color) => (
                   <button
@@ -1111,14 +993,14 @@ export function TaskList({ userId }: TaskListProps) {
                   setNewTagName("")
                   setNewTagColor(TAG_COLORS[0].value)
                 }}
-                className="bg-secondary hover:bg-secondary/80 text-foreground"
+                className="bg-white/10 hover:bg-white/20 border border-white/10 text-white"
               >
                 Cancelar
               </Button>
               <Button
                 onClick={handleCreateTag}
                 disabled={!newTagName.trim() || isCreatingTag}
-                className="bg-primary hover:bg-primary/90 text-primary-foreground"
+                className="bg-[#FCEE8E] hover:bg-[#FCEE8E]/90 text-black font-medium border-none"
               >
                 {isCreatingTag ? "Guardando..." : "Guardar"}
               </Button>

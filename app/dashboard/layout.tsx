@@ -15,7 +15,7 @@ export default function DashboardLayout({
     <ToastProvider>
       <AuthListener />
       <MusicProvider>
-          <div className="min-h-screen bg-[#1F1F1F]">
+          <div className="min-h-screen bg-spotify-gradient text-foreground selection:bg-white/20">
             <Suspense fallback={<HeaderSkeleton />}>
               <MainHeader />
               <DashboardContent>{children}</DashboardContent>

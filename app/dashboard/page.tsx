@@ -38,11 +38,13 @@ async function DashboardContent() {
   const firstName = profile.full_name?.split(" ")[0] || "Usuario"
 
   return (
-    <div className="min-h-screen bg-background p-8 md:p-12">
-      <div className="max-w-4xl mx-auto">
-        <div className="mb-8">
-          <h1 className="text-3xl md:text-5xl font-bold mb-2 text-foreground drop-shadow-lg">{greeting}, {firstName}</h1>
-          <p className="text-muted-foreground md:text-xl drop-shadow-lg">Hoy es un buen día para avanzar. ¿Qué tienes planeado?</p>
+    <div className="min-h-[calc(100vh-4rem)] p-4 md:p-6 lg:p-8">
+      <div className="max-w-[1400px] mx-auto glass-panel p-6 md:p-8 min-h-[85vh]">
+        <div className="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
+          <div>
+            <h1 className="text-3xl md:text-5xl font-bold mb-2 text-white drop-shadow-md">{greeting}, {firstName}</h1>
+            <p className="text-white/70 md:text-xl font-medium">Hoy es un buen día para avanzar. ¿Qué tienes planeado?</p>
+          </div>
         </div>
         <TaskList userId={user.id} />
       </div>
@@ -52,9 +54,13 @@ async function DashboardContent() {
 
 export default function DashboardPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-background p-8 md:p-12">
-      <div className="min-h-screen bg-background flex items-center justify-center text-muted-foreground">Cargando...</div>
-    </div>}>
+    <Suspense fallback={
+      <div className="min-h-[calc(100vh-4rem)] p-4 md:p-6 lg:p-8">
+        <div className="min-h-[85vh] max-w-[1400px] mx-auto glass-panel flex items-center justify-center text-white/70">
+          Cargando...
+        </div>
+      </div>
+    }>
       <DashboardContent />
     </Suspense>
   )

@@ -86,51 +86,52 @@ export function MusicSidebar({ isOpen, onClose }: { isOpen: boolean; onClose: ()
     <>
       {/* Sidebar - From Right, below header */}
       <aside
-        className={`fixed right-0 top-16 h-[calc(100vh-64px)] w-[420px] bg-background p-6 transform transition-all duration-300 ease-in-out z-50 overflow-y-auto ${
+        className={`fixed right-0 top-16 h-[calc(100vh-64px)] w-[420px] bg-black/60 backdrop-blur-2xl border-l border-white/10 p-6 transform transition-all duration-300 ease-in-out z-50 overflow-y-auto ${
           isOpen ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0 pointer-events-none'
         }`}
       >
         {/* Header */}
-        <div className="flex items-center justify-center mb-1">
-          <h2 className="text-sm font-semibold text-foreground ">Música</h2>
+        <div className="flex items-center justify-center mb-6">
+          <h2 className="text-sm font-semibold text-white/90 tracking-wide uppercase">Música & Ambiente</h2>
         </div>
 
         {/* Ambient Sounds Section - Container */}
-        <div className="mb-3 bg-[hsl(var(--cardsound))] rounded-lg p-4 shadow-lg space-y-4">
-          <div className="flex items-center gap-2 mb-4">
-            <h3 className="text-sm font-semibold text-foreground drop-shadow-lg">Sonidos de Ambiente</h3>
+        <div className="mb-6 glass-card p-5 border-none bg-white/5 space-y-4">
+          <div className="flex items-center gap-2 mb-2">
+            <h3 className="text-sm font-semibold text-white/90">Sonidos de Ambiente</h3>
             <span title="Si te gustan los sonidos, ajusta el volumen a tu preferencia. ">
-              <Info className="h-4 w-4 text-muted-foreground cursor-help" />
+              <Info className="h-4 w-4 text-white/40 cursor-help" />
             </span>
           </div>
 
           <div className="space-y-3">
             {ambientSounds.map(sound => (
-              <div key={sound.id} className="bg-[hsl(var(--minicardsound))] rounded-md p-3 space-y-2 shadow-sm">
+              <div key={sound.id} className="bg-white/5 border border-white/10 rounded-lg p-3 space-y-3 shadow-sm">
                 <div className="flex items-center gap-2">
-                  <Volume2 className="h-4 w-4 text-foreground flex-shrink-0" />
-                  <span className="text-sm text-foreground flex-1 drop-shadow-lg">{sound.name}</span>
-                  <span className="text-xs text-muted-foreground">{sound.volume}%</span>
+                  <Volume2 className="h-4 w-4 text-white/70 flex-shrink-0" />
+                  <span className="text-sm text-white/90 flex-1">{sound.name}</span>
+                  <span className="text-xs text-white/50">{sound.volume}%</span>
                 </div>
-                <Slider
-                  value={[sound.volume]}
-                  onValueChange={newVolume => handleVolumeChange(sound.id, newVolume)}
-                  max={100}
-                  step={1}
-                  className="w-full"
-                />
+                <div className="px-1">
+                  <Slider
+                    value={[sound.volume]}
+                    onValueChange={newVolume => handleVolumeChange(sound.id, newVolume)}
+                    max={100}
+                    step={1}
+                    className="w-full"
+                  />
+                </div>
               </div>
             ))}
           </div>
         </div>
 
         {/* Spotify Playlist Section - Container */}
-        <div className="bg-[hsl(var(--cardsound))] rounded-lg p-4 space-y-4 shadow-lg">
-          <div className="flex items-center gap-2">
-            <h3 className="text-sm font-semibold text-foreground drop-shadow-lg">Playlist de Spotify</h3>
-            {/* Tooltip con title para info rápida */}
+        <div className="glass-card p-5 border-none bg-white/5 space-y-4">
+          <div className="flex items-center gap-2 mb-2">
+            <h3 className="text-sm font-semibold text-white/90">Playlist de Spotify</h3>
             <span title="Copia el enlace de la playlist desde Spotify">
-              <Info className="h-4 w-4 text-muted-foreground cursor-help" />
+              <Info className="h-4 w-4 text-white/40 cursor-help" />
             </span>
           </div>
 
@@ -140,19 +141,19 @@ export function MusicSidebar({ isOpen, onClose }: { isOpen: boolean; onClose: ()
               placeholder="Link de playlist pública"
               value={playlistUrl}
               onChange={e => setPlaylistUrl(e.target.value)}
-              className="flex-1 px-3 py-2 bg-[hsl(var(--inputurl))] shadow-sm rounded-md text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-green-500 transition-all"
+              className="flex-1 px-3 py-2 bg-black/30 border border-white/10 shadow-inner rounded-md text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-1 focus:ring-green-500/50 transition-all"
             />
           </div>
 
           {/* Error */}
           {playlistUrl && !embedUrl && (
-            <p className="text-xs text-red-400 animate-pulse drop-shadow-lg">
+            <p className="text-xs text-red-400/80 animate-pulse">
               Pega un enlace válido de Spotify
             </p>
           )}
 
           {embedUrl && (
-            <div className="rounded-xl overflow-hidden border border-gray-700">
+            <div className="rounded-xl overflow-hidden border border-white/10 shadow-lg">
               <iframe
                 src={embedUrl}
                 width="100%"
@@ -164,7 +165,7 @@ export function MusicSidebar({ isOpen, onClose }: { isOpen: boolean; onClose: ()
             </div>
           )}
 
-          <p className="text-[12px] text-muted-foreground leading-tight">
+          <p className="text-[12px] text-white/50 leading-relaxed">
             Para escuchar canciones completas aquí, inicia sesión en Spotify con el mismo navegador. Caso contrario solo escucharás 30 segundos de canción.
           </p>
 
@@ -173,7 +174,7 @@ export function MusicSidebar({ isOpen, onClose }: { isOpen: boolean; onClose: ()
               href={playlistUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block text-xs text-green-400 hover:text-green-300 transition-colors drop-shadow-lg"
+              className="inline-block text-xs text-[#1db954] hover:text-[#1ed760] transition-colors"
             >
               Abrir en Spotify →
             </a>
