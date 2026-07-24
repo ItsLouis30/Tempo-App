@@ -313,23 +313,22 @@ export function PomodoroTimerClient({ task, userId }: PomodoroTimerClientProps) 
 
   return (
     <>
-      <div className="w-full max-w-4xl mx-auto text-white font-sans">
-        {/* Breadcrumbs */}
-        <nav className="flex items-center gap-2 mb-8 text-sm font-medium opacity-80">
-          <Link href="/dashboard" className="hover:underline">Inicio</Link>
-          <span>&gt;</span>
-          <span className="uppercase tracking-wider">{task.title}</span>
-        </nav>
+      <div className="w-full max-w-4xl mx-auto text-white font-sans mt-4">
 
         {/* Main Timer Area */}
-        <div className="flex flex-col items-center mb-12">
-          <h1 className="text-2xl font-semibold mb-4 drop-shadow-lg text-white">Pomodoro Timer</h1>
+        <div className="flex flex-col items-center mb-12 mt-8">
           
-          <div className="bg-white/10 px-4 py-1.5 rounded-full text-sm mb-2 font-medium backdrop-blur-sm border border-white/10 shadow-lg text-white/90">
+          {/* Task Title Pill */}
+          <div className="flex items-center gap-2 bg-white/10 px-4 py-1.5 rounded-full backdrop-blur-md border border-white/20 shadow-sm mb-4">
+            <span className="text-white/60 text-xs font-semibold uppercase tracking-wider">Tarea:</span>
+            <span className="font-bold text-white tracking-wide text-sm">{task.title}</span>
+          </div>
+          
+          <div className="bg-white/5 px-4 py-1 rounded-full text-xs mb-8 font-medium backdrop-blur-sm border border-white/10 text-white/70 uppercase tracking-widest">
             Ciclo #{currentCycle} / {settings.pomodoro_cycles}
           </div>
           
-          <div className="text-[10rem] md:text-[11rem] font-bold leading-none mb-6 tracking-tighter tabular-nums drop-shadow-lg text-white">
+          <div className="text-[10rem] md:text-[11rem] font-bold leading-none mb-8 tracking-tighter tabular-nums drop-shadow-lg text-white">
             {formatTime(timeLeft)}
           </div>
 
@@ -380,7 +379,7 @@ export function PomodoroTimerClient({ task, userId }: PomodoroTimerClientProps) 
         <button 
           onClick={() => switchSession("pomodoro")}
           className={`flex items-center justify-between p-6 rounded-xl transition-all backdrop-blur-md border ${
-            sessionType === "pomodoro" ? "bg-white/5 border-[#8B4444]/80" : "bg-white/5 border-white/10 opacity-60 hover:opacity-100"
+            sessionType === "pomodoro" ? "bg-white/15 border-white/40 shadow-lg scale-[1.02]" : "bg-white/5 border-white/10 opacity-60 hover:opacity-100"
           }`}
         >
           <div className="bg-white/10 p-3 rounded-full text-white">
@@ -395,7 +394,7 @@ export function PomodoroTimerClient({ task, userId }: PomodoroTimerClientProps) 
         <button 
           onClick={() => switchSession("short_break")}
           className={`flex items-center justify-between p-6 rounded-xl transition-all backdrop-blur-md border ${
-            sessionType === "short_break" ? "bg-white/5 border-[#8B4444]/80" : "bg-white/5 border-white/10 opacity-60 hover:opacity-100"
+            sessionType === "short_break" ? "bg-white/15 border-white/40 shadow-lg scale-[1.02]" : "bg-white/5 border-white/10 opacity-60 hover:opacity-100"
           }`}
         >
           <div className="bg-white/10 p-3 rounded-full text-white">
@@ -410,7 +409,7 @@ export function PomodoroTimerClient({ task, userId }: PomodoroTimerClientProps) 
         <button 
           onClick={() => switchSession("long_break")}
           className={`flex items-center justify-between p-6 rounded-xl transition-all backdrop-blur-md border ${
-            sessionType === "long_break" ? "bg-white/5 border-[#8B4444]/80" : "bg-white/5 border-white/10 opacity-60 hover:opacity-100"
+            sessionType === "long_break" ? "bg-white/15 border-white/40 shadow-lg scale-[1.02]" : "bg-white/5 border-white/10 opacity-60 hover:opacity-100"
           }`}
         >
           <div className="bg-white/10 p-3 rounded-full text-white">
