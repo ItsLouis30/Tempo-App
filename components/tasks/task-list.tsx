@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation"
 import { TaskNotesModal } from "@/components/tasks/task-notes-modal"
 
 import { useState, useEffect } from "react"
-import { Plus, Calendar, ChevronDown, ChevronUp, X, Pencil, Pause, Timer, FileText, Clock } from "lucide-react"
+import { Plus, Calendar, ChevronDown, ChevronUp, X, Pencil, Pause, Timer, FileText, Clock, Search, Filter, LayoutGrid, List } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Checkbox } from "@/components/ui/checkbox"
@@ -37,6 +37,8 @@ interface Task {
 
 interface TaskListProps {
   userId: string
+  greeting: string
+  firstName: string
 }
 
 const supabase = createBrowserClient(
@@ -104,12 +106,16 @@ async function fetchUserTags(userId: string): Promise<Tag[]> {
 
 type TabType = "descripcion" | "fecha" | "etiquetas"
 
-export function TaskList({ userId }: TaskListProps) {
+export function TaskList({ userId, greeting, firstName }: TaskListProps) {
   const router = useRouter();
   const [isAddingTask, setIsAddingTask] = useState(false)
   const [activeTab, setActiveTab] = useState<TabType>("descripcion")
   const [notesModalOpen, setNotesModalOpen] = useState(false)
   const [selectedTaskIdForNotes, setSelectedTaskIdForNotes] = useState<string | null>(null)
+
+  // New state for toolbar
+  const [searchQuery, setSearchQuery] = useState("")
+  const [viewMode, setViewMode] = useState<"kanban" | "list">("kanban")
   const [newTask, setNewTask] = useState({
     title: "",
     description: "",
@@ -493,24 +499,75 @@ export function TaskList({ userId }: TaskListProps) {
   }
 
   return (
-    <div className="space-y-6">
-      {/* Add Task Button */}
-      <button
-        type="button"
-        onClick={() => setIsAddingTask(true)}
-        className="group flex items-center gap-4 px-6 py-4 glass-card shadow-xl"
-      >
-        <div className="w-10 h-10 rounded-full bg-[#FCEE8E] flex items-center justify-center group-hover:scale-105 transition-transform">
-          <Plus className="w-5 h-5 text-black" />
+    <div className="space-y-8">
+      {/* Header Row: Greeting and Add Task */}
+      <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
+        <div>
+          <h1 className="text-3xl md:text-5xl font-bold mb-2 text-white drop-shadow-md">{greeting}, {firstName}</h1>
+          <p className="text-white/70 md:text-xl font-medium">Hoy es un buen día para avanzar. ¿Qué tienes planeado?</p>
         </div>
-        <span className="text-lg text-white/80 group-hover:text-white transition-colors font-medium">
+        
+        {/* Add Task Button */}
+        <button
+          type="button"
+          onClick={() => setIsAddingTask(true)}
+          className="flex items-center gap-2 px-5 py-2.5 bg-white text-black rounded-full font-medium hover:bg-white/90 transition-all shadow-sm"
+        >
+          <Plus className="w-5 h-5" />
           Agregar tarea
-        </span>
-      </button>
+        </button>
+      </div>
+
+      {/* Toolbar Row */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        {/* Left: Search & Filter */}
+        <div className="flex flex-1 max-w-md items-center gap-3">
+          <div className="relative flex-1">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" />
+            <input
+              type="text"
+              placeholder="Buscar..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full bg-white/[0.04] border border-white/10 rounded-full pl-10 pr-4 py-2 text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-1 focus:ring-white/30 transition-all"
+            />
+          </div>
+          <button className="flex items-center gap-2 px-4 py-2 bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 rounded-full text-sm text-white transition-all shadow-sm">
+            <Filter className="w-4 h-4 text-white/70" />
+            Filtrar
+          </button>
+        </div>
+
+        {/* Right: View Selector */}
+        <div className="flex items-center gap-1 bg-white/[0.04] border border-white/10 rounded-full p-1 shadow-sm">
+          <button
+            onClick={() => setViewMode("kanban")}
+            className={`flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-medium transition-all ${
+              viewMode === "kanban" 
+                ? "bg-white text-black shadow-sm" 
+                : "text-white/70 hover:text-white"
+            }`}
+          >
+            <LayoutGrid className="w-4 h-4" />
+            Kanban
+          </button>
+          <button
+            onClick={() => setViewMode("list")}
+            className={`flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-medium transition-all ${
+              viewMode === "list" 
+                ? "bg-white text-black shadow-sm" 
+                : "text-white/70 hover:text-white"
+            }`}
+          >
+            <List className="w-4 h-4" />
+            Lista
+          </button>
+        </div>
+      </div>
 
       {/* Tasks Section */}
       <div className="space-y-4">
-        <h2 className="text-2xl md:text-3xl font-bold text-foreground drop-shadow-lg">
+        <h2 className="text-sm font-bold text-white/50 tracking-widest uppercase">
           TUS TAREAS
         </h2>
 

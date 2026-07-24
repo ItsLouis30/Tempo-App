@@ -40,13 +40,7 @@ async function DashboardContent() {
   return (
     <div className="min-h-[calc(100vh-4rem)] p-4 md:p-6 lg:p-8">
       <div className="max-w-[1400px] mx-auto glass-panel p-6 md:p-8 min-h-[85vh]">
-        <div className="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
-          <div>
-            <h1 className="text-3xl md:text-5xl font-bold mb-2 text-white drop-shadow-md">{greeting}, {firstName}</h1>
-            <p className="text-white/70 md:text-xl font-medium">Hoy es un buen día para avanzar. ¿Qué tienes planeado?</p>
-          </div>
-        </div>
-        <TaskList userId={user.id} />
+        <TaskList userId={user.id} greeting={greeting} firstName={firstName} />
       </div>
     </div>
   )
