@@ -380,7 +380,7 @@ export function PomodoroTimerClient({ task, userId }: PomodoroTimerClientProps) 
         <button 
           onClick={() => switchSession("pomodoro")}
           className={`flex items-center justify-between p-6 rounded-xl transition-all backdrop-blur-md border ${
-            sessionType === "pomodoro" ? "bg-white/5 border-rose-500/40" : "bg-white/5 border-white/10 opacity-60 hover:opacity-100"
+            sessionType === "pomodoro" ? "bg-white/5 border-[#8B4444]/80" : "bg-white/5 border-white/10 opacity-60 hover:opacity-100"
           }`}
         >
           <div className="bg-white/10 p-3 rounded-full text-white">
@@ -395,7 +395,7 @@ export function PomodoroTimerClient({ task, userId }: PomodoroTimerClientProps) 
         <button 
           onClick={() => switchSession("short_break")}
           className={`flex items-center justify-between p-6 rounded-xl transition-all backdrop-blur-md border ${
-            sessionType === "short_break" ? "bg-white/5 border-rose-500/40" : "bg-white/5 border-white/10 opacity-60 hover:opacity-100"
+            sessionType === "short_break" ? "bg-white/5 border-[#8B4444]/80" : "bg-white/5 border-white/10 opacity-60 hover:opacity-100"
           }`}
         >
           <div className="bg-white/10 p-3 rounded-full text-white">
@@ -410,7 +410,7 @@ export function PomodoroTimerClient({ task, userId }: PomodoroTimerClientProps) 
         <button 
           onClick={() => switchSession("long_break")}
           className={`flex items-center justify-between p-6 rounded-xl transition-all backdrop-blur-md border ${
-            sessionType === "long_break" ? "bg-white/5 border-rose-500/40" : "bg-white/5 border-white/10 opacity-60 hover:opacity-100"
+            sessionType === "long_break" ? "bg-white/5 border-[#8B4444]/80" : "bg-white/5 border-white/10 opacity-60 hover:opacity-100"
           }`}
         >
           <div className="bg-white/10 p-3 rounded-full text-white">
