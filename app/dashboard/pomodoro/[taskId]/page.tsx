@@ -49,7 +49,7 @@ async function PomodoroContent({
       <div className="fixed inset-0 z-[-1] bg-gradient-to-br from-[#8B4444]/90 via-[#8B4444]/85 to-black/95 pointer-events-none" />
       <div className="fixed inset-0 z-[-1] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-red-400/10 blur-[150px] rounded-full pointer-events-none" />
       
-      <div className="p-8 md:p-12 relative w-full flex-1">
+      <div className="px-8 py-2 md:px-12 md:py-4 relative w-full flex-1">
         <PomodoroTimerClient task={task} userId={user.id} />
       </div>
     </>

@@ -313,10 +313,10 @@ export function PomodoroTimerClient({ task, userId }: PomodoroTimerClientProps) 
 
   return (
     <>
-      <div className="w-full max-w-4xl mx-auto text-white font-sans mt-4">
+      <div className="w-full max-w-4xl mx-auto text-white font-sans">
 
         {/* Main Timer Area */}
-        <div className="flex flex-col items-center mb-12 mt-8">
+        <div className="flex flex-col items-center mb-12 pt-4">
           
           {/* Task Title Pill */}
           <div className="flex items-center gap-2 bg-white/10 px-4 py-1.5 rounded-full backdrop-blur-md border border-white/20 shadow-sm mb-4">
