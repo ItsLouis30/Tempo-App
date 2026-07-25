@@ -190,8 +190,87 @@ with check (
   exists (
     select 1
     from tasks
-    where tasks.id = task_tags.task_id
-      and tasks.user_id = auth.uid()
   )
 );
+
+--- TABLEROS COMPARTIDOS (SHARED LINKS) ---
+CREATE TABLE IF NOT EXISTS public.shared_links (
+    id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+    user_id UUID NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
+    token TEXT NOT NULL UNIQUE,
+    is_active BOOLEAN DEFAULT true,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL,
+    UNIQUE(user_id) -- Sólo un enlace activo por usuario
+);
+
+-- RLS para shared_links
+ALTER TABLE public.shared_links ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Users can view their own shared link" 
+    ON public.shared_links FOR SELECT 
+    USING (auth.uid() = user_id);
+
+CREATE POLICY "Users can insert their own shared link" 
+    ON public.shared_links FOR INSERT 
+    WITH CHECK (auth.uid() = user_id);
+
+CREATE POLICY "Users can update their own shared link" 
+    ON public.shared_links FOR UPDATE 
+    USING (auth.uid() = user_id);
+
+-- RPC function para obtener datos del tablero sin exponer RLS
+CREATE OR REPLACE FUNCTION get_shared_board_data(p_token TEXT)
+RETURNS JSONB
+LANGUAGE plpgsql
+SECURITY DEFINER -- Permite ejecutar la función con permisos de administrador (bypasseando RLS para la vista pública)
+AS $$
+DECLARE
+    v_user_id UUID;
+    v_profile JSONB;
+    v_tasks JSONB;
+    v_tags JSONB;
+    v_task_tags JSONB;
+    v_result JSONB;
+BEGIN
+    -- 1. Verify token and get user_id
+    SELECT user_id INTO v_user_id
+    FROM public.shared_links
+    WHERE token = p_token AND is_active = true;
+
+    IF v_user_id IS NULL THEN
+        RETURN NULL;
+    END IF;
+
+    -- 2. Get Profile info
+    SELECT to_jsonb(p) INTO v_profile
+    FROM public.profiles p
+    WHERE id = v_user_id;
+
+    -- 3. Get Tasks
+    SELECT COALESCE(jsonb_agg(t), '[]'::jsonb) INTO v_tasks
+    FROM public.tasks t
+    WHERE user_id = v_user_id;
+
+    -- 4. Get Tags
+    SELECT COALESCE(jsonb_agg(tg), '[]'::jsonb) INTO v_tags
+    FROM public.tags tg
+    WHERE user_id = v_user_id;
+
+    -- 5. Get Task Tags
+    SELECT COALESCE(jsonb_agg(tt), '[]'::jsonb) INTO v_task_tags
+    FROM public.task_tags tt
+    WHERE task_id IN (SELECT id FROM public.tasks WHERE user_id = v_user_id);
+
+    -- 6. Combine all into a single JSONB object
+    v_result := jsonb_build_object(
+        'profile', v_profile,
+        'tasks', v_tasks,
+        'tags', v_tags,
+        'task_tags', v_task_tags
+    );
+
+    RETURN v_result;
+END;
+$$;
 
