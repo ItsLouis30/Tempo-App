@@ -58,7 +58,7 @@ export function SharedBoardClient({ profile, tasks, tags, taskTags }: SharedBoar
       {/* Header Row */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <h2 className="text-sm font-bold text-white/50 tracking-widest uppercase">
-          TAREAS DE {profile.full_name?.toUpperCase() || 'USUARIO'}
+          TAREAS
         </h2>
 
         {/* View Selector */}
@@ -97,7 +97,7 @@ export function SharedBoardClient({ profile, tasks, tags, taskTags }: SharedBoar
           {viewMode === "kanban" ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
               {processedTasks.map((task) => (
-                <div key={task.id} className="glass-panel p-5 space-y-4 shadow-md flex flex-col h-full opacity-90">
+                <div key={task.id} className="glass-card p-5 space-y-4 shadow-lg flex flex-col h-full group hover:shadow-xl transition-all">
                   {/* Status Indicator */}
                   <div className="flex items-start justify-between gap-3">
                     <div className="flex items-center gap-3">
@@ -169,7 +169,7 @@ export function SharedBoardClient({ profile, tasks, tags, taskTags }: SharedBoar
           ) : (
             <div className="space-y-2">
               {processedTasks.map((task) => (
-                <div key={task.id} className="glass-panel p-4 shadow-sm flex items-center justify-between gap-4 group opacity-90">
+                <div key={task.id} className="glass-card p-4 shadow-sm flex items-center justify-between gap-4 group hover:shadow-md transition-all">
                   <div className="flex items-center gap-4 flex-1">
                     <div className={`w-5 h-5 rounded border-2 border-white/20 flex items-center justify-center shrink-0 ${task.status === 'done' ? 'bg-[#A8E6CF]/20 border-[#A8E6CF]' : 'opacity-50'}`}>
                       {task.status === 'done' && <div className="w-3 h-3 bg-[#A8E6CF] rounded-[1px]" />}

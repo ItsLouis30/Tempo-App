@@ -35,24 +35,37 @@ async function SharedBoardContent({ params }: { params: Promise<{ token: string 
         }}
       />
       {/* Content */}
-      <div className="relative z-10">
-        {/* Simple Header for Visitors */}
-        <header className="sticky top-0 z-50 w-full pt-4 pb-2 px-6 md:px-12 flex justify-between items-center bg-transparent backdrop-blur-sm border-b border-white/5">
-          <div className="flex items-center gap-2">
-            <span className="font-bold text-xl drop-shadow-md text-white tracking-wide">
-              Tempo
-            </span>
-            <span className="text-white/40 text-sm">|</span>
-            <span className="text-white/70 font-medium text-sm">Tablero de {profile.full_name?.split(' ')[0] || 'Usuario'}</span>
+      <div className="relative z-10 flex flex-col min-h-screen">
+        <header className="sticky top-0 z-50 w-full pt-4 pb-2 px-6 md:px-12">
+          <div className="flex h-14 items-center justify-between relative w-full">
+            {/* Left side - Logo */}
+            <div className="flex items-center">
+              <a href="/" className="flex items-center gap-2 group hover:drop-shadow-[0_0_12px_rgba(255,255,255,0.7)] transition-all">
+                <img src="/logo.png" alt="Tempo" width={36} height={36} className="transition-transform duration-300 ease-out group-hover:scale-110" />
+                <span className="font-bold text-lg drop-shadow-md text-white tracking-wide">
+                  Tempo
+                </span>
+              </a>
+            </div>
+
+            {/* Center - Name badge */}
+            <div className="absolute left-1/2 -translate-x-1/2 flex items-center">
+              <div className="bg-white/5 hover:bg-white/10 backdrop-blur-md border border-white/10 px-4 py-1.5 rounded-full transition-all text-sm font-medium text-white/90">
+                Tablero de {profile.full_name?.split(' ')[0] || 'Usuario'}
+              </div>
+            </div>
+
+            {/* Right side - CTA */}
+            <div className="flex items-center gap-4">
+              <a href="/" className="px-4 py-1.5 bg-white/10 hover:bg-white/20 text-white rounded-full text-sm font-medium transition-all hover:scale-[1.02] border border-white/10 backdrop-blur-md">
+                Crear mi cuenta
+              </a>
+            </div>
           </div>
-          
-          <a href="/" className="px-4 py-1.5 bg-white/10 hover:bg-white/20 text-white rounded-full text-sm font-medium transition-colors border border-white/10 backdrop-blur-md">
-            Crear mi cuenta
-          </a>
         </header>
 
-        <div className="p-4 md:p-6 lg:p-8">
-          <div className="max-w-[1400px] mx-auto glass-panel p-6 md:p-8 min-h-[85vh]">
+        <div className="p-4 md:p-6 lg:p-8 flex-1 flex flex-col">
+          <div className="max-w-[1400px] mx-auto w-full glass-panel p-6 md:p-8 flex-1">
             <SharedBoardClient 
               profile={profile} 
               tasks={tasks || []} 
@@ -63,7 +76,7 @@ async function SharedBoardContent({ params }: { params: Promise<{ token: string 
         </div>
         
         {/* Footer CTA */}
-        <footer className="w-full text-center py-8 text-white/50 text-sm">
+        <footer className="w-full text-center py-6 text-white/50 text-sm mt-auto">
           ¿Te gusta cómo se ve esto? <a href="/" className="text-white/80 hover:text-white underline underline-offset-2">Regístrate en Tempo</a> para usar cronómetros, analíticas y música.
         </footer>
       </div>
