@@ -8,6 +8,7 @@ import Image from "next/image"
 import { NotificationsPanel } from "@/components/notifications/notifications-panel"
 import { TopNav } from "@/components/header/top-nav"
 import { ThemeSelector } from "@/components/theme/theme-selector"
+import { ShareButton } from "@/components/header/share-button"
 
 async function getHeaderData() {
   
@@ -51,6 +52,7 @@ export async function MainHeader() {
 
         {/* Right side - Notifications, Theme, Music and User Menu */}
         <div className="flex items-center gap-4">
+          <ShareButton userId={userId} />
           <ThemeSelector />
           <MusicButton />
           <NotificationsPanel userId={userId} />
