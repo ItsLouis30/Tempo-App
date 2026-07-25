@@ -21,12 +21,13 @@ Tempo es una aplicación web de productividad construida para organizar tus tare
 | Característica | Descripción |
 | :--- | :--- |
 | 🔐 **Autenticación Segura** | Registro, inicio de sesión y recuperación de contraseña impulsados por Supabase. |
+| 🤝 **Tableros Compartidos** | Comparte tus tareas mediante un enlace público de solo lectura. Los visitantes no necesitan cuenta para visualizar tu progreso. |
 | 📝 **Gestión de Tareas** | Crea, edita, reordena y prioriza tus tareas. Añade etiquetas y notas detalladas. |
-| 🍅 **Bloques de Enfoque** | Integración de Pomodoro nativo y cronómetro libre vinculados a cada tarea. |
+| 🍅 **Bloques de Enfoque** | Integración de Pomodoro nativo y cronómetro libre vinculados a cada tarea, con un elegante diseño "Glassmorphism". |
 | 📅 **Calendario Interactivo** | Vista mensual y semanal completa para que no pierdas ningún vencimiento. |
 | 🎧 **Acompañamiento Musical** | Sonidos de ambiente y reproductor integrado de Spotify para máxima concentración. |
 | 🔔 **Recordatorios** | Sistema de notificaciones en tiempo real para no olvidar lo importante. |
-| 🎨 **Diseño Impecable** | UI minimalista, animaciones suaves con Framer Motion y soporte de Modo Oscuro. |
+| 🎨 **Diseño Impecable** | Interfaz Glassmorphism, animaciones suaves con Framer Motion y adaptación dinámica de colores. |
 
 ---
 
@@ -89,7 +90,9 @@ El proyecto está construido sobre las herramientas más modernas del ecosistema
 
 ```mermaid
 flowchart TD
-    U([Usuario]) --> A[Next.js App Router]
+    U([Usuario Autenticado]) --> A[Next.js App Router]
+    V([Visitante Anónimo]) --> |Enlace Compartido| A
+    
     A --> L[Layout Raíz / Tema Global]
     A --> P[Middleware / Proxy de Sesión]
     P -- Valida --> S[(Supabase Auth)]
@@ -97,6 +100,7 @@ flowchart TD
     A --> R1(Páginas de Auth)
     A --> R2(Onboarding de Perfil)
     A --> R3(Dashboard Principal)
+    A --> R4(Vista de Tablero Compartido)
     
     R3 --> T[Lista de Tareas]
     R3 --> C[Calendario Interactivo]
@@ -104,6 +108,7 @@ flowchart TD
     
     H --> M[Música y Ambiente]
     H --> N[Panel de Recordatorios]
+    H --> S2[Generador de Enlaces Públicos]
     
     R3 --> P1[Pomodoro Integrado]
     R3 --> P2[Cronómetro Libre]
@@ -113,9 +118,11 @@ flowchart TD
     P1 -.-> DB
     P2 -.-> DB
     N -.-> DB
+    
+    R4 -.-> |RPC Security Definer| DB
 ```
 
-> **Nota de Seguridad:** El middleware asegura que solo usuarios autenticados y con onboarding completado puedan acceder a `/dashboard`.
+> **Nota de Seguridad:** El middleware asegura que solo usuarios autenticados y con onboarding completado puedan acceder a `/dashboard`. Las rutas públicas como `/shared` están explícitamente permitidas sin comprometer la seguridad de las rutas protegidas.
 
 ---
 
