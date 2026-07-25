@@ -46,8 +46,8 @@ export function CronometroSettingsModal({
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="bg-[#1F1F1F] rounded-xl border border-white/10 w-full max-w-md shadow-2xl">
+    <div className="fixed inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center z-50 p-4">
+      <div className="bg-white/10 backdrop-blur-xl rounded-2xl border border-white/20 w-full max-w-md shadow-2xl overflow-hidden">
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-white/10">
           <h2 className="text-xl font-bold text-white">Configurar Cronómetro</h2>
@@ -73,7 +73,7 @@ export function CronometroSettingsModal({
                 max="900"
                 value={cronometroDuration}
                 onChange={(e) => setCronometroDuration(Math.max(1, parseInt(e.target.value) || 1))}
-                className="flex-1 bg-[#2D2D2D] border border-white/10 rounded-lg px-4 py-2 text-white placeholder-white/40 focus:outline-none focus:border-white/30 transition-colors"
+                className="flex-1 bg-black/20 border border-white/10 rounded-lg px-4 py-2 text-white placeholder-white/40 focus:outline-none focus:border-white/30 shadow-inner transition-all"
               />
               <span className="text-white/60 text-sm">min</span>
             </div>
@@ -82,19 +82,19 @@ export function CronometroSettingsModal({
         </div>
 
         {/* Footer */}
-        <div className="flex gap-3 p-6 border-t border-white/10">
+        <div className="flex gap-3 p-6 border-t border-white/10 bg-black/20">
           <button
             onClick={onClose}
-            className="flex-1 px-4 py-2 bg-[#2D2D2D] hover:bg-[#3D3D3D] text-white rounded-lg transition-colors font-medium"
+            className="flex-1 px-4 py-2.5 bg-white/5 hover:bg-white/10 text-white/90 rounded-xl transition-all font-medium border border-white/5 shadow-sm"
           >
             Cancelar
           </button>
           <button
             onClick={handleSave}
             disabled={isSaving}
-            className="flex-1 px-4 py-2 bg-[#40446B] text-white rounded-lg hover:bg-[#4C5076] transition-colors font-medium disabled:opacity-50"
+            className="flex-1 px-4 py-2.5 bg-white text-black rounded-xl hover:bg-white/90 transition-all font-medium disabled:opacity-50 shadow-lg scale-100 hover:scale-[1.02]"
           >
-            {isSaving ? "Guardando..." : "Guardar"}
+            {isSaving ? "Guardando..." : "Guardar Cambios"}
           </button>
         </div>
       </div>
