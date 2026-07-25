@@ -200,25 +200,22 @@ export function CronometroTimerClient({ task, userId }: CronometroTimerClientPro
   return (
     <>
       <div className="w-full max-w-4xl mx-auto text-white font-sans">
-        {/* Breadcrumbs */}
-        <nav className="flex items-center gap-2 mb-4 text-sm font-medium opacity-80">
-          <Link href="/dashboard" className="hover:underline">
-            Inicio
-          </Link>
-          <span>&gt;</span>
-          <span className="uppercase tracking-wider">{task.title}</span>
-        </nav>
-
+        
         {/* Main Timer Area */}
-        <div className="flex flex-col items-center mb-12">
-          <h1 className="text-2xl font-semibold mb-4 drop-shadow-lg">Cronómetro Libre</h1>
+        <div className="flex flex-col items-center mb-12 pt-4">
+          
+          {/* Task Title Pill */}
+          <div className="flex items-center gap-2 bg-white/10 px-4 py-1.5 rounded-full backdrop-blur-md border border-white/20 shadow-sm mb-8">
+            <span className="text-white/60 text-xs font-semibold uppercase tracking-wider">Tarea:</span>
+            <span className="font-bold text-white tracking-wide text-sm">{task.title}</span>
+          </div>
 
-          <div className="text-[10rem] md:text-[11rem] font-bold leading-none mb-6 tracking-tighter tabular-nums drop-shadow-lg">
+          <div className="text-[10rem] md:text-[11rem] font-bold leading-none mb-8 tracking-tighter tabular-nums drop-shadow-lg text-white">
             {formatTime(timeLeft)}
           </div>
 
           {/* Session Type Indicator */}
-          <div className="mb-6 text-lg font-medium text-white/80">
+          <div className="mb-6 text-lg font-medium text-white/80 uppercase tracking-wider">
             {sessionType === "work" && "Elige tu tiempo de enfoque personalizado"}
             {sessionType === "break" && "Descansito"}
           </div>
@@ -232,7 +229,7 @@ export function CronometroTimerClient({ task, userId }: CronometroTimerClientPro
                 }
                 setIsRunning(!isRunning)
               }}
-              className="flex items-center gap-2 bg-[#2D2D2D] hover:bg-[#3D3D3D] px-10 py-3 rounded-md transition-all active:scale-95 shadow-xl"
+              className="flex items-center gap-2 bg-white/5 hover:bg-white/10 backdrop-blur-md border border-white/10 px-10 py-3 rounded-full transition-all active:scale-95 shadow-sm text-white"
             >
               {isRunning ? (
                 <Pause size={22} fill="currentColor" />
@@ -244,7 +241,7 @@ export function CronometroTimerClient({ task, userId }: CronometroTimerClientPro
 
             <button
               onClick={() => setIsSettingsOpen(true)}
-              className="flex items-center gap-2 bg-[#2D2D2D] hover:bg-[#3D3D3D] px-6 py-3 rounded-md transition-all border border-white/5"
+              className="flex items-center gap-2 bg-white/5 hover:bg-white/10 backdrop-blur-md px-6 py-3 rounded-full transition-all border border-white/10 shadow-sm text-white/90"
             >
               <SquarePen size={20} />
               <span className="font-medium">Editar</span>
@@ -252,7 +249,7 @@ export function CronometroTimerClient({ task, userId }: CronometroTimerClientPro
 
             <button
               onClick={() => setIsMuted(!isMuted)}
-              className="flex items-center justify-center bg-[#2D2D2D] hover:bg-[#3D3D3D] w-12 rounded-md transition-all"
+              className="flex items-center justify-center bg-white/5 hover:bg-white/10 backdrop-blur-md w-12 rounded-full transition-all border border-white/10 shadow-sm text-white/90"
             >
               {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
             </button>
@@ -264,13 +261,13 @@ export function CronometroTimerClient({ task, userId }: CronometroTimerClientPro
           <div className="flex flex-col md:flex-row gap-4 w-full max-w-2xl px-4 justify-center">
             <button
               onClick={() => switchSession("work")}
-              className={`flex items-center justify-between p-6 rounded-xl transition-all border-2 min-w-[200px] flex-1 ${
+              className={`flex items-center justify-between p-6 rounded-xl transition-all backdrop-blur-md border min-w-[200px] flex-1 ${
                 sessionType === "work"
-                  ? "bg-[#2D2D2D] border-white/20 shadow-lg"
-                  : "bg-[#2D2D2D]/40 border-transparent opacity-70 hover:opacity-100"
+                  ? "bg-white/15 border-white/40 shadow-lg scale-[1.02]"
+                  : "bg-white/5 border-white/10 opacity-60 hover:opacity-100"
               }`}
             >
-              <div className="bg-[#3D3D3D] p-3 rounded-full">
+              <div className="bg-white/10 p-3 rounded-full text-white">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="32"
@@ -288,32 +285,32 @@ export function CronometroTimerClient({ task, userId }: CronometroTimerClientPro
                 </svg>
               </div>
               <div className="text-right ml-4">
-                <p className="font-bold text-lg">Manos a la obra</p>
-                <p className="opacity-70 text-sm">{estimatedMinutes} min</p>
+                <p className="font-bold text-lg text-white">Manos a la obra</p>
+                <p className="text-white/70 text-sm">{estimatedMinutes} min</p>
               </div>
             </button>
 
             <button
               onClick={() => switchSession("break")}
-              className={`flex items-center justify-between p-6 rounded-xl transition-all border-2 min-w-[200px] flex-1 ${
+              className={`flex items-center justify-between p-6 rounded-xl transition-all backdrop-blur-md border min-w-[200px] flex-1 ${
                 sessionType === "break"
-                  ? "bg-[#2D2D2D] border-white/20 shadow-lg"
-                  : "bg-[#2D2D2D]/40 border-transparent opacity-70 hover:opacity-100"
+                  ? "bg-white/15 border-white/40 shadow-lg scale-[1.02]"
+                  : "bg-white/5 border-white/10 opacity-60 hover:opacity-100"
               }`}
             >
-              <div className="bg-[#3D3D3D] p-3 rounded-full">
+              <div className="bg-white/10 p-3 rounded-full text-white">
                 <Coffee size={32} />
               </div>
               <div className="text-right ml-4">
-                <p className="font-bold text-lg">Descansito</p>
-                <p className="opacity-70 text-sm">5 min</p>
+                <p className="font-bold text-lg text-white">Descansito</p>
+                <p className="text-white/70 text-sm">5 min</p>
               </div>
             </button>
           </div>
         </div>
 
         {/* Annotations Section */}
-        <div className="border border-white/10 rounded-xl p-6 bg-black/10 backdrop-blur-sm flex flex-col gap-4">
+        <div className="flex flex-col gap-4 p-6 bg-white/5 backdrop-blur-md border border-white/10 rounded-xl">
           {/* Listado de Notas*/}
           <div className="flex flex-wrap items-start gap-3">
             {isLoadingNotes ? (
@@ -322,19 +319,19 @@ export function CronometroTimerClient({ task, userId }: CronometroTimerClientPro
               notes.map((note) => (
                 <div
                   key={note.id}
-                  className="flex items-center gap-2 px-3 py-1.5 bg-[#D4D9A1] border border-black/5 rounded-md shadow-sm group transition-all shrink-0"
+                  className="flex items-center gap-2 px-3 py-1.5 bg-white/10 border border-white/20 rounded-md shadow-sm group transition-all shrink-0 backdrop-blur-sm"
                 >
                   <div className="grid grid-cols-2 gap-0.5 opacity-40">
                     {[...Array(6)].map((_, i) => (
-                      <div key={i} className="w-1 h-1 bg-black rounded-full" />
+                      <div key={i} className="w-1 h-1 bg-white rounded-full" />
                     ))}
                   </div>
 
-                  <p className="text-sm text-[#2D2D2D] font-medium">{note.content}</p>
+                  <p className="text-sm text-white/90 font-medium">{note.content}</p>
 
                   <button
                     onClick={() => handleDeleteNote(note.id)}
-                    className="opacity-0 group-hover:opacity-100 text-black/40 hover:text-red-600 transition-all text-[10px] ml-1"
+                    className="opacity-0 group-hover:opacity-100 text-white/40 hover:text-white transition-all text-[10px] ml-1"
                   >
                     ✕
                   </button>
@@ -344,20 +341,20 @@ export function CronometroTimerClient({ task, userId }: CronometroTimerClientPro
           </div>
 
           {/* Área de Input*/}
-          <div className="flex items-center gap-2 mt-2 pt-2 border-t border-white/5">
+          <div className="flex items-center gap-2 mt-2 pt-4 border-t border-white/10">
             <input
               type="text"
               value={newNoteContent}
               onChange={(e) => setNewNoteContent(e.target.value)}
               onKeyPress={(e) => e.key === "Enter" && handleAddNote()}
               placeholder="Escribe aquí..."
-              className="w-32 focus:w-48 transition-all bg-white/5 border border-white/10 rounded-md px-2 py-1.5 text-sm text-white placeholder-white/30 focus:outline-none focus:border-white/30"
+              className="w-40 focus:w-64 transition-all bg-black/20 border border-white/10 rounded-md px-3 py-2 text-sm text-white placeholder-white/40 focus:outline-none focus:border-white/30 shadow-inner"
             />
 
             <button
               onClick={handleAddNote}
               disabled={!newNoteContent.trim()}
-              className="flex items-center gap-2 bg-[#40446B] hover:bg-[#4C5076] disabled:opacity-50 px-3 py-1.5 rounded-md text-sm text-white/90 border border-white/10 shadow-sm transition-colors"
+              className="flex items-center gap-2 bg-white/10 hover:bg-white/20 disabled:opacity-50 px-4 py-2 rounded-md text-sm text-white/90 border border-white/10 shadow-sm transition-colors"
             >
               <PlusCircle size={16} />
               <span>Añadir anotación</span>
