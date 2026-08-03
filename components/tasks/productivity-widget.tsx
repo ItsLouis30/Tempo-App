@@ -1,6 +1,6 @@
 import React from "react"
 import { Task } from "@/types"
-import { CheckCircle2, Activity, Target, AlertCircle, Tag as TagIcon, BarChart3 } from "lucide-react"
+import { Tag as TagIcon, BarChart3 } from "lucide-react"
 
 interface ProductivityWidgetProps {
   tasks: Task[]
@@ -81,7 +81,6 @@ export function ProductivityWidget({ tasks }: ProductivityWidgetProps) {
           
           <div className="flex flex-col gap-1 flex-1">
             <h4 className="text-white font-medium flex items-center gap-2">
-              <Target className="w-4 h-4 text-blue-400" />
               Progreso General
             </h4>
             <p className="text-sm text-white/60">
@@ -98,7 +97,6 @@ export function ProductivityWidget({ tasks }: ProductivityWidgetProps) {
         {/* Priority Breakdown */}
         <div>
           <h4 className="text-sm font-medium text-white/80 flex items-center gap-2 mb-3">
-            <Activity className="w-4 h-4 text-yellow-400" />
             Pendientes por Prioridad
           </h4>
           <div className="grid grid-cols-3 gap-2">
