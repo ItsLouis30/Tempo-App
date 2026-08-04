@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
+import { ListTodo, Timer, Calendar } from "lucide-react"
 
 export function SignUpForm({
   className,
@@ -57,16 +58,17 @@ export function SignUpForm({
   return (
     <div
       className={cn(
-        "min-h-screen w-full bg-[#4D4D4D] flex items-center justify-center p-4",
+        "relative min-h-screen w-full flex items-center justify-center p-4 overflow-hidden bg-background",
         className
       )}
       {...props}
     >
-      {/* CARD CONTENEDORA */}
-      <div className="flex w-full max-w-5xl rounded-2xl overflow-hidden shadow-2xl">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,var(--tw-gradient-stops))] from-primary/5 via-background to-background pointer-events-none" />
+      {/* CARD CONTENEDORA (Glassmorphic) */}
+      <div className="relative z-10 flex w-full max-w-5xl rounded-2xl overflow-hidden shadow-2xl glass-panel border border-border/40">
 
         {/* Panel izquierdo - Bienvenida */}
-        <div className="hidden md:flex w-1/2 bg-[#D9D9D9] flex-col items-center justify-center p-12">
+        <div className="hidden md:flex w-1/2 bg-transparent flex-col items-center justify-center p-12 border-r border-border/40">
           <div className="max-w-sm w-full flex flex-col h-full justify-between">
             {/* Logo Section */}
             <div>
@@ -77,37 +79,37 @@ export function SignUpForm({
                   className="w-20 h-auto transition-transform duration-300 hover:scale-110 hover:rotate-3"
                 />
               </div>
-              <h1 className="text-4xl font-bold mb-1 text-gray-900 drop-shadow-lg">
+              <h1 className="text-4xl font-bold mb-1 text-foreground drop-shadow-lg">
                 Unete a Tempo 
               </h1>
-              <p className="text-lg text-[#100F0F] drop-shadow-md mb-8">
+              <p className="text-lg text-muted-foreground drop-shadow-md mb-8">
                 Crea tu cuenta y empieza a organizar tu productividad
               </p>
             </div>
 
             {/* Features Section */}
             <div className="space-y-4">
-              <h3 className="text-xl font-bold text-gray-900 mb-4">Lo que puedes hacer:</h3>
-              <div className="space-y-3">
-                <div className="flex items-start gap-3">
-                  <span className="text-2xl">📋</span>
+              <h3 className="text-xl font-bold text-foreground mb-4">Lo que puedes hacer:</h3>
+              <div className="space-y-4">
+                <div className="flex items-start gap-4">
+                  <ListTodo className="w-7 h-7 text-muted-foreground mt-1" />
                   <div>
-                    <p className="font-semibold text-gray-900">Gestión de Tareas</p>
-                    <p className="text-sm text-gray-700">Crea y organiza tus tareas fácilmente</p>
+                    <p className="font-semibold text-foreground">Gestión de Tareas</p>
+                    <p className="text-sm text-muted-foreground">Crea y organiza tus tareas fácilmente</p>
                   </div>
                 </div>
-                <div className="flex items-start gap-3">
-                  <span className="text-2xl">⏱️</span>
+                <div className="flex items-start gap-4">
+                  <Timer className="w-7 h-7 text-muted-foreground mt-1" />
                   <div>
-                    <p className="font-semibold text-gray-900">Pomodoro & Cronómetro</p>
-                    <p className="text-sm text-gray-700">Mejora tu enfoque con técnicas probadas</p>
+                    <p className="font-semibold text-foreground">Pomodoro & Cronómetro</p>
+                    <p className="text-sm text-muted-foreground">Mejora tu enfoque con técnicas probadas</p>
                   </div>
                 </div>
-                <div className="flex items-start gap-3">
-                  <span className="text-2xl">📅</span>
+                <div className="flex items-start gap-4">
+                  <Calendar className="w-7 h-7 text-muted-foreground mt-1" />
                   <div>
-                    <p className="font-semibold text-gray-900">Calendario</p>
-                    <p className="text-sm text-gray-700">Visualiza tus tareas en el calendario</p>
+                    <p className="font-semibold text-foreground">Calendario</p>
+                    <p className="text-sm text-muted-foreground">Visualiza tus tareas en el calendario</p>
                   </div>
                 </div>
               </div>
@@ -117,18 +119,18 @@ export function SignUpForm({
         </div>
 
         {/* Panel derecho - Formulario */}
-        <div className="w-full md:w-1/2 bg-[#2B2B2B] p-6 sm:p-8 lg:p-10">
+        <div className="w-full md:w-1/2 bg-transparent p-6 sm:p-8 lg:p-10 relative">
           <div className="w-full max-w-md mx-auto space-y-8">
 
             <div className="text-center">
-              <h2 className="text-shadow-3xl sm:text-4xl font-bold text-white mb-2">
-                REGÍSTRATE AHORA
+              <h2 className="text-shadow-3xl sm:text-4xl font-bold text-foreground mb-2">
+                Crear cuenta
               </h2>
-              <p className="text-sm sm:text-base text-gray-300">
+              <p className="text-sm sm:text-base text-muted-foreground">
                 ¿Ya tienes una cuenta?{" "}
                 <Link
                   href="/auth/login"
-                  className="underline font-semibold hover:text-white"
+                  className="underline font-semibold text-foreground hover:text-foreground/80"
                 >
                   Inicia sesión aquí
                 </Link>
@@ -137,49 +139,49 @@ export function SignUpForm({
 
             <form onSubmit={handleSignUp} className="space-y-6">
               <div className="space-y-2">
-                <Label htmlFor="email" className="text-white text-lg">
+                <Label htmlFor="email" className="text-foreground text-lg">
                   Email
                 </Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="tu@ejemplo.com"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="bg-gray-200 border-0 h-12 text-gray-900 placeholder:text-gray-500"
-                />
-              </div>
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder="tu@ejemplo.com"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="bg-background/50 h-12 backdrop-blur-sm"
+                  />
+                </div>
 
               <div className="space-y-2">
-                <Label htmlFor="password" className="text-white text-lg">
+                <Label htmlFor="password" className="text-foreground text-lg">
                   Contraseña
                 </Label>
-                <Input
-                  id="password"
-                  type="password"
-                  placeholder="Crea una contraseña"
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="bg-gray-200 border-0 h-12 text-gray-900 placeholder:text-gray-500"
-                />
-              </div>
+                  <Input
+                    id="password"
+                    type="password"
+                    placeholder="Crea una contraseña"
+                    required
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="bg-background/50 h-12 backdrop-blur-sm"
+                  />
+                </div>
 
               <div className="space-y-2">
-                <Label htmlFor="repeat-password" className="text-white text-lg">
+                <Label htmlFor="repeat-password" className="text-foreground text-lg">
                   Repetir contraseña
                 </Label>
-                <Input
-                  id="repeat-password"
-                  type="password"
-                  placeholder="Repite tu contraseña"
-                  required
-                  value={repeatPassword}
-                  onChange={(e) => setRepeatPassword(e.target.value)}
-                  className="bg-gray-200 border-0 h-12 text-gray-900 placeholder:text-gray-500"
-                />
-              </div>
+                  <Input
+                    id="repeat-password"
+                    type="password"
+                    placeholder="Repite tu contraseña"
+                    required
+                    value={repeatPassword}
+                    onChange={(e) => setRepeatPassword(e.target.value)}
+                    className="bg-background/50 h-12 backdrop-blur-sm"
+                  />
+                </div>
 
               {error && (
                 <p className="text-sm text-red-400 text-center">{error}</p>
@@ -187,10 +189,10 @@ export function SignUpForm({
 
               <Button
                 type="submit"
-                className="w-full h-12 bg-gray-700 hover:bg-gray-600 text-white font-semibold text-lg"
+                className="w-full h-12 text-lg rounded-xl shadow-md"
                 disabled={isLoading}
               >
-                {isLoading ? "Creando cuenta..." : "Registrarse"}
+                {isLoading ? "Creando cuenta..." : "Crear cuenta"}
               </Button>
             </form>
 
