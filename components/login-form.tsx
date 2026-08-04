@@ -68,14 +68,19 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
   return (
     <div
       className={cn(
-        "relative min-h-screen w-full flex items-center justify-center p-4 overflow-hidden bg-background",
+        "relative min-h-screen w-full flex items-center justify-center p-4 overflow-hidden bg-[#0a0a0a] theme-midnight",
         className
       )}
       {...props}
     >
-      {/* Capa sutil para hacer el fondo un poco más gris (heredando del color del texto para modo oscuro/claro) */}
-      <div className="absolute inset-0 bg-foreground/[0.02] pointer-events-none" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,var(--tw-gradient-stops))] from-primary/5 via-background/95 to-background pointer-events-none" />
+      {/* Fondo degradado igual al del Dashboard (Shared Board) */}
+      <div 
+        className="absolute inset-0 z-0 pointer-events-none"
+        style={{
+          background: "linear-gradient(135deg, rgba(var(--theme-bg-start), 0.9) 0%, rgba(var(--theme-bg-end), 1) 100%)",
+          backgroundColor: "rgb(var(--theme-bg-end))"
+        }}
+      />
       {/* CARD CONTENEDORA (Glassmorphic) */}
       <div className="relative z-10 flex w-full max-w-5xl rounded-2xl overflow-hidden shadow-2xl glass-panel border border-border/40">
 
