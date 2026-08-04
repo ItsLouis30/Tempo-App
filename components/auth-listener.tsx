@@ -2,13 +2,8 @@
 
 import { useEffect } from "react"
 import { createClient } from "@/lib/supabase/client"
-import { useRouter } from "next/navigation"
-import { useRadixToast } from "@/components/ui/toast-provider"
 
 export function AuthListener() {
-  const router = useRouter()
-  const { showToast } = useRadixToast()
-  
   useEffect(() => {
     const supabase = createClient()
     
@@ -16,15 +11,16 @@ export function AuthListener() {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((event) => {
       if (event === "SIGNED_OUT") {
-        showToast("Sesión expirada", "Por seguridad, tu sesión ha sido cerrada.")
-        router.push("/auth/login")
+        // Forzamos una recarga completa para limpiar el estado de React 
+        // y evitar flashes de componentes sin datos.
+        window.location.href = "/auth/login"
       }
     })
 
     return () => {
       subscription.unsubscribe()
     }
-  }, [router, showToast])
+  }, [])
 
   return null
 }

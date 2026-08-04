@@ -41,9 +41,9 @@ export function UserMenu({ fullName }: UserMenuProps) {
   const handleSignOut = async () => {
     setIsLoading(true)
     await supabase.auth.signOut()
-    setIsLoading(false)
-    router.push("/auth/login")
-    router.refresh()
+    // El AuthListener detectará globalmente el "SIGNED_OUT" 
+    // y se encargará de hacer la redirección (window.location.href).
+    // Dejamos isLoading(true) para que la UI muestre "Cerrando..." hasta la recarga.
   }
 
   return (
