@@ -73,7 +73,9 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
       )}
       {...props}
     >
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,var(--tw-gradient-stops))] from-primary/5 via-background to-background pointer-events-none" />
+      {/* Capa sutil para hacer el fondo un poco más gris (heredando del color del texto para modo oscuro/claro) */}
+      <div className="absolute inset-0 bg-foreground/[0.02] pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,var(--tw-gradient-stops))] from-primary/5 via-background/95 to-background pointer-events-none" />
       {/* CARD CONTENEDORA (Glassmorphic) */}
       <div className="relative z-10 flex w-full max-w-5xl rounded-2xl overflow-hidden shadow-2xl glass-panel border border-border/40">
 
