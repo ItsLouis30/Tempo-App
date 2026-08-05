@@ -71,8 +71,7 @@ export default function Home() {
                   <img 
                     src="/screenshots/dashboard.png" 
                     alt="Dashboard de Tempo" 
-                    className="absolute inset-0 w-full h-full object-cover object-top opacity-0 transition-opacity duration-500"
-                    onLoad={(e) => e.currentTarget.classList.remove('opacity-0')}
+                    className="absolute inset-0 w-full h-full object-cover object-top"
                     onError={(e) => e.currentTarget.style.display = 'none'}
                   />
                 </div>
@@ -100,7 +99,7 @@ export default function Home() {
                   <div className="absolute inset-0 bg-white/5 flex items-center justify-center text-muted-foreground text-sm">
                     [Captura: Tareas y Calendario]
                   </div>
-                  <img src="/screenshots/tasks.png" alt="Gestión de Tareas" className="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-500" onLoad={(e) => e.currentTarget.classList.remove('opacity-0')} onError={(e) => e.currentTarget.style.display = 'none'} />
+                  <img src="/screenshots/tasks.png" alt="Gestión de Tareas" className="absolute inset-0 w-full h-full object-cover" onError={(e) => e.currentTarget.style.display = 'none'} />
                 </div>
               </div>
             </div>
@@ -122,7 +121,7 @@ export default function Home() {
                   <div className="absolute inset-0 bg-white/5 flex items-center justify-center text-muted-foreground text-sm">
                     [Captura: Pomodoro]
                   </div>
-                  <img src="/screenshots/pomodoro.png" alt="Pomodoro" className="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-500" onLoad={(e) => e.currentTarget.classList.remove('opacity-0')} onError={(e) => e.currentTarget.style.display = 'none'} />
+                  <img src="/screenshots/pomodoro.png" alt="Pomodoro" className="absolute inset-0 w-full h-full object-cover" onError={(e) => e.currentTarget.style.display = 'none'} />
                 </div>
               </div>
             </div>
@@ -144,7 +143,7 @@ export default function Home() {
                   <div className="absolute inset-0 bg-white/5 flex items-center justify-center text-muted-foreground text-sm">
                     [Captura: Sonidos y Spotify]
                   </div>
-                  <img src="/screenshots/audio.png" alt="Sonidos Ambientales" className="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-500" onLoad={(e) => e.currentTarget.classList.remove('opacity-0')} onError={(e) => e.currentTarget.style.display = 'none'} />
+                  <img src="/screenshots/audio.png" alt="Sonidos Ambientales" className="absolute inset-0 w-full h-full object-cover" onError={(e) => e.currentTarget.style.display = 'none'} />
                 </div>
               </div>
             </div>
@@ -167,13 +166,13 @@ export default function Home() {
                     <div className="absolute inset-0 bg-white/5 flex items-center justify-center text-muted-foreground text-xs text-center p-4">
                       [Captura: Temas]
                     </div>
-                    <img src="/screenshots/themes.png" alt="Temas" className="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-500" onLoad={(e) => e.currentTarget.classList.remove('opacity-0')} onError={(e) => e.currentTarget.style.display = 'none'} />
+                    <img src="/screenshots/themes.png" alt="Temas" className="absolute inset-0 w-full h-full object-cover" onError={(e) => e.currentTarget.style.display = 'none'} />
                   </div>
                   <div className="glass-panel p-2 rounded-2xl border border-white/10 shadow-xl overflow-hidden w-full aspect-square sm:aspect-auto sm:h-64 relative">
                     <div className="absolute inset-0 bg-white/5 flex items-center justify-center text-muted-foreground text-xs text-center p-4">
                       [Captura: Tablero Compartido]
                     </div>
-                    <img src="/screenshots/shared.png" alt="Tableros Compartidos" className="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-500" onLoad={(e) => e.currentTarget.classList.remove('opacity-0')} onError={(e) => e.currentTarget.style.display = 'none'} />
+                    <img src="/screenshots/shared.png" alt="Tableros Compartidos" className="absolute inset-0 w-full h-full object-cover" onError={(e) => e.currentTarget.style.display = 'none'} />
                   </div>
                 </div>
               </div>
