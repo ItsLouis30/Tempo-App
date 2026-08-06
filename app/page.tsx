@@ -40,7 +40,7 @@ const navItems = [
   { id: 'hero', label: 'Inicio' },
   { id: 'tareas', label: 'Gestión de tareas y Calendario' },
   { id: 'pomodoro', label: 'Pomodoro' },
-  { id: 'musica', label: 'Música y ambiente' },
+  { id: 'musica', label: 'Entorno inmersivo' },
   { id: 'temas', label: 'Personalización y Tableros' }
 ];
 
