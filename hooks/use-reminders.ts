@@ -135,8 +135,9 @@ export function useReminders(userId: string | undefined) {
   useEffect(() => {
     if (!userId) return
 
+    const channelName = `reminders-${userId}-${Math.random().toString(36).substring(7)}`
     const subscription = supabase
-      .channel(`reminders-${userId}`)
+      .channel(channelName)
       .on(
         'postgres_changes',
         {

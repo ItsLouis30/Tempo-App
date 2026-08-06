@@ -9,6 +9,7 @@ import { NotificationsPanel } from "@/components/notifications/notifications-pan
 import { TopNav } from "@/components/header/top-nav"
 import { ThemeSelector } from "@/components/theme/theme-selector"
 import { ShareButton } from "@/components/header/share-button"
+import { MobileMenu } from "@/components/header/mobile-menu"
 
 async function getHeaderData() {
   
@@ -50,13 +51,24 @@ export async function MainHeader() {
           <TopNav />
         </div>
 
-        {/* Right side - Notifications, Theme, Music and User Menu */}
-        <div className="flex items-center gap-4">
+        {/* Right side - Desktop Actions */}
+        <div className="hidden md:flex items-center gap-4">
           <ShareButton userId={userId} />
           <ThemeSelector />
           <MusicButton />
           <NotificationsPanel userId={userId} />
           <UserMenu fullName={fullName} />
+        </div>
+
+        {/* Right side - Mobile Menu */}
+        <div className="flex md:hidden items-center gap-2">
+          <MobileMenu>
+            <ShareButton userId={userId} />
+            <ThemeSelector />
+            <MusicButton />
+            <NotificationsPanel userId={userId} />
+            <UserMenu fullName={fullName} />
+          </MobileMenu>
         </div>
       </div>
     </header>
