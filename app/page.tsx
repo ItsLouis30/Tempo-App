@@ -211,7 +211,7 @@ export default function Home() {
             </p>
             
             <div className="flex items-center gap-4">
-              <a href="https://github.com/ItsLouis30/organizador-tareas" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-white transition-colors p-2 rounded-full hover:bg-white/10">
+              <a href="https://github.com/ItsLouis30/Tempo-App" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-white transition-colors p-2 rounded-full hover:bg-white/10">
                 <Github className="h-5 w-5" />
                 <span className="sr-only">GitHub</span>
               </a>
