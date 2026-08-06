@@ -126,11 +126,21 @@ export function SignUpForm({
         </div>
 
         {/* Panel derecho - Formulario */}
-        <div className="w-full md:w-1/2 bg-transparent p-6 sm:p-8 lg:p-10 relative">
+        <div className="w-full md:w-1/2 bg-transparent p-6 sm:p-10 lg:p-12 pt-12 sm:pt-16 relative flex flex-col justify-center">
           <div className="w-full max-w-md mx-auto space-y-8">
 
+            {/* Identidad Móvil */}
+            <div className="md:hidden flex flex-col items-center justify-center mb-2">
+              <img
+                src="/logo.png"
+                alt="Tempo Logo"
+                className="w-16 h-auto mb-3 drop-shadow-md"
+              />
+              <h1 className="text-xl font-bold text-foreground tracking-wide">Tempo</h1>
+            </div>
+
             <div className="text-center">
-              <h2 className="text-shadow-3xl sm:text-4xl font-bold text-foreground mb-2">
+              <h2 className="text-3xl sm:text-4xl font-extrabold text-foreground mb-3">
                 Crear cuenta
               </h2>
               <p className="text-sm sm:text-base text-muted-foreground">
