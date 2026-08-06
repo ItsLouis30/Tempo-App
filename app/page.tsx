@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Github, ArrowRight, CheckCircle2 } from "lucide-react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 function ScrollReveal({ children, className = "" }: { children: React.ReactNode, className?: string }) {
   const [isVisible, setIsVisible] = useState(false);
@@ -34,7 +36,76 @@ function ScrollReveal({ children, className = "" }: { children: React.ReactNode,
   );
 }
 
+const featuresData = [
+  {
+    title: "Gestión de tareas y calendario.",
+    description: "Visualiza tus compromisos, organiza subtareas y asigna fechas de entrega en un solo lugar. Una vista de calendario integrada te permite planificar tu semana sin salir de tu flujo de trabajo.",
+    bullets: ["Listas y etiquetas personalizadas.", "Vista mensual y semanal nativa."],
+    images: ["/screenshots/tasks.png"],
+    imageClass: "scale-100 origin-center",
+    imageHoverClass: "group-hover:scale-[1.03]"
+  },
+  {
+    title: "Método Pomodoro integrado.",
+    description: "Temporizadores de concentración y descansos integrados directamente en tu lista de tareas. Mide tu tiempo real de trabajo y mantén el enfoque sin depender de aplicaciones externas.",
+    bullets: ["Temporizadores configurables.", "Notificaciones de descanso."],
+    images: ["/screenshots/pomodoro.png"],
+    imageClass: "scale-100 origin-center",
+    imageHoverClass: "group-hover:scale-[1.03]"
+  },
+  {
+    title: "Entorno inmersivo.",
+    description: "Entra en la zona con controles de entorno integrados. Vincula tu cuenta de Spotify para controlar tu música o reproduce sonidos ambientales (lluvia, cafetería, lo-fi) directamente desde la interfaz.",
+    bullets: ["Reproductor nativo de Spotify.", "Mezclador de ruido blanco."],
+    images: ["/screenshots/audio.png"],
+    imageClass: "scale-100 origin-center",
+    imageHoverClass: "group-hover:scale-[1.03]"
+  },
+  {
+    title: "Personalización y tableros compartidos.",
+    description: "Haz que Tempo sea verdaderamente tuyo con paletas de colores dinámicas (como Midnight, Forest u Ocean). Además, puedes generar enlaces públicos de tus tableros para compartir tu estado o progreso de solo lectura.",
+    bullets: ["Múltiples temas de Glassmorphism.", "Vistas compartidas seguras."],
+    images: ["/screenshots/themes.png", "/screenshots/shared.png"],
+    imageClass: "scale-100 origin-center",
+    imageHoverClass: "group-hover:scale-[1.03]"
+  }
+];
+
 export default function Home() {
+  const [activeSlide, setActiveSlide] = useState(0);
+  const pinContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      gsap.registerPlugin(ScrollTrigger);
+    }
+    
+    let ctx = gsap.context(() => {
+      ScrollTrigger.matchMedia({
+        "(min-width: 768px)": function() {
+          ScrollTrigger.create({
+            trigger: pinContainerRef.current,
+            start: "top top",
+            end: "+=300%", // Scroll distance
+            pin: true,
+            scrub: true,
+            onUpdate: (self) => {
+              // Map progress (0 to 1) to slide index (0 to 3)
+              // Because end is +=300%, we have 4 slides total over the span of 3 viewports.
+              // We can use progress * 3 + 0.5 to snap smoothly, or simple boundaries.
+              let idx = Math.min(3, Math.floor(self.progress * 4));
+              // Small bias to ensure we hit 3 at the very end
+              if (self.progress > 0.9) idx = 3; 
+              setActiveSlide(idx);
+            }
+          });
+        }
+      });
+    }, pinContainerRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
     <div className="min-h-screen theme-midnight relative bg-[#0a0a0a] text-foreground font-sans overflow-x-hidden">
       {/* Background Gradient */}
@@ -131,121 +202,123 @@ export default function Home() {
             </div>
           </section>
 
-          {/* Features Zig-Zag Sections */}
-          <section className="w-full max-w-7xl mx-auto px-4 py-16 md:py-24 space-y-24 md:space-y-32">
-            
-            {/* Feature 1: Tasks & Calendar (Text Left, Image Right) */}
-            <ScrollReveal>
-              <div className="group flex flex-col md:flex-row items-center gap-8 md:gap-12 transition-all duration-500">
-                <div className="w-full md:w-2/5 space-y-6 text-left">
-                  <h2 className="text-3xl md:text-4xl font-bold text-white tracking-tight transition-all duration-500 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-gray-500 group-hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
-                    Gestión de tareas y calendario.
-                  </h2>
-                  <p className="text-lg text-muted-foreground leading-relaxed transition-colors duration-500 group-hover:text-gray-300">
-                    Visualiza tus compromisos, organiza subtareas y asigna fechas de entrega en un solo lugar. Una vista de calendario integrada te permite planificar tu semana sin salir de tu flujo de trabajo.
-                  </p>
-                  <ul className="space-y-3 pt-2">
-                    <li className="flex items-center text-muted-foreground transition-colors duration-500 group-hover:text-gray-300"><CheckCircle2 className="w-5 h-5 mr-3 text-white/70" /> Listas y etiquetas personalizadas.</li>
-                    <li className="flex items-center text-muted-foreground transition-colors duration-500 group-hover:text-gray-300"><CheckCircle2 className="w-5 h-5 mr-3 text-white/70" /> Vista mensual y semanal nativa.</li>
-                  </ul>
-                </div>
-                <div className="w-full md:w-3/5">
-                  <div className="glass-panel p-2 rounded-2xl border border-white/10 shadow-xl overflow-hidden relative min-h-[250px] flex flex-col justify-center transition-all duration-500 group-hover:scale-105 group-hover:border-white/30 group-hover:shadow-[0_0_40px_rgba(255,255,255,0.15)]">
-                    <div className="absolute inset-0 bg-white/5 flex items-center justify-center text-muted-foreground text-sm z-0">
-                      [Captura: Tareas y Calendario]
+          {/* Features Sticky Scroll Presentation */}
+          <section className="w-full relative bg-[#0a0a0a] z-20">
+            {/* Desktop: Sticky Scroll */}
+            <div ref={pinContainerRef} className="hidden md:flex h-screen w-full items-center justify-center overflow-hidden">
+              <div className="w-full max-w-7xl mx-auto px-12 flex items-center gap-16 relative">
+                
+                {/* Text Side (Left) */}
+                <div className="w-2/5 relative h-[500px] flex items-center">
+                  {featuresData.map((feature, i) => (
+                    <div 
+                      key={i} 
+                      className={`group absolute left-0 right-0 flex flex-col justify-center transition-all duration-[800ms] ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                        activeSlide === i 
+                          ? 'opacity-100 translate-y-0 pointer-events-auto' 
+                          : (i < activeSlide 
+                              ? 'opacity-0 -translate-y-16 pointer-events-none' 
+                              : 'opacity-0 translate-y-16 pointer-events-none'
+                            )
+                      }`}
+                    >
+                      <h2 className="text-4xl lg:text-5xl font-bold text-white tracking-tight drop-shadow-sm leading-tight mb-6 transition-all duration-500 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-gray-500 group-hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
+                        {feature.title}
+                      </h2>
+                      <p className="text-xl text-muted-foreground leading-relaxed mb-8 transition-colors duration-500 group-hover:text-gray-300">
+                        {feature.description}
+                      </p>
+                      <ul className="space-y-4">
+                        {feature.bullets.map((bullet, idx) => (
+                          <li key={idx} className="flex items-center text-lg text-muted-foreground transition-colors duration-500 group-hover:text-gray-300">
+                            <CheckCircle2 className="w-6 h-6 mr-4 text-white/70" /> 
+                            {bullet}
+                          </li>
+                        ))}
+                      </ul>
                     </div>
-                    <img src="/screenshots/tasks.png" alt="Gestión de Tareas" className="relative z-10 w-full h-auto rounded-xl transition-transform duration-700 group-hover:scale-[1.02]" onError={(e) => e.currentTarget.style.display = 'none'} />
-                  </div>
+                  ))}
+                </div>
+
+                {/* Image Side (Right) */}
+                <div className="w-3/5 relative h-[600px] flex items-center justify-center">
+                  {featuresData.map((feature, i) => (
+                    <div 
+                      key={i} 
+                      className={`absolute inset-0 flex flex-col justify-center transition-all duration-[1000ms] ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                        activeSlide === i 
+                          ? 'opacity-100 scale-100 rotate-0 pointer-events-auto' 
+                          : (i < activeSlide 
+                              ? 'opacity-0 scale-95 -rotate-2 pointer-events-none' 
+                              : 'opacity-0 scale-[1.05] rotate-2 pointer-events-none'
+                            )
+                      }`}
+                    >
+                      {feature.images.length === 1 ? (
+                        <div className="group glass-panel w-fit mx-auto p-2 rounded-2xl md:rounded-[2rem] border border-white/10 shadow-2xl overflow-hidden relative transition-all duration-500 hover:scale-[1.03] hover:border-white/30 hover:shadow-[0_0_40px_rgba(255,255,255,0.15)]">
+                          <div className="absolute inset-0 bg-white/5 flex items-center justify-center text-muted-foreground text-sm z-0">
+                            [Captura de Pantalla]
+                          </div>
+                          <img src={feature.images[0]} alt={feature.title} className={`relative z-10 w-auto h-auto max-w-full max-h-[550px] object-contain rounded-xl md:rounded-[1.5rem] transition-transform duration-700 ${feature.imageClass} ${feature.imageHoverClass}`} onError={(e) => e.currentTarget.style.display = 'none'} />
+                        </div>
+                      ) : (
+                        <div className="flex flex-col gap-6 h-full justify-center">
+                          {feature.images.map((img, imgIdx) => (
+                            <div key={imgIdx} className="group glass-panel w-fit mx-auto p-2 rounded-2xl border border-white/10 shadow-xl overflow-hidden relative min-h-[150px] flex flex-col justify-center transition-all duration-500 hover:scale-[1.03] hover:border-white/30 hover:shadow-[0_0_40px_rgba(255,255,255,0.15)]">
+                              <div className="absolute inset-0 bg-white/5 flex items-center justify-center text-muted-foreground text-xs text-center p-4 z-0">
+                                [Captura de Pantalla]
+                              </div>
+                              <img src={img} alt={feature.title} className={`relative z-10 w-auto h-auto max-w-full max-h-[250px] object-contain rounded-xl transition-transform duration-700 ${feature.imageClass} ${feature.imageHoverClass}`} onError={(e) => e.currentTarget.style.display = 'none'} />
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  ))}
                 </div>
               </div>
-            </ScrollReveal>
+            </div>
 
-            {/* Feature 2: Pomodoro (Image Left, Text Right) */}
-            <ScrollReveal>
-              <div className="group flex flex-col md:flex-row-reverse items-center gap-8 md:gap-12 transition-all duration-500">
-                <div className="w-full md:w-2/5 space-y-6 text-left">
-                  <h2 className="text-3xl md:text-4xl font-bold text-white tracking-tight transition-all duration-500 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-gray-500 group-hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
-                    Método Pomodoro integrado.
-                  </h2>
-                  <p className="text-lg text-muted-foreground leading-relaxed transition-colors duration-500 group-hover:text-gray-300">
-                    Temporizadores de concentración y descansos integrados directamente en tu lista de tareas. Mide tu tiempo real de trabajo y mantén el enfoque sin depender de aplicaciones externas.
-                  </p>
-                  <ul className="space-y-3 pt-2">
-                    <li className="flex items-center text-muted-foreground transition-colors duration-500 group-hover:text-gray-300"><CheckCircle2 className="w-5 h-5 mr-3 text-white/70" /> Temporizadores configurables.</li>
-                    <li className="flex items-center text-muted-foreground transition-colors duration-500 group-hover:text-gray-300"><CheckCircle2 className="w-5 h-5 mr-3 text-white/70" /> Notificaciones de descanso.</li>
-                  </ul>
-                </div>
-                <div className="w-full md:w-3/5">
-                  <div className="glass-panel p-2 rounded-2xl border border-white/10 shadow-xl overflow-hidden relative min-h-[250px] flex flex-col justify-center transition-all duration-500 group-hover:scale-105 group-hover:border-white/30 group-hover:shadow-[0_0_40px_rgba(255,255,255,0.15)]">
-                    <div className="absolute inset-0 bg-white/5 flex items-center justify-center text-muted-foreground text-sm z-0">
-                      [Captura: Pomodoro]
+            {/* Mobile: Stacked Fallback */}
+            <div className="md:hidden w-full px-4 py-16 space-y-24">
+              {featuresData.map((feature, i) => (
+                <ScrollReveal key={i}>
+                  <div className="group flex flex-col gap-8">
+                    <div className="space-y-4">
+                      <h2 className="text-3xl font-bold text-white tracking-tight leading-tight transition-all duration-500 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-gray-500 group-hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
+                        {feature.title}
+                      </h2>
+                      <p className="text-lg text-muted-foreground leading-relaxed transition-colors duration-500 group-hover:text-gray-300">
+                        {feature.description}
+                      </p>
+                      <ul className="space-y-3 pt-2">
+                        {feature.bullets.map((bullet, idx) => (
+                          <li key={idx} className="flex items-center text-muted-foreground transition-colors duration-500 group-hover:text-gray-300">
+                            <CheckCircle2 className="w-5 h-5 mr-3 text-white/70" /> 
+                            {bullet}
+                          </li>
+                        ))}
+                      </ul>
                     </div>
-                    <img src="/screenshots/pomodoro.png" alt="Pomodoro" className="relative z-10 w-full h-auto rounded-xl transition-transform duration-700 group-hover:scale-[1.02]" onError={(e) => e.currentTarget.style.display = 'none'} />
-                  </div>
-                </div>
-              </div>
-            </ScrollReveal>
-
-            {/* Feature 3: Environment (Text Left, Image Right) */}
-            <ScrollReveal>
-              <div className="group flex flex-col md:flex-row items-center gap-8 md:gap-12 transition-all duration-500">
-                <div className="w-full md:w-2/5 space-y-6 text-left">
-                  <h2 className="text-3xl md:text-4xl font-bold text-white tracking-tight transition-all duration-500 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-gray-500 group-hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
-                    Entorno inmersivo.
-                  </h2>
-                  <p className="text-lg text-muted-foreground leading-relaxed transition-colors duration-500 group-hover:text-gray-300">
-                    Entra en la zona con controles de entorno integrados. Vincula tu cuenta de Spotify para controlar tu música o reproduce sonidos ambientales (lluvia, cafetería, lo-fi) directamente desde la interfaz.
-                  </p>
-                  <ul className="space-y-3 pt-2">
-                    <li className="flex items-center text-muted-foreground transition-colors duration-500 group-hover:text-gray-300"><CheckCircle2 className="w-5 h-5 mr-3 text-white/70" /> Reproductor nativo de Spotify.</li>
-                    <li className="flex items-center text-muted-foreground transition-colors duration-500 group-hover:text-gray-300"><CheckCircle2 className="w-5 h-5 mr-3 text-white/70" /> Mezclador de ruido blanco.</li>
-                  </ul>
-                </div>
-                <div className="w-full md:w-3/5">
-                  <div className="glass-panel p-2 rounded-2xl border border-white/10 shadow-xl overflow-hidden relative min-h-[250px] flex flex-col justify-center transition-all duration-500 group-hover:scale-105 group-hover:border-white/30 group-hover:shadow-[0_0_40px_rgba(255,255,255,0.15)]">
-                    <div className="absolute inset-0 bg-white/5 flex items-center justify-center text-muted-foreground text-sm z-0">
-                      [Captura: Sonidos y Spotify]
-                    </div>
-                    <img src="/screenshots/audio.png" alt="Sonidos Ambientales" className="relative z-10 w-full h-auto rounded-xl transition-transform duration-700 group-hover:scale-[1.02]" onError={(e) => e.currentTarget.style.display = 'none'} />
-                  </div>
-                </div>
-              </div>
-            </ScrollReveal>
-
-            {/* Feature 4: Themes & Collaboration (Image Left, Text Right) */}
-            <ScrollReveal>
-              <div className="group flex flex-col md:flex-row-reverse items-center gap-8 md:gap-12 transition-all duration-500">
-                <div className="w-full md:w-2/5 space-y-6 text-left">
-                  <h2 className="text-3xl md:text-4xl font-bold text-white tracking-tight transition-all duration-500 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-gray-500 group-hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
-                    Personalización y tableros compartidos.
-                  </h2>
-                  <p className="text-lg text-muted-foreground leading-relaxed transition-colors duration-500 group-hover:text-gray-300">
-                    Haz que Tempo sea verdaderamente tuyo con paletas de colores dinámicas (como Midnight, Forest u Ocean). Además, puedes generar enlaces públicos de tus tableros para compartir tu estado o progreso de solo lectura.
-                  </p>
-                  <ul className="space-y-3 pt-2">
-                    <li className="flex items-center text-muted-foreground transition-colors duration-500 group-hover:text-gray-300"><CheckCircle2 className="w-5 h-5 mr-3 text-white/70" /> Múltiples temas de Glassmorphism.</li>
-                    <li className="flex items-center text-muted-foreground transition-colors duration-500 group-hover:text-gray-300"><CheckCircle2 className="w-5 h-5 mr-3 text-white/70" /> Vistas compartidas seguras.</li>
-                  </ul>
-                </div>
-                <div className="w-full md:w-3/5">
-                  <div className="flex flex-col gap-8 h-full justify-center">
-                    <div className="glass-panel p-2 rounded-2xl border border-white/10 shadow-xl overflow-hidden relative min-h-[150px] flex flex-col justify-center transition-all duration-500 group-hover:scale-105 group-hover:border-white/30 group-hover:shadow-[0_0_40px_rgba(255,255,255,0.15)]">
-                      <div className="absolute inset-0 bg-white/5 flex items-center justify-center text-muted-foreground text-xs text-center p-4 z-0">
-                        [Captura: Temas]
-                      </div>
-                      <img src="/screenshots/themes.png" alt="Temas" className="relative z-10 w-full h-auto rounded-xl transition-transform duration-700 group-hover:scale-[1.02]" onError={(e) => e.currentTarget.style.display = 'none'} />
-                    </div>
-                    <div className="glass-panel p-2 rounded-2xl border border-white/10 shadow-xl overflow-hidden relative min-h-[150px] flex flex-col justify-center transition-all duration-500 group-hover:scale-105 group-hover:border-white/30 group-hover:shadow-[0_0_40px_rgba(255,255,255,0.15)]">
-                      <div className="absolute inset-0 bg-white/5 flex items-center justify-center text-muted-foreground text-xs text-center p-4 z-0">
-                        [Captura: Tablero Compartido]
-                      </div>
-                      <img src="/screenshots/shared.png" alt="Tableros Compartidos" className="relative z-10 w-full h-auto rounded-xl transition-transform duration-700 group-hover:scale-[1.02]" onError={(e) => e.currentTarget.style.display = 'none'} />
+                    <div className="w-full">
+                      {feature.images.length === 1 ? (
+                        <div className="group/img glass-panel w-fit mx-auto p-2 rounded-2xl border border-white/10 shadow-xl overflow-hidden relative transition-all duration-500 hover:scale-[1.03] hover:border-white/30 hover:shadow-[0_0_40px_rgba(255,255,255,0.15)]">
+                          <img src={feature.images[0]} alt={feature.title} className={`relative z-10 w-auto h-auto max-w-full max-h-[60vh] object-contain rounded-xl transition-transform duration-700 ${feature.imageClass.replace('group-hover', 'group-hover/img')} ${feature.imageHoverClass.replace('group-hover', 'group-hover/img')}`} onError={(e) => e.currentTarget.style.display = 'none'} />
+                        </div>
+                      ) : (
+                        <div className="flex flex-col gap-6">
+                          {feature.images.map((img, imgIdx) => (
+                            <div key={imgIdx} className="group/img glass-panel w-fit mx-auto p-2 rounded-2xl border border-white/10 shadow-xl overflow-hidden relative transition-all duration-500 hover:scale-[1.03] hover:border-white/30 hover:shadow-[0_0_40px_rgba(255,255,255,0.15)]">
+                              <img src={img} alt={feature.title} className={`relative z-10 w-auto h-auto max-w-full max-h-[30vh] object-contain rounded-xl transition-transform duration-700 ${feature.imageClass.replace('group-hover', 'group-hover/img')} ${feature.imageHoverClass.replace('group-hover', 'group-hover/img')}`} onError={(e) => e.currentTarget.style.display = 'none'} />
+                            </div>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   </div>
-                </div>
-              </div>
-            </ScrollReveal>
-
+                </ScrollReveal>
+              ))}
+            </div>
           </section>
 
         </main>
