@@ -36,6 +36,29 @@ function ScrollReveal({ children, className = "" }: { children: React.ReactNode,
   );
 }
 
+const navItems = [
+  { id: 'hero', label: 'Inicio' },
+  { id: 'tareas', label: 'Gestión de tareas y Calendario' },
+  { id: 'pomodoro', label: 'Pomodoro' },
+  { id: 'musica', label: 'Música y ambiente' },
+  { id: 'temas', label: 'Personalización y Tableros' }
+];
+
+const getTargetScroll = (index: number, st: any) => {
+  if (index === 0) return 0;
+  if (!st) return 0;
+  
+  const start = st.start;
+  const distance = st.end - st.start;
+  
+  if (index === 1) return start;
+  if (index === 2) return start + distance * 0.25;
+  if (index === 3) return start + distance * 0.50;
+  if (index === 4) return start + distance * 0.75;
+  
+  return 0;
+};
+
 const featuresData = [
   {
     title: "Gestión de tareas y calendario.",
@@ -73,7 +96,11 @@ const featuresData = [
 
 export default function Home() {
   const [activeSlide, setActiveSlide] = useState(0);
+  const [activeNavIndex, setActiveNavIndex] = useState(0);
+  const [scrollProgress, setScrollProgress] = useState(0);
+  
   const pinContainerRef = useRef<HTMLDivElement>(null);
+  const scrollTriggerRef = useRef<any>(null);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -83,7 +110,7 @@ export default function Home() {
     let ctx = gsap.context(() => {
       ScrollTrigger.matchMedia({
         "(min-width: 768px)": function() {
-          ScrollTrigger.create({
+          const st = ScrollTrigger.create({
             trigger: pinContainerRef.current,
             start: "top top",
             end: "+=300%", // Scroll distance
@@ -99,15 +126,83 @@ export default function Home() {
               setActiveSlide(idx);
             }
           });
+          scrollTriggerRef.current = st;
         }
       });
     }, pinContainerRef);
 
-    return () => ctx.revert();
+    const handleScroll = () => {
+       const scrollY = window.scrollY;
+       const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+       setScrollProgress(maxScroll > 0 ? scrollY / maxScroll : 0);
+
+       const st = scrollTriggerRef.current;
+       if (!st) {
+          if (scrollY < 500) setActiveNavIndex(0);
+          else setActiveNavIndex(1);
+          return;
+       }
+
+       const start = st.start;
+       const end = st.end;
+       
+       let newIdx = 0;
+       if (scrollY < start - 200) newIdx = 0;
+       else {
+         const p = st.progress;
+         if (p < 0.25) newIdx = 1;
+         else if (p < 0.50) newIdx = 2;
+         else if (p < 0.75) newIdx = 3;
+         else newIdx = 4;
+       }
+       setActiveNavIndex(newIdx);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    // Initial call after a tiny delay to allow GSAP to calculate start/end
+    setTimeout(handleScroll, 100);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      ctx.revert();
+    };
   }, []);
 
   return (
     <div className="min-h-screen theme-midnight relative bg-[#0a0a0a] text-foreground font-sans overflow-x-hidden">
+      
+      {/* Vertical Navigation Indicator */}
+      <div className="hidden lg:flex fixed left-8 top-1/2 -translate-y-1/2 z-[110] flex-col items-center gap-6 group/nav opacity-40 hover:opacity-100 transition-opacity duration-500 py-4">
+        {/* The connecting line (background) */}
+        <div className="absolute top-6 bottom-6 left-1/2 -translate-x-1/2 w-[1px] bg-white/10 -z-10" />
+        
+        {/* The filling line */}
+        <div className="absolute top-6 left-1/2 -translate-x-1/2 w-[1px] bg-white/60 -z-10 transition-all duration-100 ease-out" style={{ height: `calc(${scrollProgress} * (100% - 48px))` }} />
+
+        {navItems.map((item, i) => (
+          <div 
+            key={i}
+            className="relative flex items-center justify-center cursor-pointer w-6 h-6"
+            onClick={() => {
+              const targetY = getTargetScroll(i, scrollTriggerRef.current);
+              window.scrollTo({ top: targetY, behavior: 'smooth' });
+            }}
+          >
+             {/* Tooltip */}
+             <div className="absolute left-8 px-3 py-1.5 rounded-md bg-[#121214]/90 backdrop-blur-md border border-white/10 text-white/90 text-xs font-medium whitespace-nowrap opacity-0 group-hover/nav:opacity-100 -translate-x-4 group-hover/nav:translate-x-0 transition-all duration-300 pointer-events-none shadow-lg">
+                {item.label}
+             </div>
+             
+             {/* Dot */}
+             <div className={`w-2 h-2 rounded-full transition-all duration-500 ${
+               activeNavIndex === i 
+                 ? 'bg-white scale-150 shadow-[0_0_12px_rgba(255,255,255,1)]' 
+                 : (activeNavIndex > i ? 'bg-white/60' : 'bg-white/20 hover:bg-white/50 hover:scale-125')
+             }`} />
+          </div>
+        ))}
+      </div>
+
       {/* Background Gradient */}
       <div 
         className="fixed inset-0 z-0 pointer-events-none transition-colors duration-1000"
