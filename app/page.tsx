@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Github, ArrowRight, CheckCircle2 } from "lucide-react";
+import { Github, ArrowRight, CheckCircle2, Timer, Music } from "lucide-react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -273,8 +273,42 @@ export default function Home() {
 
             {/* Hero Main Screenshot */}
             <div className="mt-16 w-full max-w-6xl relative animate-in fade-in slide-in-from-bottom-8 duration-700 delay-200 fill-mode-both">
+              <style>{`
+                @keyframes float-left {
+                  0%, 100% { transform: perspective(1000px) rotateY(25deg) rotateX(15deg) rotateZ(-12deg) translateY(0); }
+                  50% { transform: perspective(1000px) rotateY(25deg) rotateX(15deg) rotateZ(-12deg) translateY(-25px); }
+                }
+                @keyframes float-right {
+                  0%, 100% { transform: perspective(1000px) rotateY(-25deg) rotateX(15deg) rotateZ(12deg) translateY(0); }
+                  50% { transform: perspective(1000px) rotateY(-25deg) rotateX(15deg) rotateZ(12deg) translateY(-30px); }
+                }
+                .animate-float-left {
+                  animation: float-left 6s ease-in-out infinite;
+                  transform-style: preserve-3d;
+                }
+                .animate-float-right {
+                  animation: float-right 7s ease-in-out infinite 1s;
+                  transform-style: preserve-3d;
+                }
+              `}</style>
+              
+              {/* Floating Badge Left */}
+              <div className="hidden md:flex absolute -left-8 lg:-left-20 bottom-28 z-20 animate-float-left glass-panel w-20 h-20 md:w-24 md:h-24 rounded-2xl md:rounded-3xl border border-white/20 shadow-[15px_25px_40px_rgba(0,0,0,0.5)] items-center justify-center bg-black/50 backdrop-blur-lg">
+                <div className="text-rose-400 drop-shadow-[0_0_15px_rgba(244,63,94,0.6)]">
+                  <Timer className="w-10 h-10 md:w-12 md:h-12" />
+                </div>
+              </div>
+
+              {/* Floating Badge Right */}
+              <div className="hidden md:flex absolute -right-8 lg:-right-20 top-24 z-20 animate-float-right glass-panel w-20 h-20 md:w-24 md:h-24 rounded-2xl md:rounded-3xl border border-white/20 shadow-[-15px_25px_40px_rgba(0,0,0,0.5)] items-center justify-center bg-black/50 backdrop-blur-lg">
+                 <div className="relative text-emerald-400">
+                   <div className="absolute inset-0 bg-emerald-400/50 rounded-full blur-xl animate-pulse"></div>
+                   <Music className="w-10 h-10 md:w-12 md:h-12 relative z-10" />
+                 </div>
+              </div>
+
               <div 
-                className="glass-panel p-2 md:p-4 rounded-2xl md:rounded-[2rem] border border-white/10 shadow-2xl"
+                className="glass-panel p-2 md:p-4 rounded-2xl md:rounded-[2rem] border border-white/10 shadow-2xl relative z-10"
                 style={{ 
                   maskImage: "linear-gradient(to bottom, black 60%, transparent 100%)", 
                   WebkitMaskImage: "linear-gradient(to bottom, black 60%, transparent 100%)" 
