@@ -117,11 +117,11 @@ export default function Home() {
                 </ul>
               </div>
               <div className="w-full md:w-1/2">
-                <div className="glass-panel p-2 rounded-2xl border border-white/10 shadow-xl overflow-hidden aspect-[4/3] relative">
-                  <div className="absolute inset-0 bg-white/5 flex items-center justify-center text-muted-foreground text-sm">
+                <div className="glass-panel p-2 rounded-2xl border border-white/10 shadow-xl overflow-hidden relative min-h-[250px] flex flex-col justify-center">
+                  <div className="absolute inset-0 bg-white/5 flex items-center justify-center text-muted-foreground text-sm z-0">
                     [Captura: Tareas y Calendario]
                   </div>
-                  <img src="/screenshots/tasks.png" alt="Gestión de Tareas" className="absolute inset-0 w-full h-full object-cover" onError={(e) => e.currentTarget.style.display = 'none'} />
+                  <img src="/screenshots/tasks.png" alt="Gestión de Tareas" className="relative z-10 w-full h-auto rounded-xl" onError={(e) => e.currentTarget.style.display = 'none'} />
                 </div>
               </div>
             </div>
@@ -139,11 +139,11 @@ export default function Home() {
                 </ul>
               </div>
               <div className="w-full md:w-1/2">
-                <div className="glass-panel p-2 rounded-2xl border border-white/10 shadow-xl overflow-hidden aspect-[4/3] relative">
-                  <div className="absolute inset-0 bg-white/5 flex items-center justify-center text-muted-foreground text-sm">
+                <div className="glass-panel p-2 rounded-2xl border border-white/10 shadow-xl overflow-hidden relative min-h-[250px] flex flex-col justify-center">
+                  <div className="absolute inset-0 bg-white/5 flex items-center justify-center text-muted-foreground text-sm z-0">
                     [Captura: Pomodoro]
                   </div>
-                  <img src="/screenshots/pomodoro.png" alt="Pomodoro" className="absolute inset-0 w-full h-full object-cover" onError={(e) => e.currentTarget.style.display = 'none'} />
+                  <img src="/screenshots/pomodoro.png" alt="Pomodoro" className="relative z-10 w-full h-auto rounded-xl" onError={(e) => e.currentTarget.style.display = 'none'} />
                 </div>
               </div>
             </div>
@@ -161,11 +161,11 @@ export default function Home() {
                 </ul>
               </div>
               <div className="w-full md:w-1/2">
-                <div className="glass-panel p-2 rounded-2xl border border-white/10 shadow-xl overflow-hidden aspect-[4/3] relative">
-                  <div className="absolute inset-0 bg-white/5 flex items-center justify-center text-muted-foreground text-sm">
+                <div className="glass-panel p-2 rounded-2xl border border-white/10 shadow-xl overflow-hidden relative min-h-[250px] flex flex-col justify-center">
+                  <div className="absolute inset-0 bg-white/5 flex items-center justify-center text-muted-foreground text-sm z-0">
                     [Captura: Sonidos y Spotify]
                   </div>
-                  <img src="/screenshots/audio.png" alt="Sonidos Ambientales" className="absolute inset-0 w-full h-full object-cover" onError={(e) => e.currentTarget.style.display = 'none'} />
+                  <img src="/screenshots/audio.png" alt="Sonidos Ambientales" className="relative z-10 w-full h-auto rounded-xl" onError={(e) => e.currentTarget.style.display = 'none'} />
                 </div>
               </div>
             </div>
@@ -183,18 +183,18 @@ export default function Home() {
                 </ul>
               </div>
               <div className="w-full md:w-1/2">
-                <div className="flex flex-col sm:flex-row gap-4 h-full">
-                  <div className="glass-panel p-2 rounded-2xl border border-white/10 shadow-xl overflow-hidden w-full aspect-square sm:aspect-auto sm:h-64 relative">
-                    <div className="absolute inset-0 bg-white/5 flex items-center justify-center text-muted-foreground text-xs text-center p-4">
+                <div className="flex flex-col gap-4 h-full">
+                  <div className="glass-panel p-2 rounded-2xl border border-white/10 shadow-xl overflow-hidden relative min-h-[150px] flex flex-col justify-center">
+                    <div className="absolute inset-0 bg-white/5 flex items-center justify-center text-muted-foreground text-xs text-center p-4 z-0">
                       [Captura: Temas]
                     </div>
-                    <img src="/screenshots/themes.png" alt="Temas" className="absolute inset-0 w-full h-full object-cover" onError={(e) => e.currentTarget.style.display = 'none'} />
+                    <img src="/screenshots/themes.png" alt="Temas" className="relative z-10 w-full h-auto rounded-xl" onError={(e) => e.currentTarget.style.display = 'none'} />
                   </div>
-                  <div className="glass-panel p-2 rounded-2xl border border-white/10 shadow-xl overflow-hidden w-full aspect-square sm:aspect-auto sm:h-64 relative">
-                    <div className="absolute inset-0 bg-white/5 flex items-center justify-center text-muted-foreground text-xs text-center p-4">
+                  <div className="glass-panel p-2 rounded-2xl border border-white/10 shadow-xl overflow-hidden relative min-h-[150px] flex flex-col justify-center">
+                    <div className="absolute inset-0 bg-white/5 flex items-center justify-center text-muted-foreground text-xs text-center p-4 z-0">
                       [Captura: Tablero Compartido]
                     </div>
-                    <img src="/screenshots/shared.png" alt="Tableros Compartidos" className="absolute inset-0 w-full h-full object-cover" onError={(e) => e.currentTarget.style.display = 'none'} />
+                    <img src="/screenshots/shared.png" alt="Tableros Compartidos" className="relative z-10 w-full h-auto rounded-xl" onError={(e) => e.currentTarget.style.display = 'none'} />
                   </div>
                 </div>
               </div>
