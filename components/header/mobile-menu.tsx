@@ -60,7 +60,7 @@ export function MobileMenu({ children }: MobileMenuProps) {
                   {labels[i]}
                 </span>
                 {/* Floating Button Wrapper */}
-                <div className="bg-[#1C1C1E]/80 backdrop-blur-md rounded-2xl shadow-xl border border-white/10 flex items-center justify-center min-w-[3.5rem] min-h-[3.5rem] [&>button]:w-full [&>button]:h-full [&>button]:bg-transparent">
+                <div className={`bg-[#1C1C1E]/90 backdrop-blur-md rounded-2xl shadow-xl border border-white/10 flex items-center justify-center w-14 h-14 ${i !== 4 ? '[&_button]:!bg-transparent [&_button]:!border-transparent [&_button]:!shadow-none [&_svg]:!w-6 [&_svg]:!h-6 [&_svg]:!text-white' : ''}`}>
                   {child}
                 </div>
               </div>
