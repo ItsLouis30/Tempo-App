@@ -25,15 +25,15 @@ export function MobileThemeSelector() {
       </button>
 
       {isOpen && mounted && createPortal(
-        <div className="fixed inset-0 z-[100] flex items-end justify-center animate-in fade-in duration-200">
+        <>
           {/* Backdrop */}
           <div 
-            className="absolute inset-0 bg-black/40 backdrop-blur-sm" 
+            className="fixed inset-0 z-[90] bg-black/40 backdrop-blur-sm animate-in fade-in duration-200" 
             onClick={() => setIsOpen(false)}
           />
           
           {/* Bottom Sheet */}
-          <div className="relative w-full max-h-[90vh] overflow-y-auto bg-[#111111]/95 backdrop-blur-xl border-t border-x border-white/10 p-6 rounded-t-3xl shadow-2xl animate-in slide-in-from-bottom-8 duration-300">
+          <div className="fixed bottom-0 left-0 right-0 z-[100] w-full max-h-[90vh] overflow-y-auto bg-white/5 backdrop-blur-3xl border-t border-white/10 p-6 rounded-t-3xl shadow-2xl animate-in slide-in-from-bottom-8 duration-300">
             {/* Mobile handle indicator */}
             <div className="w-12 h-1.5 bg-white/20 rounded-full mx-auto mb-6" />
             
@@ -98,7 +98,7 @@ export function MobileThemeSelector() {
               <p>El tema se guardará automáticamente en tu dispositivo.</p>
             </div>
           </div>
-        </div>,
+        </>,
         document.body
       )}
     </>

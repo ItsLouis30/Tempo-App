@@ -80,12 +80,12 @@ export function MobileNotificationsPanel({ userId }: MobileNotificationsPanelPro
           />
 
           {/* Notifications Bottom Sheet */}
-          <div className="fixed bottom-0 left-0 right-0 w-full bg-[#111111]/95 border-t border-white/10 rounded-t-3xl shadow-2xl z-[100] max-h-[85vh] overflow-y-auto backdrop-blur-xl animate-in slide-in-from-bottom-8 duration-300">
+          <div className="fixed bottom-0 left-0 right-0 w-full bg-white/5 border-t border-white/10 rounded-t-3xl shadow-2xl z-[100] max-h-[85vh] overflow-y-auto backdrop-blur-3xl animate-in slide-in-from-bottom-8 duration-300">
             {/* Mobile handle indicator */}
           <div className="w-12 h-1.5 bg-white/20 rounded-full mx-auto mt-4 mb-2" />
           
           {/* Header */}
-          <div className="sticky top-0 bg-[#111111]/80 backdrop-blur-md border-b border-white/10 px-6 py-4 flex items-center justify-between rounded-t-3xl">
+          <div className="sticky top-0 bg-transparent border-b border-white/10 px-6 py-4 flex items-center justify-between rounded-t-3xl">
             <div className="flex items-center gap-2">
               <Bell className="h-5 w-5 text-primary shadow-lg" />
               <h3 className="font-semibold text-base drop-shadow-sm text-white">Recordatorios</h3>

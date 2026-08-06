@@ -95,8 +95,12 @@ export function MobileShareButton({ userId }: MobileShareButtonProps) {
       </button>
 
       {isOpen && mounted && createPortal(
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-end justify-center z-[100] animate-in fade-in duration-200">
-          <div className="bg-[#1A1A1A] rounded-t-3xl border-t border-x border-white/20 w-full shadow-2xl overflow-hidden relative animate-in slide-in-from-bottom-8 duration-300 max-h-[90vh] overflow-y-auto">
+        <>
+          <div 
+            className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[90] animate-in fade-in duration-200" 
+            onClick={() => setIsOpen(false)} 
+          />
+          <div className="fixed bottom-0 left-0 right-0 z-[100] bg-white/5 backdrop-blur-3xl rounded-t-3xl border-t border-white/10 w-full shadow-2xl overflow-hidden animate-in slide-in-from-bottom-8 duration-300 max-h-[90vh] overflow-y-auto">
             {/* Mobile handle indicator */}
             <div className="w-12 h-1.5 bg-white/20 rounded-full mx-auto mt-6 mb-2" />
             
@@ -171,7 +175,7 @@ export function MobileShareButton({ userId }: MobileShareButtonProps) {
               )}
             </div>
           </div>
-        </div>,
+        </>,
         document.body
       )}
     </>
