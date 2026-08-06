@@ -77,7 +77,13 @@ export default function Home() {
 
             {/* Hero Main Screenshot */}
             <div className="mt-16 w-full max-w-6xl relative animate-in fade-in slide-in-from-bottom-8 duration-700 delay-200 fill-mode-both">
-              <div className="glass-panel p-2 md:p-4 rounded-2xl md:rounded-[2rem] border border-white/10 shadow-2xl">
+              <div 
+                className="glass-panel p-2 md:p-4 rounded-2xl md:rounded-[2rem] border border-white/10 shadow-2xl"
+                style={{ 
+                  maskImage: "linear-gradient(to bottom, black 60%, transparent 100%)", 
+                  WebkitMaskImage: "linear-gradient(to bottom, black 60%, transparent 100%)" 
+                }}
+              >
                 <div className="bg-[#121214] rounded-xl md:rounded-[1.5rem] border border-white/5 overflow-hidden aspect-[16/10] relative">
                   {/* Fallback color/skeleton before image loads */}
                   <div className="absolute inset-0 bg-white/5 flex items-center justify-center text-muted-foreground text-sm">
