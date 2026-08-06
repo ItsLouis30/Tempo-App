@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, useState } from 'react'
 import { MusicSidebar } from '@/components/music/music-sidebar'
+import { MobileMusicSidebar } from '@/components/mobile/mobile-music-sidebar'
 
 interface MusicContextType {
   isMusicOpen: boolean
@@ -21,7 +22,12 @@ export function MusicProvider({ children }: { children: React.ReactNode }) {
       closeMusic: () => setIsMusicOpen(false),
     }}>
       {children}
-      <MusicSidebar isOpen={isMusicOpen} onClose={() => setIsMusicOpen(false)} />
+      <div className="hidden md:block">
+        <MusicSidebar isOpen={isMusicOpen} onClose={() => setIsMusicOpen(false)} />
+      </div>
+      <div className="block md:hidden">
+        <MobileMusicSidebar isOpen={isMusicOpen} onClose={() => setIsMusicOpen(false)} />
+      </div>
     </MusicContext.Provider>
   )
 }

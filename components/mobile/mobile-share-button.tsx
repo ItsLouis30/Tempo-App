@@ -1,19 +1,25 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { createPortal } from "react-dom"
 import { Share2, Link as LinkIcon, Check, X, AlertTriangle } from "lucide-react"
 import { createClient } from "@/lib/supabase/client"
 
-interface ShareButtonProps {
+interface MobileShareButtonProps {
   userId: string
 }
 
-export function ShareButton({ userId }: ShareButtonProps) {
+export function MobileShareButton({ userId }: MobileShareButtonProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [token, setToken] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [copied, setCopied] = useState(false)
+  const [mounted, setMounted] = useState(false)
   const supabase = createClient()
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   // Load existing token if any
   useEffect(() => {
@@ -39,7 +45,6 @@ export function ShareButton({ userId }: ShareButtonProps) {
     setIsLoading(true)
     const newToken = "tempo-" + Math.random().toString(36).substring(2, 10) + Date.now().toString(36)
     
-    // Check if token exists first, if so update it, if not insert
     const { data: existing } = await supabase
       .from("shared_links")
       .select("id")
@@ -84,17 +89,19 @@ export function ShareButton({ userId }: ShareButtonProps) {
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className="flex items-center gap-2 px-3 py-1.5 bg-white/10 hover:bg-white/20 backdrop-blur-md rounded-full text-white/90 transition-all border border-white/10 text-sm font-medium"
+        className="w-full h-full flex items-center justify-center text-white bg-transparent border-none shadow-none"
       >
-        <Share2 size={16} />
-        <span className="hidden sm:inline">Compartir</span>
+        <Share2 size={24} />
       </button>
 
-      {isOpen && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[100] p-4 animate-in fade-in duration-200">
-          <div className="bg-[#1A1A1A] rounded-2xl border border-white/20 w-full max-w-md shadow-2xl overflow-hidden relative animate-in zoom-in-95 duration-300">
+      {isOpen && mounted && createPortal(
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-end justify-center z-[100] animate-in fade-in duration-200">
+          <div className="bg-[#1A1A1A] rounded-t-3xl border-t border-x border-white/20 w-full shadow-2xl overflow-hidden relative animate-in slide-in-from-bottom-8 duration-300 max-h-[90vh] overflow-y-auto">
+            {/* Mobile handle indicator */}
+            <div className="w-12 h-1.5 bg-white/20 rounded-full mx-auto mt-6 mb-2" />
+            
             {/* Header */}
-            <div className="flex items-center justify-between p-6 border-b border-white/10">
+            <div className="flex items-center justify-between p-6 pt-4 border-b border-white/10">
               <h2 className="text-xl font-bold text-white flex items-center gap-2">
                 <Share2 size={20} className="text-blue-400" />
                 Compartir Tablero
@@ -164,7 +171,8 @@ export function ShareButton({ userId }: ShareButtonProps) {
               )}
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </>
   )

@@ -10,6 +10,9 @@ import { TopNav } from "@/components/header/top-nav"
 import { ThemeSelector } from "@/components/theme/theme-selector"
 import { ShareButton } from "@/components/header/share-button"
 import { MobileMenu } from "@/components/header/mobile-menu"
+import { MobileShareButton } from "@/components/mobile/mobile-share-button"
+import { MobileThemeSelector } from "@/components/mobile/mobile-theme-selector"
+import { MobileNotificationsPanel } from "@/components/mobile/mobile-notifications-panel"
 
 async function getHeaderData() {
   
@@ -63,10 +66,10 @@ export async function MainHeader() {
         {/* Right side - Mobile Menu */}
         <div className="flex md:hidden items-center gap-2">
           <MobileMenu>
-            <ShareButton userId={userId} />
-            <ThemeSelector />
+            <MobileShareButton userId={userId} />
+            <MobileThemeSelector />
             <MusicButton />
-            <NotificationsPanel userId={userId} />
+            <MobileNotificationsPanel userId={userId} />
             <UserMenu fullName={fullName} />
           </MobileMenu>
         </div>
