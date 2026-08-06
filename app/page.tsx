@@ -172,32 +172,32 @@ export default function Home() {
     <div className="min-h-screen theme-midnight relative bg-[#0a0a0a] text-foreground font-sans overflow-x-hidden">
       
       {/* Vertical Navigation Indicator */}
-      <div className="hidden lg:flex fixed left-8 top-1/2 -translate-y-1/2 z-[110] flex-col items-center gap-6 group/nav opacity-40 hover:opacity-100 transition-opacity duration-500 py-4">
+      <div className="hidden lg:flex fixed left-8 top-1/2 -translate-y-1/2 z-[110] flex-col items-center gap-6 group/nav opacity-50 hover:opacity-100 transition-opacity duration-500 py-4">
         {/* The connecting line (background) */}
-        <div className="absolute top-6 bottom-6 left-1/2 -translate-x-1/2 w-[1px] bg-white/10 -z-10" />
+        <div className="absolute top-8 bottom-8 left-1/2 -translate-x-1/2 w-[2px] bg-white/10 -z-10" />
         
         {/* The filling line */}
-        <div className="absolute top-6 left-1/2 -translate-x-1/2 w-[1px] bg-white/60 -z-10 transition-all duration-100 ease-out" style={{ height: `calc(${scrollProgress} * (100% - 48px))` }} />
+        <div className="absolute top-8 left-1/2 -translate-x-1/2 w-[2px] bg-white/60 -z-10 transition-all duration-100 ease-out" style={{ height: `calc(${scrollProgress} * (100% - 64px))` }} />
 
         {navItems.map((item, i) => (
           <div 
             key={i}
-            className="relative flex items-center justify-center cursor-pointer w-6 h-6"
+            className="relative flex items-center justify-center cursor-pointer w-8 h-8"
             onClick={() => {
               const targetY = getTargetScroll(i, scrollTriggerRef.current);
               window.scrollTo({ top: targetY, behavior: 'smooth' });
             }}
           >
              {/* Tooltip */}
-             <div className="absolute left-8 px-3 py-1.5 rounded-md bg-[#121214]/90 backdrop-blur-md border border-white/10 text-white/90 text-xs font-medium whitespace-nowrap opacity-0 group-hover/nav:opacity-100 -translate-x-4 group-hover/nav:translate-x-0 transition-all duration-300 pointer-events-none shadow-lg">
+             <div className="absolute left-10 px-3 py-1.5 rounded-md bg-[#121214]/90 backdrop-blur-md border border-white/10 text-white/90 text-sm font-medium whitespace-nowrap opacity-0 group-hover/nav:opacity-100 -translate-x-4 group-hover/nav:translate-x-0 transition-all duration-300 pointer-events-none shadow-lg">
                 {item.label}
              </div>
              
              {/* Dot */}
-             <div className={`w-2 h-2 rounded-full transition-all duration-500 ${
+             <div className={`w-3 h-3 rounded-full transition-all duration-500 ${
                activeNavIndex === i 
-                 ? 'bg-white scale-150 shadow-[0_0_12px_rgba(255,255,255,1)]' 
-                 : (activeNavIndex > i ? 'bg-white/60' : 'bg-white/20 hover:bg-white/50 hover:scale-125')
+                 ? 'bg-white scale-[1.3] shadow-[0_0_15px_rgba(255,255,255,1)]' 
+                 : (activeNavIndex > i ? 'bg-white/60' : 'bg-white/20 hover:bg-white/50 hover:scale-110')
              }`} />
           </div>
         ))}
