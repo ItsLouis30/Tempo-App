@@ -1,8 +1,38 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Github, ArrowRight, CheckCircle2 } from "lucide-react";
+
+function ScrollReveal({ children, className = "" }: { children: React.ReactNode, className?: string }) {
+  const [isVisible, setIsVisible] = useState(false);
+  const domRef = useRef<HTMLDivElement>(null);
+  
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        setIsVisible(true);
+        if (domRef.current) observer.unobserve(domRef.current);
+      }
+    }, { threshold: 0.15, rootMargin: "0px 0px -50px 0px" });
+    
+    if (domRef.current) observer.observe(domRef.current);
+    
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div
+      ref={domRef}
+      className={`transition-all duration-1000 ease-out w-full ${
+        isVisible ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-12 scale-[0.95]"
+      } ${className}`}
+    >
+      {children}
+    </div>
+  );
+}
 
 export default function Home() {
   return (
@@ -105,108 +135,116 @@ export default function Home() {
           <section className="w-full max-w-7xl mx-auto px-4 py-16 md:py-24 space-y-24 md:space-y-32">
             
             {/* Feature 1: Tasks & Calendar (Text Left, Image Right) */}
-            <div className="group flex flex-col md:flex-row items-center gap-8 md:gap-12 transition-all duration-500">
-              <div className="w-full md:w-2/5 space-y-6 text-left">
-                <h2 className="text-3xl md:text-4xl font-bold text-white tracking-tight transition-all duration-500 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-gray-500 group-hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
-                  Gestión de tareas y calendario.
-                </h2>
-                <p className="text-lg text-muted-foreground leading-relaxed transition-colors duration-500 group-hover:text-gray-300">
-                  Visualiza tus compromisos, organiza subtareas y asigna fechas de entrega en un solo lugar. Una vista de calendario integrada te permite planificar tu semana sin salir de tu flujo de trabajo.
-                </p>
-                <ul className="space-y-3 pt-2">
-                  <li className="flex items-center text-muted-foreground transition-colors duration-500 group-hover:text-gray-300"><CheckCircle2 className="w-5 h-5 mr-3 text-white/70" /> Listas y etiquetas personalizadas.</li>
-                  <li className="flex items-center text-muted-foreground transition-colors duration-500 group-hover:text-gray-300"><CheckCircle2 className="w-5 h-5 mr-3 text-white/70" /> Vista mensual y semanal nativa.</li>
-                </ul>
-              </div>
-              <div className="w-full md:w-3/5">
-                <div className="glass-panel p-2 rounded-2xl border border-white/10 shadow-xl overflow-hidden relative min-h-[250px] flex flex-col justify-center transition-all duration-500 group-hover:scale-105 group-hover:border-white/30 group-hover:shadow-[0_0_40px_rgba(255,255,255,0.15)]">
-                  <div className="absolute inset-0 bg-white/5 flex items-center justify-center text-muted-foreground text-sm z-0">
-                    [Captura: Tareas y Calendario]
+            <ScrollReveal>
+              <div className="group flex flex-col md:flex-row items-center gap-8 md:gap-12 transition-all duration-500">
+                <div className="w-full md:w-2/5 space-y-6 text-left">
+                  <h2 className="text-3xl md:text-4xl font-bold text-white tracking-tight transition-all duration-500 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-gray-500 group-hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
+                    Gestión de tareas y calendario.
+                  </h2>
+                  <p className="text-lg text-muted-foreground leading-relaxed transition-colors duration-500 group-hover:text-gray-300">
+                    Visualiza tus compromisos, organiza subtareas y asigna fechas de entrega en un solo lugar. Una vista de calendario integrada te permite planificar tu semana sin salir de tu flujo de trabajo.
+                  </p>
+                  <ul className="space-y-3 pt-2">
+                    <li className="flex items-center text-muted-foreground transition-colors duration-500 group-hover:text-gray-300"><CheckCircle2 className="w-5 h-5 mr-3 text-white/70" /> Listas y etiquetas personalizadas.</li>
+                    <li className="flex items-center text-muted-foreground transition-colors duration-500 group-hover:text-gray-300"><CheckCircle2 className="w-5 h-5 mr-3 text-white/70" /> Vista mensual y semanal nativa.</li>
+                  </ul>
+                </div>
+                <div className="w-full md:w-3/5">
+                  <div className="glass-panel p-2 rounded-2xl border border-white/10 shadow-xl overflow-hidden relative min-h-[250px] flex flex-col justify-center transition-all duration-500 group-hover:scale-105 group-hover:border-white/30 group-hover:shadow-[0_0_40px_rgba(255,255,255,0.15)]">
+                    <div className="absolute inset-0 bg-white/5 flex items-center justify-center text-muted-foreground text-sm z-0">
+                      [Captura: Tareas y Calendario]
+                    </div>
+                    <img src="/screenshots/tasks.png" alt="Gestión de Tareas" className="relative z-10 w-full h-auto rounded-xl transition-transform duration-700 group-hover:scale-[1.02]" onError={(e) => e.currentTarget.style.display = 'none'} />
                   </div>
-                  <img src="/screenshots/tasks.png" alt="Gestión de Tareas" className="relative z-10 w-full h-auto rounded-xl transition-transform duration-700 group-hover:scale-[1.02]" onError={(e) => e.currentTarget.style.display = 'none'} />
                 </div>
               </div>
-            </div>
+            </ScrollReveal>
 
             {/* Feature 2: Pomodoro (Image Left, Text Right) */}
-            <div className="group flex flex-col md:flex-row-reverse items-center gap-8 md:gap-12 transition-all duration-500">
-              <div className="w-full md:w-2/5 space-y-6 text-left">
-                <h2 className="text-3xl md:text-4xl font-bold text-white tracking-tight transition-all duration-500 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-gray-500 group-hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
-                  Método Pomodoro integrado.
-                </h2>
-                <p className="text-lg text-muted-foreground leading-relaxed transition-colors duration-500 group-hover:text-gray-300">
-                  Temporizadores de concentración y descansos integrados directamente en tu lista de tareas. Mide tu tiempo real de trabajo y mantén el enfoque sin depender de aplicaciones externas.
-                </p>
-                <ul className="space-y-3 pt-2">
-                  <li className="flex items-center text-muted-foreground transition-colors duration-500 group-hover:text-gray-300"><CheckCircle2 className="w-5 h-5 mr-3 text-white/70" /> Temporizadores configurables.</li>
-                  <li className="flex items-center text-muted-foreground transition-colors duration-500 group-hover:text-gray-300"><CheckCircle2 className="w-5 h-5 mr-3 text-white/70" /> Notificaciones de descanso.</li>
-                </ul>
-              </div>
-              <div className="w-full md:w-3/5">
-                <div className="glass-panel p-2 rounded-2xl border border-white/10 shadow-xl overflow-hidden relative min-h-[250px] flex flex-col justify-center transition-all duration-500 group-hover:scale-105 group-hover:border-white/30 group-hover:shadow-[0_0_40px_rgba(255,255,255,0.15)]">
-                  <div className="absolute inset-0 bg-white/5 flex items-center justify-center text-muted-foreground text-sm z-0">
-                    [Captura: Pomodoro]
+            <ScrollReveal>
+              <div className="group flex flex-col md:flex-row-reverse items-center gap-8 md:gap-12 transition-all duration-500">
+                <div className="w-full md:w-2/5 space-y-6 text-left">
+                  <h2 className="text-3xl md:text-4xl font-bold text-white tracking-tight transition-all duration-500 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-gray-500 group-hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
+                    Método Pomodoro integrado.
+                  </h2>
+                  <p className="text-lg text-muted-foreground leading-relaxed transition-colors duration-500 group-hover:text-gray-300">
+                    Temporizadores de concentración y descansos integrados directamente en tu lista de tareas. Mide tu tiempo real de trabajo y mantén el enfoque sin depender de aplicaciones externas.
+                  </p>
+                  <ul className="space-y-3 pt-2">
+                    <li className="flex items-center text-muted-foreground transition-colors duration-500 group-hover:text-gray-300"><CheckCircle2 className="w-5 h-5 mr-3 text-white/70" /> Temporizadores configurables.</li>
+                    <li className="flex items-center text-muted-foreground transition-colors duration-500 group-hover:text-gray-300"><CheckCircle2 className="w-5 h-5 mr-3 text-white/70" /> Notificaciones de descanso.</li>
+                  </ul>
+                </div>
+                <div className="w-full md:w-3/5">
+                  <div className="glass-panel p-2 rounded-2xl border border-white/10 shadow-xl overflow-hidden relative min-h-[250px] flex flex-col justify-center transition-all duration-500 group-hover:scale-105 group-hover:border-white/30 group-hover:shadow-[0_0_40px_rgba(255,255,255,0.15)]">
+                    <div className="absolute inset-0 bg-white/5 flex items-center justify-center text-muted-foreground text-sm z-0">
+                      [Captura: Pomodoro]
+                    </div>
+                    <img src="/screenshots/pomodoro.png" alt="Pomodoro" className="relative z-10 w-full h-auto rounded-xl transition-transform duration-700 group-hover:scale-[1.02]" onError={(e) => e.currentTarget.style.display = 'none'} />
                   </div>
-                  <img src="/screenshots/pomodoro.png" alt="Pomodoro" className="relative z-10 w-full h-auto rounded-xl transition-transform duration-700 group-hover:scale-[1.02]" onError={(e) => e.currentTarget.style.display = 'none'} />
                 </div>
               </div>
-            </div>
+            </ScrollReveal>
 
             {/* Feature 3: Environment (Text Left, Image Right) */}
-            <div className="group flex flex-col md:flex-row items-center gap-8 md:gap-12 transition-all duration-500">
-              <div className="w-full md:w-2/5 space-y-6 text-left">
-                <h2 className="text-3xl md:text-4xl font-bold text-white tracking-tight transition-all duration-500 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-gray-500 group-hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
-                  Entorno inmersivo.
-                </h2>
-                <p className="text-lg text-muted-foreground leading-relaxed transition-colors duration-500 group-hover:text-gray-300">
-                  Entra en la zona con controles de entorno integrados. Vincula tu cuenta de Spotify para controlar tu música o reproduce sonidos ambientales (lluvia, cafetería, lo-fi) directamente desde la interfaz.
-                </p>
-                <ul className="space-y-3 pt-2">
-                  <li className="flex items-center text-muted-foreground transition-colors duration-500 group-hover:text-gray-300"><CheckCircle2 className="w-5 h-5 mr-3 text-white/70" /> Reproductor nativo de Spotify.</li>
-                  <li className="flex items-center text-muted-foreground transition-colors duration-500 group-hover:text-gray-300"><CheckCircle2 className="w-5 h-5 mr-3 text-white/70" /> Mezclador de ruido blanco.</li>
-                </ul>
-              </div>
-              <div className="w-full md:w-3/5">
-                <div className="glass-panel p-2 rounded-2xl border border-white/10 shadow-xl overflow-hidden relative min-h-[250px] flex flex-col justify-center transition-all duration-500 group-hover:scale-105 group-hover:border-white/30 group-hover:shadow-[0_0_40px_rgba(255,255,255,0.15)]">
-                  <div className="absolute inset-0 bg-white/5 flex items-center justify-center text-muted-foreground text-sm z-0">
-                    [Captura: Sonidos y Spotify]
+            <ScrollReveal>
+              <div className="group flex flex-col md:flex-row items-center gap-8 md:gap-12 transition-all duration-500">
+                <div className="w-full md:w-2/5 space-y-6 text-left">
+                  <h2 className="text-3xl md:text-4xl font-bold text-white tracking-tight transition-all duration-500 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-gray-500 group-hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
+                    Entorno inmersivo.
+                  </h2>
+                  <p className="text-lg text-muted-foreground leading-relaxed transition-colors duration-500 group-hover:text-gray-300">
+                    Entra en la zona con controles de entorno integrados. Vincula tu cuenta de Spotify para controlar tu música o reproduce sonidos ambientales (lluvia, cafetería, lo-fi) directamente desde la interfaz.
+                  </p>
+                  <ul className="space-y-3 pt-2">
+                    <li className="flex items-center text-muted-foreground transition-colors duration-500 group-hover:text-gray-300"><CheckCircle2 className="w-5 h-5 mr-3 text-white/70" /> Reproductor nativo de Spotify.</li>
+                    <li className="flex items-center text-muted-foreground transition-colors duration-500 group-hover:text-gray-300"><CheckCircle2 className="w-5 h-5 mr-3 text-white/70" /> Mezclador de ruido blanco.</li>
+                  </ul>
+                </div>
+                <div className="w-full md:w-3/5">
+                  <div className="glass-panel p-2 rounded-2xl border border-white/10 shadow-xl overflow-hidden relative min-h-[250px] flex flex-col justify-center transition-all duration-500 group-hover:scale-105 group-hover:border-white/30 group-hover:shadow-[0_0_40px_rgba(255,255,255,0.15)]">
+                    <div className="absolute inset-0 bg-white/5 flex items-center justify-center text-muted-foreground text-sm z-0">
+                      [Captura: Sonidos y Spotify]
+                    </div>
+                    <img src="/screenshots/audio.png" alt="Sonidos Ambientales" className="relative z-10 w-full h-auto rounded-xl transition-transform duration-700 group-hover:scale-[1.02]" onError={(e) => e.currentTarget.style.display = 'none'} />
                   </div>
-                  <img src="/screenshots/audio.png" alt="Sonidos Ambientales" className="relative z-10 w-full h-auto rounded-xl transition-transform duration-700 group-hover:scale-[1.02]" onError={(e) => e.currentTarget.style.display = 'none'} />
                 </div>
               </div>
-            </div>
+            </ScrollReveal>
 
             {/* Feature 4: Themes & Collaboration (Image Left, Text Right) */}
-            <div className="group flex flex-col md:flex-row-reverse items-center gap-8 md:gap-12 transition-all duration-500">
-              <div className="w-full md:w-2/5 space-y-6 text-left">
-                <h2 className="text-3xl md:text-4xl font-bold text-white tracking-tight transition-all duration-500 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-gray-500 group-hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
-                  Personalización y tableros compartidos.
-                </h2>
-                <p className="text-lg text-muted-foreground leading-relaxed transition-colors duration-500 group-hover:text-gray-300">
-                  Haz que Tempo sea verdaderamente tuyo con paletas de colores dinámicas (como Midnight, Forest u Ocean). Además, puedes generar enlaces públicos de tus tableros para compartir tu estado o progreso de solo lectura.
-                </p>
-                <ul className="space-y-3 pt-2">
-                  <li className="flex items-center text-muted-foreground transition-colors duration-500 group-hover:text-gray-300"><CheckCircle2 className="w-5 h-5 mr-3 text-white/70" /> Múltiples temas de Glassmorphism.</li>
-                  <li className="flex items-center text-muted-foreground transition-colors duration-500 group-hover:text-gray-300"><CheckCircle2 className="w-5 h-5 mr-3 text-white/70" /> Vistas compartidas seguras.</li>
-                </ul>
-              </div>
-              <div className="w-full md:w-3/5">
-                <div className="flex flex-col sm:flex-row gap-4 h-full">
-                  <div className="glass-panel p-2 rounded-2xl border border-white/10 shadow-xl overflow-hidden relative min-h-[150px] flex flex-col justify-center transition-all duration-500 group-hover:scale-105 group-hover:border-white/30 group-hover:shadow-[0_0_40px_rgba(255,255,255,0.15)]">
-                    <div className="absolute inset-0 bg-white/5 flex items-center justify-center text-muted-foreground text-xs text-center p-4 z-0">
-                      [Captura: Temas]
+            <ScrollReveal>
+              <div className="group flex flex-col md:flex-row-reverse items-center gap-8 md:gap-12 transition-all duration-500">
+                <div className="w-full md:w-2/5 space-y-6 text-left">
+                  <h2 className="text-3xl md:text-4xl font-bold text-white tracking-tight transition-all duration-500 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-gray-500 group-hover:drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
+                    Personalización y tableros compartidos.
+                  </h2>
+                  <p className="text-lg text-muted-foreground leading-relaxed transition-colors duration-500 group-hover:text-gray-300">
+                    Haz que Tempo sea verdaderamente tuyo con paletas de colores dinámicas (como Midnight, Forest u Ocean). Además, puedes generar enlaces públicos de tus tableros para compartir tu estado o progreso de solo lectura.
+                  </p>
+                  <ul className="space-y-3 pt-2">
+                    <li className="flex items-center text-muted-foreground transition-colors duration-500 group-hover:text-gray-300"><CheckCircle2 className="w-5 h-5 mr-3 text-white/70" /> Múltiples temas de Glassmorphism.</li>
+                    <li className="flex items-center text-muted-foreground transition-colors duration-500 group-hover:text-gray-300"><CheckCircle2 className="w-5 h-5 mr-3 text-white/70" /> Vistas compartidas seguras.</li>
+                  </ul>
+                </div>
+                <div className="w-full md:w-3/5">
+                  <div className="flex flex-col gap-8 h-full justify-center">
+                    <div className="glass-panel p-2 rounded-2xl border border-white/10 shadow-xl overflow-hidden relative min-h-[150px] flex flex-col justify-center transition-all duration-500 group-hover:scale-105 group-hover:border-white/30 group-hover:shadow-[0_0_40px_rgba(255,255,255,0.15)]">
+                      <div className="absolute inset-0 bg-white/5 flex items-center justify-center text-muted-foreground text-xs text-center p-4 z-0">
+                        [Captura: Temas]
+                      </div>
+                      <img src="/screenshots/themes.png" alt="Temas" className="relative z-10 w-full h-auto rounded-xl transition-transform duration-700 group-hover:scale-[1.02]" onError={(e) => e.currentTarget.style.display = 'none'} />
                     </div>
-                    <img src="/screenshots/themes.png" alt="Temas" className="relative z-10 w-full h-auto rounded-xl transition-transform duration-700 group-hover:scale-[1.02]" onError={(e) => e.currentTarget.style.display = 'none'} />
-                  </div>
-                  <div className="glass-panel p-2 rounded-2xl border border-white/10 shadow-xl overflow-hidden relative min-h-[150px] flex flex-col justify-center transition-all duration-500 group-hover:scale-105 group-hover:border-white/30 group-hover:shadow-[0_0_40px_rgba(255,255,255,0.15)]">
-                    <div className="absolute inset-0 bg-white/5 flex items-center justify-center text-muted-foreground text-xs text-center p-4 z-0">
-                      [Captura: Tablero Compartido]
+                    <div className="glass-panel p-2 rounded-2xl border border-white/10 shadow-xl overflow-hidden relative min-h-[150px] flex flex-col justify-center transition-all duration-500 group-hover:scale-105 group-hover:border-white/30 group-hover:shadow-[0_0_40px_rgba(255,255,255,0.15)]">
+                      <div className="absolute inset-0 bg-white/5 flex items-center justify-center text-muted-foreground text-xs text-center p-4 z-0">
+                        [Captura: Tablero Compartido]
+                      </div>
+                      <img src="/screenshots/shared.png" alt="Tableros Compartidos" className="relative z-10 w-full h-auto rounded-xl transition-transform duration-700 group-hover:scale-[1.02]" onError={(e) => e.currentTarget.style.display = 'none'} />
                     </div>
-                    <img src="/screenshots/shared.png" alt="Tableros Compartidos" className="relative z-10 w-full h-auto rounded-xl transition-transform duration-700 group-hover:scale-[1.02]" onError={(e) => e.currentTarget.style.display = 'none'} />
                   </div>
                 </div>
               </div>
-            </div>
+            </ScrollReveal>
 
           </section>
 
