@@ -8,7 +8,7 @@
 [![React](https://img.shields.io/badge/React-19-blue?style=for-the-badge&logo=react&logoColor=white)](https://react.dev/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 [![Supabase](https://img.shields.io/badge/Supabase-DB_&_Auth-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)](https://supabase.com/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![GSAP](https://img.shields.io/badge/GSAP-ScrollTrigger-88CE02?style=for-the-badge&logo=greensock&logoColor=white)](https://gsap.com/)
 
 Tempo es una aplicación web de productividad construida para organizar tus tareas, trabajar por bloques de enfoque, visualizar tus fechas límite y acompañar tu jornada con música y un ambiente cuidado visualmente.
 
@@ -26,8 +26,7 @@ Tempo es una aplicación web de productividad construida para organizar tus tare
 | 🍅 **Bloques de Enfoque** | Integración de Pomodoro nativo y cronómetro libre vinculados a cada tarea, con un elegante diseño "Glassmorphism". |
 | 📅 **Calendario Interactivo** | Vista mensual y semanal completa para que no pierdas ningún vencimiento. |
 | 🎧 **Acompañamiento Musical** | Sonidos de ambiente y reproductor integrado de Spotify para máxima concentración. |
-| 🔔 **Recordatorios** | Sistema de notificaciones en tiempo real para no olvidar lo importante. |
-| 🎨 **Diseño Impecable** | Interfaz Glassmorphism, animaciones suaves con Framer Motion y adaptación dinámica de colores. |
+| 🚀 **Landing Page Inmersiva** | Presentación "Sticky Scroll" impulsada por GSAP y navegación vertical dinámica. |
 
 ---
 
@@ -68,7 +67,7 @@ NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=tu_clave_publicable_anon_aqui
 npm run dev
 ```
 
-> **Tip:** Visita `http://localhost:3000` en tu navegador para ver la aplicación funcionando.
+> **Tip:** Visita `http://localhost:3000` en tu navegador para ver la aplicación funcionando y disfrutar de la nueva Landing Page inmersiva.
 
 ---
 
@@ -80,7 +79,7 @@ El proyecto está construido sobre las herramientas más modernas del ecosistema
 - **Base de Datos & Auth:** Supabase (PostgreSQL).
 - **Estilos & UI:** Tailwind CSS, shadcn/ui, Radix UI.
 - **Tipado:** TypeScript estricto.
-- **Animaciones:** Framer Motion, GSAP.
+- **Animaciones Avanzadas:** GSAP (ScrollTrigger) y Framer Motion.
 - **Gestión de Estado Ligera:** SWR.
 - **Componentes Especiales:** FullCalendar (Agenda), `next-themes` (Modo claro/oscuro).
 
@@ -92,8 +91,9 @@ El proyecto está construido sobre las herramientas más modernas del ecosistema
 flowchart TD
     U([Usuario Autenticado]) --> A[Next.js App Router]
     V([Visitante Anónimo]) --> |Enlace Compartido| A
+    V --> L(Landing Page Inmersiva)
     
-    A --> L[Layout Raíz / Tema Global]
+    A --> Lay[Layout Raíz / Tema Global]
     A --> P[Middleware / Proxy de Sesión]
     P -- Valida --> S[(Supabase Auth)]
     
@@ -126,13 +126,27 @@ flowchart TD
 
 ---
 
+## 💻 Innovaciones Técnicas en la UI (Landing Page)
+
+La presentación pública de Tempo cuenta con un nivel técnico de UI/UX superior, diseñado para causar un gran impacto visual:
+
+1. **GSAP ScrollTrigger:** Implementación de una sección anclada (`pin: true`) que intercala el scroll vertical nativo con transiciones de contenido, creando un efecto de presentación de "diapositivas" (Apple-style) sin bloquear el hilo principal.
+2. **Glassmorphism Dinámico:** Uso extensivo de `backdrop-blur`, gradientes sutiles y bordes translúcidos combinados con `mix-blend-modes` para una integración perfecta de imágenes y fondos.
+3. **Navegación Vertical Desacoplada:** 
+   - Un indicador lateral personalizado que lee el progreso matemático de GSAP.
+   - Traduce `scroll.progress` de 0 a 1 a puntos de navegación lógicos.
+   - Permite navegación fluida (click to scroll) hacia posiciones inter-animación calculadas algorítmicamente.
+4. **Fallback Responsivo:** Lógica limpia con `ScrollTrigger.matchMedia` para deshabilitar las animaciones pesadas en dispositivos móviles (pantallas < 768px), mostrando una versión apilada de alto rendimiento.
+
+---
+
 ## 📂 Estructura del Proyecto
 
 Una visión rápida de cómo está organizado el código fuente:
 
 ```text
 📦 organizador-tareas
- ┣ 📂 app/              # Rutas principales (Auth, Dashboard, Onboarding) y layouts globales
+ ┣ 📂 app/              # Rutas principales (Auth, Dashboard, Landing) y layouts globales
  ┣ 📂 components/       # Componentes organizados por dominio:
  ┃ ┣ 📂 auth/           # Formularios de login/registro
  ┃ ┣ 📂 tasks/          # Lógica visual de tareas y listados
@@ -142,29 +156,8 @@ Una visión rápida de cómo está organizado el código fuente:
  ┃ ┗ ...
  ┣ 📂 hooks/            # Hooks personalizados (ej. use-reminders, notificaciones sonoras)
  ┣ 📂 lib/              # Configuración de Supabase, middleware y utilidades generales
- ┗ 📂 public/           # Assets estáticos (sonidos ambientales, fuentes, íconos)
+ ┗ 📂 public/           # Assets estáticos (screenshots, sonidos, fuentes, íconos)
 ```
-
----
-
-## 👨‍💻 Scripts Disponibles
-
-En el directorio del proyecto, puedes ejecutar:
-
-| Comando | Descripción |
-| :--- | :--- |
-| `npm run dev` | Inicia el servidor de desarrollo local con recarga en caliente. |
-| `npm run build` | Compila la aplicación para producción de forma optimizada. |
-| `npm run start` | Inicia la versión de producción previamente compilada. |
-| `npm run lint` | Analiza el código con ESLint para encontrar y arreglar problemas. |
-
----
-
-## 📝 Notas de Implementación
-
-- **Consistencia de Datos:** El calendario, el Pomodoro y la lista principal consumen las mismas tareas de la base de datos, evitando desincronización de estados.
-- **Husos Horarios:** Los recordatorios procesan el tiempo local (Lima por defecto) para la emisión correcta de notificaciones web.
-- **Reactividad:** El uso de SWR permite mantener la lista de tareas y etiquetas actualizadas en tiempo real tras cualquier mutación, de forma optimizada.
 
 ---
 
