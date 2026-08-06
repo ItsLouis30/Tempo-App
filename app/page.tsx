@@ -18,11 +18,19 @@ export default function Home() {
 
       <div className="relative z-10 flex flex-col min-h-screen">
         {/* Header / Navbar */}
-        <header className="sticky top-0 z-50 w-full pt-4 pb-2 px-6 md:px-12 backdrop-blur-md bg-transparent border-b border-white/5">
+        <header className="absolute top-0 z-50 w-full pt-6 px-6 md:px-12">
           <div className="flex h-14 items-center justify-between max-w-7xl mx-auto w-full">
-            <div className="flex items-center gap-2">
-              <img src="/logo.png" alt="Tempo" width={32} height={32} className="transition-transform duration-300 hover:scale-105" />
-              <span className="font-bold text-xl drop-shadow-md tracking-wide text-white">Tempo</span>
+            <div className="flex items-center gap-2 group cursor-pointer transition-all duration-300">
+              <img 
+                src="/logo.png" 
+                alt="Tempo" 
+                width={32} 
+                height={32} 
+                className="transition-all duration-300 group-hover:scale-110 group-hover:drop-shadow-[0_0_12px_rgba(255,255,255,0.8)]" 
+              />
+              <span className="font-bold text-xl tracking-wide text-white transition-all duration-300 drop-shadow-md group-hover:drop-shadow-[0_0_12px_rgba(255,255,255,0.8)]">
+                Tempo
+              </span>
             </div>
             
             <nav className="flex items-center gap-4">
@@ -38,11 +46,19 @@ export default function Home() {
           </div>
         </header>
 
-        <main className="flex-1 flex flex-col items-center w-full">
+        <main className="flex-1 flex flex-col items-center w-full mt-14">
           
           {/* Hero Section */}
-          <section className="px-4 pt-20 pb-16 md:pt-32 md:pb-24 max-w-7xl mx-auto w-full text-center flex flex-col items-center">
-            <div className="space-y-6 max-w-4xl animate-in fade-in slide-in-from-bottom-4 duration-700">
+          <section className="px-4 pt-16 pb-16 md:pt-24 md:pb-24 max-w-7xl mx-auto w-full text-center flex flex-col items-center">
+            <div className="space-y-6 max-w-4xl animate-in fade-in slide-in-from-bottom-4 duration-700 flex flex-col items-center">
+              <div className="relative mb-4 group cursor-default">
+                <div className="absolute inset-0 bg-white/20 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+                <img 
+                  src="/logo.png" 
+                  alt="Tempo Logo" 
+                  className="w-20 h-20 md:w-24 md:h-24 object-contain relative z-10 drop-shadow-[0_0_15px_rgba(255,255,255,0.2)] transition-transform duration-700 hover:scale-110"
+                />
+              </div>
               <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-white text-balance leading-tight drop-shadow-sm">
                 Un entorno unificado para gestionar tareas, controlar tiempos y organizar tu día.
               </h1>
