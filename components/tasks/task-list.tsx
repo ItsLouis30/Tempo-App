@@ -577,7 +577,7 @@ export function TaskList({ userId, greeting, firstName }: TaskListProps) {
             </button>
             
             {isFilterOpen && (
-              <div className="absolute top-full left-0 mt-2 w-72 bg-[#1C1C1E] border border-white/10 rounded-2xl p-4 shadow-2xl z-50">
+              <div className="absolute top-full right-0 sm:left-0 sm:right-auto mt-2 w-[calc(100vw-3rem)] sm:w-72 max-w-[20rem] sm:max-w-none bg-[#1C1C1E] border border-white/10 rounded-2xl p-4 shadow-2xl z-50">
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="font-semibold text-white">Filtros</h3>
                   <button onClick={() => {
@@ -592,7 +592,7 @@ export function TaskList({ userId, greeting, firstName }: TaskListProps) {
                 {/* Priority */}
                 <div className="space-y-2 mb-4">
                   <label className="text-xs font-medium text-white/50 uppercase tracking-wider">Prioridad</label>
-                  <div className="flex gap-2">
+                  <div className="flex flex-wrap gap-2">
                     {[
                       { val: 1, label: 'Alta', color: 'bg-red-500/20 text-red-400 border-red-500/30' },
                       { val: 2, label: 'Media', color: 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30' },
@@ -706,8 +706,8 @@ export function TaskList({ userId, greeting, firstName }: TaskListProps) {
 
               return (
                 <>
-                  <div className="flex items-start gap-3">
-                    <div className="flex-1">
+                  <div className="flex flex-col-reverse md:flex-row items-stretch md:items-start gap-4">
+                    <div className="flex-1 w-full">
                       <div className="flex items-center gap-3 mb-4">
                         <Checkbox
                           className="h-5 w-5 rounded border-2 border-white/20"
@@ -815,11 +815,11 @@ export function TaskList({ userId, greeting, firstName }: TaskListProps) {
                     </div>
 
                     {/* Tabs */}
-                    <div className="flex flex-col gap-1 min-w-[130px]">
+                    <div className="flex flex-row md:flex-col gap-2 w-full md:w-auto md:min-w-[130px] overflow-x-auto pb-2 md:pb-0">
                       <button
                         type="button"
                         onClick={() => setActiveTabState("descripcion")}
-                        className={`text-left px-3 py-2 rounded text-sm transition-colors ${
+                        className={`whitespace-nowrap text-left px-4 py-2 rounded text-sm transition-colors ${
                           activeTabState === "descripcion"
                             ? "bg-white/20 text-white font-medium"
                             : "bg-transparent text-white/50 hover:bg-white/10"
@@ -830,7 +830,7 @@ export function TaskList({ userId, greeting, firstName }: TaskListProps) {
                       <button
                         type="button"
                         onClick={() => setActiveTabState("fecha")}
-                        className={`text-left px-3 py-2 rounded text-sm transition-colors ${
+                        className={`whitespace-nowrap text-left px-4 py-2 rounded text-sm transition-colors ${
                           activeTabState === "fecha"
                             ? "bg-white/20 text-white font-medium"
                             : "bg-transparent text-white/50 hover:bg-white/10"
@@ -841,7 +841,7 @@ export function TaskList({ userId, greeting, firstName }: TaskListProps) {
                       <button
                         type="button"
                         onClick={() => setActiveTabState("etiquetas")}
-                        className={`text-left px-3 py-2 rounded text-sm transition-colors ${
+                        className={`whitespace-nowrap text-left px-4 py-2 rounded text-sm transition-colors ${
                           activeTabState === "etiquetas"
                             ? "bg-white/20 text-white font-medium"
                             : "bg-transparent text-white/50 hover:bg-white/10"
