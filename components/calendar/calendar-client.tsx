@@ -9,6 +9,7 @@ import { useState, useEffect } from "react"
 import { X } from "lucide-react"
 import { Plus, Bell, Calendar, Trash} from "lucide-react"
 import { createClient } from "@/lib/supabase/client"
+import { createPortal } from "react-dom"
 
 interface Task {
   id: string
@@ -41,8 +42,10 @@ export default function CalendarClient({ tasks }: { tasks: Task[] }) {
   const [selectedReminder, setSelectedReminder] = useState<Reminder | null>(null);
 
   const [isMobile, setIsMobile] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     const checkMobile = () => setIsMobile(window.innerWidth < 1024); // lg breakpoint is 1024px
     checkMobile();
     window.addEventListener("resize", checkMobile);
@@ -241,25 +244,7 @@ export default function CalendarClient({ tasks }: { tasks: Task[] }) {
             }}/>
         </div>   
 
-      {/* Mobile Overlay */}
-      <div 
-        className={`lg:hidden fixed inset-0 bg-black/40 backdrop-blur-sm z-[90] transition-opacity duration-300 ${
-          isMobileOpen ? "opacity-100" : "opacity-0 pointer-events-none"
-        }`} 
-        onClick={closeMobilePanel} 
-      />
-
-      {/* Side Panel / Bottom Sheet */}
-      <div className={`
-        flex flex-col overflow-hidden shadow-xl
-        ${isMobile 
-          ? "bg-white/5 backdrop-blur-3xl fixed bottom-0 left-0 right-0 z-[100] max-h-[85vh] rounded-t-3xl border-t border-white/10 shadow-2xl transition-transform duration-300 " + (isMobileOpen ? "translate-y-0" : "translate-y-full")
-          : "glass-panel relative h-full rounded-2xl"
-        }
-      `}>
-        {/* Mobile Handle Indicator */}
-        <div className="lg:hidden w-12 h-1.5 bg-white/20 rounded-full mx-auto mt-4 mb-2 shrink-0" />
-        
+      <Wrapper>
         <div className="p-6 border-b border-white/10 shrink-0">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-sm font-medium text-white/90 drop-shadow-sm">
@@ -430,7 +415,7 @@ export default function CalendarClient({ tasks }: { tasks: Task[] }) {
               </div>
             )}
           </div>
-      </div>
+      </Wrapper>
       
       {/* Mobile FAB */}
       <button 
@@ -444,4 +429,38 @@ export default function CalendarClient({ tasks }: { tasks: Task[] }) {
       </button>
     </div>
   )
+
+  function Wrapper({ children }: { children: React.ReactNode }) {
+    if (isMobile) {
+      if (!mounted) return null;
+      return createPortal(
+        <>
+          {/* Mobile Overlay */}
+          <div 
+            className={`fixed inset-0 bg-black/40 backdrop-blur-sm z-[90] transition-opacity duration-300 ${
+              isMobileOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+            }`} 
+            onClick={closeMobilePanel} 
+          />
+          {/* Bottom Sheet */}
+          <div className={`
+            flex flex-col overflow-hidden shadow-2xl
+            bg-white/5 backdrop-blur-3xl fixed bottom-0 left-0 right-0 z-[100] max-h-[85vh] rounded-t-3xl border-t border-white/10 transition-transform duration-300
+            ${isMobileOpen ? "translate-y-0" : "translate-y-full"}
+          `}>
+            {/* Mobile Handle Indicator */}
+            <div className="w-12 h-1.5 bg-white/20 rounded-full mx-auto mt-4 mb-2 shrink-0" />
+            {children}
+          </div>
+        </>,
+        document.body
+      );
+    }
+
+    return (
+      <div className="glass-panel relative h-full rounded-2xl flex flex-col overflow-hidden shadow-xl">
+        {children}
+      </div>
+    );
+  }
 }
