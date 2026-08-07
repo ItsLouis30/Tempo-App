@@ -47,6 +47,28 @@ export default function DashboardLayout({
 
 function HeaderSkeleton() {
   return (
-    <div className="h-16 border-b bg-background animate-pulse" />
+    <header className="sticky top-0 z-50 w-full pt-4">
+      <div className="flex h-14 items-center justify-between px-6 md:px-12 relative w-full">
+        {/* Logo skeleton */}
+        <div className="flex items-center gap-2">
+          <div className="w-9 h-9 rounded-full bg-white/5 animate-pulse" />
+          <div className="w-16 h-6 rounded-md bg-white/5 animate-pulse" />
+        </div>
+
+        {/* Center pill skeleton */}
+        <div className="absolute left-1/2 -translate-x-1/2 flex items-center">
+          <div className="w-40 h-10 rounded-full bg-white/5 animate-pulse" />
+        </div>
+
+        {/* Right actions skeleton */}
+        <div className="hidden md:flex items-center gap-4">
+          <div className="w-24 h-9 rounded-full bg-white/5 animate-pulse" />
+          <div className="w-9 h-9 rounded-full bg-white/5 animate-pulse" />
+          <div className="w-9 h-9 rounded-full bg-white/5 animate-pulse" />
+          <div className="w-9 h-9 rounded-full bg-white/5 animate-pulse" />
+          <div className="w-32 h-9 rounded-full bg-white/5 animate-pulse" />
+        </div>
+      </div>
+    </header>
   )
 }
