@@ -84,10 +84,10 @@ export function ShareButton({ userId }: ShareButtonProps) {
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className="flex items-center gap-2 px-3 py-1.5 bg-white/10 hover:bg-white/20 backdrop-blur-md rounded-full text-white/90 transition-all border border-white/10 text-sm font-medium"
+        className="flex items-center justify-center gap-2 w-9 h-9 lg:w-auto lg:px-3 lg:py-1.5 bg-white/10 hover:bg-white/20 backdrop-blur-md rounded-full text-white/90 transition-all border border-white/10 text-sm font-medium"
       >
         <Share2 size={16} />
-        <span className="hidden sm:inline">Compartir</span>
+        <span className="hidden lg:inline">Compartir</span>
       </button>
 
       {isOpen && (
