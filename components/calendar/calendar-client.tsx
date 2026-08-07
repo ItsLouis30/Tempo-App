@@ -251,10 +251,11 @@ export default function CalendarClient({ tasks }: { tasks: Task[] }) {
 
       {/* Side Panel / Bottom Sheet */}
       <div className={`
-        glass-panel flex flex-col overflow-hidden
-        lg:relative lg:h-full lg:translate-y-0 lg:rounded-2xl lg:shadow-xl lg:z-auto
-        fixed bottom-0 left-0 right-0 z-[100] max-h-[85vh] rounded-t-3xl border-t border-white/10 shadow-2xl transition-transform duration-300
-        ${isMobileOpen ? "translate-y-0" : "translate-y-full lg:translate-y-0"}
+        flex flex-col overflow-hidden shadow-xl
+        ${isMobile 
+          ? "bg-white/5 backdrop-blur-3xl fixed bottom-0 left-0 right-0 z-[100] max-h-[85vh] rounded-t-3xl border-t border-white/10 shadow-2xl transition-transform duration-300 " + (isMobileOpen ? "translate-y-0" : "translate-y-full")
+          : "glass-panel relative h-full rounded-2xl"
+        }
       `}>
         {/* Mobile Handle Indicator */}
         <div className="lg:hidden w-12 h-1.5 bg-white/20 rounded-full mx-auto mt-4 mb-2 shrink-0" />
