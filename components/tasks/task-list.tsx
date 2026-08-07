@@ -370,6 +370,7 @@ export function TaskList({ userId, greeting, firstName }: TaskListProps) {
   }
 
   const handleStartEdit = (task: Task) => {
+    window.scrollTo({ top: 0, behavior: "smooth" })
     setEditingTaskId(task.id)
     setEditTask({
       title: task.title,
@@ -543,8 +544,9 @@ export function TaskList({ userId, greeting, firstName }: TaskListProps) {
         <button
           type="button"
           onClick={() => {
-            setEditingTaskId(null);
             setIsAddingTask(true);
+            setEditingTaskId(null);
+            window.scrollTo({ top: 0, behavior: "smooth" });
           }}
           className="flex items-center gap-2 px-5 py-2.5 bg-white text-black rounded-full font-medium hover:bg-white/90 transition-all shadow-sm"
         >
