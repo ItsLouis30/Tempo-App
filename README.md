@@ -24,8 +24,9 @@ Tempo es una aplicación web de productividad construida para organizar tus tare
 | 🤝 **Tableros Compartidos** | Comparte tus tareas mediante un enlace público de solo lectura. Los visitantes no necesitan cuenta para visualizar tu progreso. |
 | 📝 **Gestión de Tareas** | Crea, edita, reordena y prioriza tus tareas. Añade etiquetas y notas detalladas. |
 | 🍅 **Bloques de Enfoque** | Integración de Pomodoro nativo y cronómetro libre vinculados a cada tarea, con un elegante diseño "Glassmorphism". |
-| 📅 **Calendario Interactivo** | Vista mensual y semanal completa para que no pierdas ningún vencimiento. |
+| 📅 **Calendario Interactivo** | Vista mensual y semanal completa para que no pierdas ningún vencimiento. Adaptativo para móviles y PC. |
 | 🎧 **Acompañamiento Musical** | Sonidos de ambiente y reproductor integrado de Spotify para máxima concentración. |
+| 📱 **Experiencia Móvil Nativa** | Arquitectura responsiva avanzada con "Bottom Sheets" independientes, botones flotantes (FAB) y navegación adaptativa. |
 | 🚀 **Landing Page Inmersiva** | Presentación "Sticky Scroll" impulsada por GSAP y navegación vertical dinámica. |
 
 ---
@@ -126,17 +127,16 @@ flowchart TD
 
 ---
 
-## 💻 Innovaciones Técnicas en la UI (Landing Page)
+## 💻 Innovaciones Técnicas en la UI/UX
 
-La presentación pública de Tempo cuenta con un nivel técnico de UI/UX superior, diseñado para causar un gran impacto visual:
+La presentación pública y el Dashboard de Tempo cuentan con un nivel técnico de UI/UX superior, diseñado para causar un gran impacto visual y sentirse como una app nativa:
 
-1. **GSAP ScrollTrigger:** Implementación de una sección anclada (`pin: true`) que intercala el scroll vertical nativo con transiciones de contenido, creando un efecto de presentación de "diapositivas" (Apple-style) sin bloquear el hilo principal.
-2. **Glassmorphism Dinámico:** Uso extensivo de `backdrop-blur`, gradientes sutiles y bordes translúcidos combinados con `mix-blend-modes` para una integración perfecta de imágenes y fondos.
-3. **Navegación Vertical Desacoplada:** 
-   - Un indicador lateral personalizado que lee el progreso matemático de GSAP.
-   - Traduce `scroll.progress` de 0 a 1 a puntos de navegación lógicos.
-   - Permite navegación fluida (click to scroll) hacia posiciones inter-animación calculadas algorítmicamente.
-4. **Fallback Responsivo:** Lógica limpia con `ScrollTrigger.matchMedia` para deshabilitar las animaciones pesadas en dispositivos móviles (pantallas < 768px), mostrando una versión apilada de alto rendimiento.
+1. **GSAP ScrollTrigger (Landing Page):** Implementación de una sección anclada (`pin: true`) que intercala el scroll vertical nativo con transiciones de contenido, creando un efecto de presentación de "diapositivas" (Apple-style) sin bloquear el hilo principal.
+2. **Arquitectura Móvil Aislada:** Separación total de componentes móviles (`components/mobile/`) vs componentes de escritorio. Esto permite renderizar modales laterales complejos (Drawers) en PC, y **Bottom Sheets** (paneles inferiores deslizantes) en móviles, sin ensuciar el código CSS ni acoplar lógicas.
+3. **Manejo de Contextos de Apilamiento (Stacking Context) con React Portals:** Para asegurar que los modales móviles ocupen el 100% de la pantalla sin ser atrapados por animaciones de CSS de componentes padre, todos los modales móviles se escapan al `document.body` mediante `createPortal`.
+4. **Navegación Adaptativa (Progressive Disclosure):** Los botones de navegación central y acciones secundarias detectan el ancho de la pantalla (`lg`, `md`, `sm`). En tablets y móviles, los botones se colapsan a íconos circulares perfectos (`w-10 h-10`), expandiendo su texto únicamente cuando la pantalla de la laptop permite mayor respiro visual.
+5. **Glassmorphism Dinámico Universal:** Uso extensivo de `backdrop-blur`, capas separadas de overlays (como el fondo negro translúcido al 40%) y bordes translúcidos. Las transparencias esmeriladas (Glassmorphism) se mantienen consistentes tanto en los Drawers de PC como en los Bottom Sheets móviles, dándole a la app un look premium suspendido en 3D.
+6. **Optimización de FullCalendar para Móviles:** Configuración responsiva del calendario inyectada con Hooks de React para modificar el `aspectRatio`, reducir la densidad del *Toolbar* y transformar el panel lateral de detalles en un panel inferior flotante con botones de acción rápidos (FAB).
 
 ---
 
@@ -149,6 +149,7 @@ Una visión rápida de cómo está organizado el código fuente:
  ┣ 📂 app/              # Rutas principales (Auth, Dashboard, Landing) y layouts globales
  ┣ 📂 components/       # Componentes organizados por dominio:
  ┃ ┣ 📂 auth/           # Formularios de login/registro
+ ┃ ┣ 📂 mobile/         # Componentes Bottom Sheets exclusivos para smartphones
  ┃ ┣ 📂 tasks/          # Lógica visual de tareas y listados
  ┃ ┣ 📂 pomodoro/       # Módulo de temporizador por ciclos
  ┃ ┣ 📂 calendar/       # Integración con FullCalendar
