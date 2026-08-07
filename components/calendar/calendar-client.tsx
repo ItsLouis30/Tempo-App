@@ -38,8 +38,26 @@ export default function CalendarClient({ tasks }: { tasks: Task[] }) {
   const [reminders, setReminders] = useState<Reminder[]>([])
 
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
-
   const [selectedReminder, setSelectedReminder] = useState<Reminder | null>(null);
+
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 1024); // lg breakpoint is 1024px
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  const isMobileOpen = selectedTask || selectedReminder || showReminderForm;
+
+  const closeMobilePanel = () => {
+    setSelectedTask(null);
+    setSelectedReminder(null);
+    setShowReminderForm(false);
+    setMessage("");
+    setRemindAt("");
+  };
 
   const events = tasks.map((task) => ({
     id: task.id,
@@ -189,14 +207,18 @@ export default function CalendarClient({ tasks }: { tasks: Task[] }) {
             firstDay={1}
             events={[...events, ...reminderEvents]}
             height="auto"
-            aspectRatio={1.35}
+            aspectRatio={isMobile ? 0.9 : 1.35}
             expandRows={true}
-            headerToolbar={{
+            headerToolbar={isMobile ? {
+                left: 'title',
+                center: '',
+                right: 'prev,next'
+            } : {
                 left: 'prev,next today',
                 center: 'title',
                 right: 'dayGridMonth,dayGridWeek'
             }}
-            titleFormat={{ year: 'numeric', month: 'long' }}
+            titleFormat={isMobile ? { year: '2-digit', month: 'short' } : { year: 'numeric', month: 'long' }}
             eventContent={renderEventContent}
             eventClick={(info) => {
               const isReminder = info.event.extendedProps?.type === "reminder"
@@ -219,8 +241,25 @@ export default function CalendarClient({ tasks }: { tasks: Task[] }) {
             }}/>
         </div>   
 
-        <div className="glass-panel shadow-xl h-full flex flex-col overflow-hidden">
-          <div className="p-6 border-b border-white/10">
+      {/* Mobile Overlay */}
+      <div 
+        className={`lg:hidden fixed inset-0 bg-black/40 backdrop-blur-sm z-[90] transition-opacity duration-300 ${
+          isMobileOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+        }`} 
+        onClick={closeMobilePanel} 
+      />
+
+      {/* Side Panel / Bottom Sheet */}
+      <div className={`
+        glass-panel flex flex-col overflow-hidden
+        lg:relative lg:h-full lg:translate-y-0 lg:rounded-2xl lg:shadow-xl lg:z-auto
+        fixed bottom-0 left-0 right-0 z-[100] max-h-[85vh] rounded-t-3xl border-t border-white/10 shadow-2xl transition-transform duration-300
+        ${isMobileOpen ? "translate-y-0" : "translate-y-full lg:translate-y-0"}
+      `}>
+        {/* Mobile Handle Indicator */}
+        <div className="lg:hidden w-12 h-1.5 bg-white/20 rounded-full mx-auto mt-4 mb-2 shrink-0" />
+        
+        <div className="p-6 border-b border-white/10 shrink-0">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-sm font-medium text-white/90 drop-shadow-sm">
                 Recordatorios
@@ -232,11 +271,11 @@ export default function CalendarClient({ tasks }: { tasks: Task[] }) {
                   setSelectedReminder(null)
                   setMessage("")
                   setRemindAt("")
-                  setShowReminderForm(true)}}
+                  setShowReminderForm(!showReminderForm)}}
                 className="flex items-center gap-2 text-sm px-3 py-1.5 rounded-md border border-white/20 hover:bg-white/10 text-white/90 transition shadow-md"
               >
-                <Plus className="w-4 h-4" />
-                Nuevo
+                {showReminderForm ? <X className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
+                {showReminderForm ? "Cancelar" : "Nuevo"}
               </button>
             </div>
 
@@ -290,7 +329,7 @@ export default function CalendarClient({ tasks }: { tasks: Task[] }) {
           <div className="flex-1 p-6 overflow-auto">
 
             {/* SIN SELECCIONAR */}
-            {!selectedTask && !selectedReminder && (
+            {!selectedTask && !selectedReminder && !showReminderForm && (
               <div className="h-full flex flex-col items-center justify-center text-center text-white/50 gap-4">
                 <div className="w-14 h-14 rounded-full bg-white/5 border border-white/10 flex items-center justify-center shadow-md">
                   <Calendar className="w-6 h-6 text-white/40" />
@@ -299,7 +338,7 @@ export default function CalendarClient({ tasks }: { tasks: Task[] }) {
                   <p className="font-medium text-sm drop-shadow-lg text-white/80">
                     No hay nada seleccionado
                   </p>
-                  <p className="text-xs mt-1 drop-shadow-lg">
+                  <p className="text-xs mt-1 drop-shadow-lg lg:block hidden">
                     Haz clic en una tarea o recordatorio
                   </p>
                 </div>
@@ -391,6 +430,17 @@ export default function CalendarClient({ tasks }: { tasks: Task[] }) {
             )}
           </div>
       </div>
+      
+      {/* Mobile FAB */}
+      <button 
+        className="lg:hidden fixed bottom-6 right-6 w-14 h-14 bg-white/10 backdrop-blur-3xl border border-white/20 rounded-full flex items-center justify-center text-white shadow-2xl z-[80] hover:bg-white/20 transition-colors"
+        onClick={() => {
+           closeMobilePanel();
+           setShowReminderForm(true);
+        }}
+      >
+        <Plus className="w-6 h-6" />
+      </button>
     </div>
   )
 }
