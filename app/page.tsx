@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Github, ArrowRight, CheckCircle2, Timer, Music } from "lucide-react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { SmoothScroll } from "@/components/smooth-scroll";
 
 function ScrollReveal({ children, className = "" }: { children: React.ReactNode, className?: string }) {
   const [isVisible, setIsVisible] = useState(false);
@@ -169,7 +170,8 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="min-h-screen theme-midnight relative bg-[#0a0a0a] text-foreground font-sans overflow-x-hidden">
+    <SmoothScroll>
+      <div className="min-h-screen theme-midnight relative bg-[#0a0a0a] text-foreground font-sans overflow-x-hidden">
       
       {/* Vertical Navigation Indicator */}
       <div className="hidden lg:flex fixed left-8 top-1/2 -translate-y-1/2 z-[110] flex-col items-center gap-6 group/nav opacity-50 hover:opacity-100 transition-opacity duration-500 py-4">
@@ -474,5 +476,6 @@ export default function Home() {
         </footer>
       </div>
     </div>
+    </SmoothScroll>
   );
 }
