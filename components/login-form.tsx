@@ -11,7 +11,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useState, useEffect } from "react"
-import { ListTodo, Timer, Calendar } from "lucide-react"
+import { ListTodo, Timer, Calendar, Eye, EyeOff } from "lucide-react"
 
 export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRef<"div">) {
   const [email, setEmail] = useState("")
@@ -19,6 +19,7 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
   const [rememberMe, setRememberMe] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
   const router = useRouter()
 
   // Cargar credenciales guardadas al montar
@@ -201,15 +202,24 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
               <Label htmlFor="password" className="text-foreground text-lg">
                 Contraseña
               </Label>
-              <Input
-                id="password"
-                type="password"
-                placeholder="Ingresa tu contraseña"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="bg-background/50 h-12 backdrop-blur-sm"
-              />
+              <div className="relative">
+                <Input
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Ingresa tu contraseña"
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="bg-background/50 h-12 backdrop-blur-sm pr-12"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-white/50 hover:text-white transition-colors"
+                >
+                  {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                </button>
+              </div>
             </div>
 
             <div className="flex items-center space-x-2">
