@@ -10,7 +10,7 @@ import { Label } from "@/components/ui/label"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
-import { ListTodo, Timer, Calendar } from "lucide-react"
+import { ListTodo, Timer, Calendar, Eye, EyeOff, CheckCircle2, Circle } from "lucide-react"
 
 export function SignUpForm({
   className,
@@ -21,8 +21,27 @@ export function SignUpForm({
   const [repeatPassword, setRepeatPassword] = useState("")
   const [error, setError] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
+  const [showRepeatPassword, setShowRepeatPassword] = useState(false)
 
   const router = useRouter()
+
+  // Password requirements calculation
+  const reqs = {
+    length: password.length >= 8,
+    uppercase: /[A-Z]/.test(password),
+    number: /[0-9]/.test(password),
+    special: /[^A-Za-z0-9]/.test(password),
+  }
+  const strength = Object.values(reqs).filter(Boolean).length
+
+  // Helper component for requirements list
+  const ReqItem = ({ fulfilled, text }: { fulfilled: boolean, text: string }) => (
+    <div className={`flex items-center gap-2 transition-colors duration-300 ${fulfilled ? 'text-green-400' : 'text-white/40'}`}>
+      {fulfilled ? <CheckCircle2 className="w-4 h-4" /> : <Circle className="w-4 h-4" />}
+      <span>{text}</span>
+    </div>
+  )
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -32,6 +51,12 @@ export function SignUpForm({
 
     if (password !== repeatPassword) {
       setError("Las contraseñas no coinciden")
+      setIsLoading(false)
+      return
+    }
+
+    if (strength < 4) {
+      setError("La contraseña no cumple con todos los requisitos")
       setIsLoading(false)
       return
     }
@@ -174,31 +199,71 @@ export function SignUpForm({
                 <Label htmlFor="password" className="text-foreground text-lg">
                   Contraseña
                 </Label>
+                <div className="relative">
                   <Input
                     id="password"
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     placeholder="Crea una contraseña"
                     required
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="bg-background/50 h-12 backdrop-blur-sm"
+                    className="bg-background/50 h-12 backdrop-blur-sm pr-12"
                   />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-white/50 hover:text-white transition-colors"
+                  >
+                    {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                  </button>
                 </div>
+                
+                {/* Password Strength Indicator */}
+                <div className="pt-2">
+                  <div className="flex gap-1">
+                    {[1, 2, 3, 4].map((level) => (
+                      <div 
+                        key={level} 
+                        className={`h-1.5 w-full rounded-full transition-colors duration-300 ${
+                          strength >= level 
+                            ? (strength <= 2 ? 'bg-red-500' : strength === 3 ? 'bg-yellow-500' : 'bg-green-500')
+                            : 'bg-white/10'
+                        }`}
+                      />
+                    ))}
+                  </div>
+                  <div className="mt-3 space-y-2 text-sm">
+                    <ReqItem fulfilled={reqs.length} text="Mínimo 8 caracteres" />
+                    <ReqItem fulfilled={reqs.uppercase} text="Una letra mayúscula" />
+                    <ReqItem fulfilled={reqs.number} text="Un número" />
+                    <ReqItem fulfilled={reqs.special} text="Un carácter especial" />
+                  </div>
+                </div>
+              </div>
 
               <div className="space-y-2">
                 <Label htmlFor="repeat-password" className="text-foreground text-lg">
                   Repetir contraseña
                 </Label>
+                <div className="relative">
                   <Input
                     id="repeat-password"
-                    type="password"
+                    type={showRepeatPassword ? "text" : "password"}
                     placeholder="Repite tu contraseña"
                     required
                     value={repeatPassword}
                     onChange={(e) => setRepeatPassword(e.target.value)}
-                    className="bg-background/50 h-12 backdrop-blur-sm"
+                    className="bg-background/50 h-12 backdrop-blur-sm pr-12"
                   />
+                  <button
+                    type="button"
+                    onClick={() => setShowRepeatPassword(!showRepeatPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-white/50 hover:text-white transition-colors"
+                  >
+                    {showRepeatPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                  </button>
                 </div>
+              </div>
 
               {error && (
                 <p className="text-sm text-red-400 text-center">{error}</p>
