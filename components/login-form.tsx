@@ -199,9 +199,17 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="password" className="text-foreground text-lg">
-                Contraseña
-              </Label>
+              <div className="flex items-center justify-between">
+                <Label htmlFor="password" className="text-foreground text-lg">
+                  Contraseña
+                </Label>
+                <Link
+                  href="/auth/forgot-password"
+                  className="text-sm text-muted-foreground hover:text-foreground underline-offset-4 hover:underline"
+                >
+                  ¿Olvidaste tu contraseña?
+                </Link>
+              </div>
               <div className="relative">
                 <Input
                   id="password"
