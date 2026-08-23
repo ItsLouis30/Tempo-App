@@ -99,6 +99,7 @@ export default function Home() {
   const [activeSlide, setActiveSlide] = useState(0);
   const [activeNavIndex, setActiveNavIndex] = useState(0);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [isHeaderVisible, setIsHeaderVisible] = useState(false);
   
   const pinContainerRef = useRef<HTMLDivElement>(null);
   const scrollTriggerRef = useRef<any>(null);
@@ -136,6 +137,7 @@ export default function Home() {
        const scrollY = window.scrollY;
        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
        setScrollProgress(maxScroll > 0 ? scrollY / maxScroll : 0);
+       setIsHeaderVisible(scrollY > 50);
 
        const st = scrollTriggerRef.current;
        if (!st) {
@@ -216,7 +218,9 @@ export default function Home() {
 
       <div className="relative z-10 flex flex-col min-h-screen">
         {/* Header / Navbar */}
-        <header className="fixed top-0 left-0 right-0 z-[100] w-full py-4 px-6 md:px-12 bg-[#0a0a0a]/60 backdrop-blur-lg border-b border-white/5 transition-all duration-300">
+        <header className={`fixed top-0 left-0 right-0 z-[100] w-full py-4 px-6 md:px-12 transition-all duration-500 ease-out ${
+          isHeaderVisible ? "bg-[#0a0a0a]/60 backdrop-blur-lg border-b border-white/5" : "bg-transparent border-transparent"
+        }`}>
           <div className="flex h-14 items-center justify-between max-w-7xl mx-auto w-full">
             <div className="flex items-center gap-2 group cursor-pointer transition-all duration-300">
               <img 
