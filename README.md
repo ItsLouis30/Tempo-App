@@ -131,12 +131,13 @@ flowchart TD
 
 La presentación pública y el Dashboard de Tempo cuentan con un nivel técnico de UI/UX superior, diseñado para causar un gran impacto visual y sentirse como una app nativa:
 
-1. **GSAP ScrollTrigger (Landing Page):** Implementación de una sección anclada (`pin: true`) que intercala el scroll vertical nativo con transiciones de contenido, creando un efecto de presentación de "diapositivas" (Apple-style) sin bloquear el hilo principal.
+1. **GSAP ScrollTrigger & Lenis (Landing Page):** Implementación de una sección anclada (`pin: true`) que intercala el scroll vertical nativo con transiciones de contenido, creando un efecto de presentación de "diapositivas" (Apple-style) sin bloquear el hilo principal. El scroll está impulsado por **Lenis**, logrando una fluidez (smooth scroll) acelerada por hardware increíble.
 2. **Arquitectura Móvil Aislada:** Separación total de componentes móviles (`components/mobile/`) vs componentes de escritorio. Esto permite renderizar modales laterales complejos (Drawers) en PC, y **Bottom Sheets** (paneles inferiores deslizantes) en móviles, sin ensuciar el código CSS ni acoplar lógicas.
 3. **Manejo de Contextos de Apilamiento (Stacking Context) con React Portals:** Para asegurar que los modales móviles ocupen el 100% de la pantalla sin ser atrapados por animaciones de CSS de componentes padre, todos los modales móviles se escapan al `document.body` mediante `createPortal`.
 4. **Navegación Adaptativa (Progressive Disclosure):** Los botones de navegación central y acciones secundarias detectan el ancho de la pantalla (`lg`, `md`, `sm`). En tablets y móviles, los botones se colapsan a íconos circulares perfectos (`w-10 h-10`), expandiendo su texto únicamente cuando la pantalla de la laptop permite mayor respiro visual.
-5. **Glassmorphism Dinámico Universal:** Uso extensivo de `backdrop-blur`, capas separadas de overlays (como el fondo negro translúcido al 40%) y bordes translúcidos. Las transparencias esmeriladas (Glassmorphism) se mantienen consistentes tanto en los Drawers de PC como en los Bottom Sheets móviles, dándole a la app un look premium suspendido en 3D.
+5. **Glassmorphism Dinámico Universal (Tema Midnight):** Uso extensivo de `backdrop-blur`, capas separadas de overlays (como el fondo negro translúcido al 40%) y bordes translúcidos. Todo el diseño adopta una estética inmersiva monocromática oscura ("Midnight") reforzada por capas sutiles de ruido fractal (SVG noise) y glows ambientales.
 6. **Optimización de FullCalendar para Móviles:** Configuración responsiva del calendario inyectada con Hooks de React para modificar el `aspectRatio`, reducir la densidad del *Toolbar* y transformar el panel lateral de detalles en un panel inferior flotante con botones de acción rápidos (FAB).
+7. **SEO Técnico Dinámico y Seguridad:** Implementación nativa de `robots.ts`, `sitemap.ts` y metadatos avanzados (OpenGraph, Twitter Cards) para optimización en motores de búsqueda, combinado con un Middleware de sesión Opt-in robusto que protege las rutas de usuario sin romper la página personalizada `404` (not-found.tsx).
 
 ---
 
