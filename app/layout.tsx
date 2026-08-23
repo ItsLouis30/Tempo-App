@@ -9,8 +9,39 @@ const defaultUrl = process.env.VERCEL_URL
 
 export const metadata: Metadata = {
   metadataBase: new URL(defaultUrl),
-  title: "Tempo - Organizador de Tareas",
-  description: "Sé más productivo con Tempo.",
+  title: {
+    default: "Tempo - Organizador de Tareas y Productividad",
+    template: "%s | Tempo"
+  },
+  description: "Tempo combina gestión de proyectos, técnica Pomodoro, calendario y controles de entorno (Spotify y sonidos ambientales) en una sola interfaz diseñada para el enfoque profundo.",
+  keywords: ["productividad", "organizador", "tareas", "pomodoro", "calendario", "todo list", "gestión de tiempo", "focus", "estudio"],
+  authors: [{ name: "ItsLouis30", url: "https://github.com/ItsLouis30" }],
+  creator: "ItsLouis30",
+  openGraph: {
+    type: "website",
+    locale: "es_ES",
+    url: defaultUrl,
+    title: "Tempo - Organizador de Tareas y Productividad",
+    description: "Un entorno unificado para gestionar tareas, controlar tiempos y organizar tu día con enfoque profundo.",
+    siteName: "Tempo",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Tempo - Organizador de Tareas y Productividad",
+    description: "Un entorno unificado para gestionar tareas, controlar tiempos y organizar tu día con enfoque profundo.",
+    creator: "@ItsLouis30",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
 };
 
 const geistSans = Geist({
