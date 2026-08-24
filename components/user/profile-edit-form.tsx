@@ -50,24 +50,35 @@ export function ProfileEditForm({ userId, profile }: ProfileEditFormProps) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      <div className="space-y-2 px-36">
-        <Label htmlFor="fullName" className="drop-shadow-md">Nombre</Label>
+      <div className="space-y-3">
+        <Label htmlFor="fullName" className="text-sm font-medium text-white/80">Nombre Completo</Label>
         <Input
           id="fullName"
           type="text"
-          placeholder="Juan Pérez"
+          placeholder="Ej: Juan Pérez"
           value={fullName}
           onChange={(e) => setFullName(e.target.value)}
           required
           disabled={loading}
+          className="h-12 bg-black/40 border-white/10 text-white placeholder:text-white/30 focus-visible:ring-1 focus-visible:ring-white/30 focus-visible:border-white/30 rounded-xl"
         />
       </div>
 
-      <div className="flex gap-4 px-36">
-        <Button type="submit" disabled={loading} className="shadow-md">
+      <div className="flex flex-col sm:flex-row gap-3 pt-4">
+        <Button 
+          type="submit" 
+          disabled={loading} 
+          className="w-full sm:w-auto h-11 px-8 rounded-xl bg-white text-black hover:bg-gray-200 font-medium transition-all"
+        >
           {loading ? "Guardando..." : "Guardar cambios"}
         </Button>
-        <Button type="button" className="shadow-md" variant="outline" onClick={() => router.push("/dashboard")} disabled={loading}>
+        <Button 
+          type="button" 
+          variant="outline" 
+          onClick={() => router.push("/dashboard")} 
+          disabled={loading}
+          className="w-full sm:w-auto h-11 px-8 rounded-xl bg-transparent border-white/20 text-white hover:bg-white/10 hover:text-white font-medium transition-all"
+        >
           Cancelar
         </Button>
       </div>
