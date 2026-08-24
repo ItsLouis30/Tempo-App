@@ -45,20 +45,25 @@ export function OnboardingForm({ userId, existingProfile }: OnboardingFormProps)
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      <div className="space-y-2">
-        <Label htmlFor="fullName" className="text-white opacity-90 drop-shadow-md">Nombre</Label>
+      <div className="space-y-3">
+        <Label htmlFor="fullName" className="text-sm font-medium text-white/80">Nombre</Label>
         <Input
           id="fullName"
           type="text"
-          placeholder="Juan Pérez"
+          placeholder="Ej: Juan Pérez"
           value={fullName}
           onChange={(e) => setFullName(e.target.value)}
           required
           disabled={loading}
+          className="h-12 bg-black/40 border-white/10 text-white placeholder:text-white/30 focus-visible:ring-1 focus-visible:ring-white/30 focus-visible:border-white/30 rounded-xl"
         />
       </div>
 
-      <Button type="submit" className="w-full" disabled={loading}>
+      <Button 
+        type="submit" 
+        className="w-full h-11 rounded-xl bg-white text-black hover:bg-gray-200 font-medium transition-all" 
+        disabled={loading}
+      >
         {loading ? "Guardando..." : "Continuar"}
       </Button>
     </form>
