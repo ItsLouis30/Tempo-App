@@ -7,6 +7,8 @@ import { Github, ArrowRight, CheckCircle2, Timer, Music } from "lucide-react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SmoothScroll } from "@/components/smooth-scroll";
+import { TempoIntro } from "@/components/landing/tempo-intro";
+import { motion } from "framer-motion";
 
 function ScrollReveal({ children, className = "" }: { children: React.ReactNode, className?: string }) {
   const [isVisible, setIsVisible] = useState(false);
@@ -173,6 +175,7 @@ export default function Home() {
 
   return (
     <SmoothScroll>
+      <TempoIntro />
       <div className="min-h-screen theme-midnight relative bg-[#0a0a0a] text-foreground font-sans overflow-x-hidden">
       
       {/* Vertical Navigation Indicator */}
@@ -252,7 +255,10 @@ export default function Home() {
           
           {/* Hero Section */}
           <section className="px-4 pt-16 pb-16 md:pt-24 md:pb-24 max-w-7xl mx-auto w-full text-center flex flex-col items-center">
-            <div className="space-y-6 max-w-4xl animate-in fade-in slide-in-from-bottom-4 duration-700 flex flex-col items-center">
+            <div 
+              className="space-y-6 max-w-4xl animate-in fade-in slide-in-from-bottom-4 duration-700 flex flex-col items-center"
+              style={{ animationDelay: "var(--hero-delay, 0s)", animationFillMode: "both" }}
+            >
               <div className="relative mb-4 group cursor-default">
                 <div className="absolute inset-0 bg-white/20 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
                 <img 
