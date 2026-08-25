@@ -1,6 +1,7 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { createPortal } from "react-dom"
 import { Plus, X, Trash2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { createClient } from "@/lib/client"
@@ -32,6 +33,11 @@ export function TaskNotesModal({
   const [isAdding, setIsAdding] = useState(false)
   const [isInputVisible, setIsInputVisible] = useState(false)
   const [draggedIndex, setDraggedIndex] = useState<number | null>(null)
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   const supabase = createClient() // Use createBrowserClient here
 
@@ -146,11 +152,11 @@ export function TaskNotesModal({
     return date.toLocaleString("es-PE", options)
   }
 
-  if (!isOpen) return null
+  if (!isOpen || !mounted) return null
 
-  return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-background border border-[#3A3A3A] rounded-lg p-6 w-full max-w-md max-h-[80vh] flex flex-col shadow-lg">
+  return createPortal(
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[100] p-4 backdrop-blur-[2px]">
+      <div className="bg-background border border-[#3A3A3A] rounded-lg p-6 w-full max-w-md max-h-[80vh] flex flex-col shadow-lg relative">
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-xl font-semibold text-foreground drop-shadow-lg">
@@ -249,6 +255,7 @@ export function TaskNotesModal({
           </div>
         )}
       </div>
-    </div>
+    </div>,
+    document.body
   )
 }
