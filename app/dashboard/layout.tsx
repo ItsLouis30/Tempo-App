@@ -6,6 +6,7 @@ import { Suspense } from "react"
 import { ToastProvider } from "@/components/ui/toast-provider"
 import { AuthListener } from "@/components/auth-listener"
 import { ThemeProvider } from "@/components/theme/theme-provider"
+import { DynamicBackground } from "@/components/theme/dynamic-background"
 
 export default function DashboardLayout({
   children,
@@ -32,6 +33,10 @@ export default function DashboardLayout({
               className="fixed inset-0 z-[-1] transition-colors duration-300 pointer-events-none" 
               style={{ backgroundColor: "rgba(0, 0, 0, var(--theme-overlay-opacity, 0.08))" }}
             />
+            
+            <Suspense fallback={null}>
+              <DynamicBackground />
+            </Suspense>
             
             {/* Layer 2: Content */}
             <Suspense fallback={<HeaderSkeleton />}>
